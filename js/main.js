@@ -77,7 +77,7 @@ cc.programs = new function () {
     self.fetchData = function (page, callback) {
       $.ajax({
         url: io.question_list.content,
-        type: 'post',
+        type: 'get',
         data: {page: page, info: io.userInfo},
         dataType: 'json',
         beforeSend: function () {
@@ -184,7 +184,7 @@ cc.programs = new function () {
     self.fetchData = function (url, callback) {
       $.ajax({
         url: url,
-        type: 'post',
+        type: 'get',
         data: {info: io.userInfo, answerspage: vue.page},
         dataType: 'json',
         beforeSend: function () {
@@ -353,7 +353,7 @@ cc.programs = new function () {
           data.id = this.item.id;
           $.ajax({
             url: url,
-            type: 'post',
+            type: 'get',
             data: data,
             dataType: 'json',
             success: function (data) {
