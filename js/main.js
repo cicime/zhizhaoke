@@ -28,7 +28,7 @@ cc.programs = new function () {
       state: function (title) {
         var cate = location.search;
         var tag = /\?/.test(cate) && !/\?ref_c=/.test(cate) ? '&' : '?';
-        cate = cate.replace(/(\?|&)ref_c=\d+/, '');
+        cate = cate.replace(/\?ref_c=\d+/, '');
         history.replaceState({tit: title}, title, cate + tag + 'ref_c=' + new Date().getTime());
       }
     }
@@ -47,7 +47,7 @@ cc.programs = new function () {
     var stor = Util.sionFetch('LIST');
     // 检查用户是否从详情页退回列表页
     var looked = Util.sionFetch('LOOKED');
-    var loadin = true;
+    window.loadin = true;
 
     window.vue = new Vue({
       el: 'body',
@@ -158,7 +158,7 @@ cc.programs = new function () {
     var self = {};
     var queListItem = pro.que_item();
     Util.sionSave('LOOKED', { i: 1 });
-    var loadin = true;
+    window.loadin = true;
 
     var vue = new Vue({
       el: 'body',
