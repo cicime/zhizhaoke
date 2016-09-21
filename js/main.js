@@ -47,6 +47,7 @@ cc.programs = new function () {
     var stor = Util.sionFetch('LIST');
     // 检查用户是否从详情页退回列表页
     var looked = Util.sionFetch('LOOKED');
+    var loadin = true;
 
     window.vue = new Vue({
       el: 'body',
@@ -57,7 +58,7 @@ cc.programs = new function () {
       components: [queItem],
       methods: {
         addProblemList: function (callback) {
-          self.fetchData(this.page, function (data) {
+          loadin && self.fetchData(this.page, function (data) {
             self.renderData(data);
             typeof callback == 'function' && callback();
           });
@@ -77,18 +78,21 @@ cc.programs = new function () {
     self.fetchData = function (page, callback) {
       $.ajax({
         url: io.question_list.content,
-        type: 'get',
+        type: 'post',
         data: {page: page, info: io.userInfo},
         dataType: 'json',
         beforeSend: function () {
+          loadin = false;
           $('.J_que_list').append('<p class="preloader-line"><i class="preloader"></i></p>');
           $.refreshScroller();
         },
         success: function (data) {
+          loadin = true;
           $('.preloader-line').remove();
           data.resultCode <= 1000 ? callback(data) : $.alert(data.message);
         },
         error: function () {
+          loadin = true;
           $('.preloader-line').remove();
           $.alert('请求超时');
         }
@@ -122,15 +126,15 @@ cc.programs = new function () {
       });
       /* JS 下拉刷新 --------------------------------------------------------------------
        $(document).on('scroll', '.content', function () {
-         var _this = $(this);
-         if (_this.scrollTop() <= -50) {
-           $('.pull-to-refresh-layer').addClass('cc-pull-up');
-           _this.on('touchend', function () {
-             $('.pull-to-refresh-arrow').hide();
-             _this.find('.preloader').css('visibility', 'visible');
-             setTimeout( location.reload, 300)
-           });
-         }
+       var _this = $(this);
+       if (_this.scrollTop() <= -50) {
+       $('.pull-to-refresh-layer').addClass('cc-pull-up');
+       _this.on('touchend', function () {
+       $('.pull-to-refresh-arrow').hide();
+       _this.find('.preloader').css('visibility', 'visible');
+       setTimeout( location.reload, 300)
+       });
+       }
        });
        ------------------------------------------------------------------------------ */
     };
@@ -154,6 +158,7 @@ cc.programs = new function () {
     var self = {};
     var queListItem = pro.que_item();
     Util.sionSave('LOOKED', { i: 1 });
+    var loadin = true;
 
     var vue = new Vue({
       el: 'body',
@@ -174,7 +179,7 @@ cc.programs = new function () {
         // 更多的回答
         addAnswers: function () {
           var _this = this;
-          self.fetchData(io.question_detail.answers, function (data) {
+          loadin && self.fetchData(io.question_detail.answers, function (data) {
             data.answers.forEach(function (ele) { _this.answers.push(ele) });
           });
         }
@@ -184,18 +189,21 @@ cc.programs = new function () {
     self.fetchData = function (url, callback) {
       $.ajax({
         url: url,
-        type: 'get',
+        type: 'post',
         data: {info: io.userInfo, answerspage: vue.page},
         dataType: 'json',
         beforeSend: function () {
+          loadin = false;
           $('.J_que_list').append('<p class="preloader-line"><i class="preloader"></i></p>');
           $.refreshScroller();
         },
         success: function (data) {
+          loadin = true;
           $('.preloader-line').remove();
           data.resultCode <= 1000 ? callback(data) : $.alert(data.message);
         },
         error: function () {
+          loadin = true;
           $('.preloader-line').remove();
           $.alert('请求超时');
         }
@@ -311,15 +319,13 @@ cc.programs = new function () {
           var ele = $(e.currentTarget);
           if(_this.ctl) return false;
           if (!ele.hasClass('J_colled')) {
-            _this.fetchData(io.question.collectCount,{ type:'collect', ctr: 1 },function () {
-              ele.addClass('J_colled').find('i').html('&#xe622;');
-              _this.item.collectCount++;
-            });
+            ele.addClass('J_colled').find('i').html('&#xe622;');
+            _this.item.collectCount++;
+            _this.fetchData(io.question.collectCount,{ type:'collect', ctr: 1 },function () { });
           } else {
-            _this.fetchData(io.question.collectCount,{ type:'collect', ctr: 0 },function () {
-              ele.removeClass('J_colled').find('i').html('&#xe600;');
-              _this.item.collectCount--;
-            });
+            ele.removeClass('J_colled').find('i').html('&#xe600;');
+            _this.item.collectCount--;
+            _this.fetchData(io.question.collectCount,{ type:'collect', ctr: 0 },function () { });
           }
         },
         // 点赞
@@ -328,15 +334,13 @@ cc.programs = new function () {
           var ele = $(e.currentTarget);
           if(_this.ctl) return false;
           if (!ele.hasClass('J_praised')) {
-            _this.fetchData(io.question.praiseCount,{ type:'praise', ctr: 1 },function () {
-              ele.addClass('J_praised').find('i').html('&#xe620;');
-              _this.item.praiseCount++;
-            });
+            ele.addClass('J_praised').find('i').html('&#xe620;');
+            _this.item.praiseCount++;
+            _this.fetchData(io.question.praiseCount,{ type:'praise', ctr: 1 },function () { });
           } else {
-            _this.fetchData(io.question.praiseCount,{ type:'praise', ctr: 0 },function () {
-              ele.removeClass('J_praised').find('i').html('&#xe621;');
-              _this.item.praiseCount--;
-            });
+            ele.removeClass('J_praised').find('i').html('&#xe621;');
+            _this.item.praiseCount--;
+            _this.fetchData(io.question.praiseCount,{ type:'praise', ctr: 0 },function () { });
           }
         },
         // 举报
@@ -353,7 +357,7 @@ cc.programs = new function () {
           data.id = this.item.id;
           $.ajax({
             url: url,
-            type: 'get',
+            type: 'post',
             data: data,
             dataType: 'json',
             success: function (data) {
@@ -377,28 +381,28 @@ cc.programs = new function () {
   // 列表
   pro.model.que_item_m =
     '<article class="cc-card" :class="{\'zjda\': item.zjda}">' +
-      '<div class="cc-card-hd">' +
-        '<span v-if="!item.isSecret"><i class="user-head-min" v-if="item.headimgurl" style="{{\'background-image: url(\'+item.headimgurl+\')\'}}"></i> {{item.userName ? item.userName : item.nickname}}</span>' +
-        '<span v-else><i class="user-head-min"></i> 匿名</span>' +
-        '<time v-if="!com">{{item.createTimeString}}</time></div>' +
-      '<div class="cc-card-con" v-if="!item.lock">' +
-          '<p v-if="item.contentText">{{item.contentText}}</p>' +
-        '<div class="cc-audio" v-if="item.attachment.accessurl" @click.stop.prevent="playAudio(item.attachment.accessurl, $event)">' +
-          '<span>{{item.attachment.accesslen}}s</span> <i class="iconfont">&#xe603;</i></div>' +
-        '<div class="cc-card-imglist" v-if="item.aList.length > 0">' +
-          '<a class="imglist-i" v-for="img in item.aList" @click.stop.prevent="photoBrowser($index)" style="{{\'background-image: url(\'+img.filenamestring+\')\'}}" href="javascript:"></a>' +
-        '</div>' +
-          '<a class="cc-card-stu" href="javascript:" v-if="item.typeId"><i class="iconfont">&#xe619;</i> {{item.typeId}}</a>' +
-      '</div><div v-else class="cc-lockin" @click="lockon()">' +
-          '<span class="iconfont">&#xe623;</span>' +
-      '</div>' +
-      '<div class="cc-card-footer">' +
-        '<a href="javascript:" @click.stop.prevent="collectCount($event)" v-if="!com"><i class="iconfont">&#xe600;</i> {{item.collectCount}}</a>' +
-        '<a href="javascript:" @click.stop.prevent="praiseCount($event)"><i class="iconfont">&#xe621;</i> {{item.praiseCount}}</a>' +
-        '<a href="javascript:" v-if="!com"><i class="iconfont">&#xe602;</i> {{item.replyCount}}</a>' +
-        '<a href="javascript:"><i class="iconfont">&#xe606;</i> {{item.eavesdropCount}}</a>' +
-        '<a href="javascript:" @click.stop.prevent="reportCount($event)">举报 {{item.reportCount}}</a>' +
-      '</div>' +
+    '<div class="cc-card-hd">' +
+    '<span v-if="!item.isSecret"><i class="user-head-min" v-if="item.headimgurl" style="{{\'background-image: url(\'+item.headimgurl+\')\'}}"></i> {{item.userName ? item.userName : item.nickname}}</span>' +
+    '<span v-else><i class="user-head-min"></i> 匿名</span>' +
+    '<time v-if="!com">{{item.createTimeString}}</time></div>' +
+    '<div class="cc-card-con" v-if="!item.lock">' +
+    '<p v-if="item.contentText">{{item.contentText}}</p>' +
+    '<div class="cc-audio" v-if="item.attachment.accessurl" @click.stop.prevent="playAudio(item.attachment.accessurl, $event)">' +
+    '<span>{{item.attachment.accesslen}}s</span> <i class="iconfont">&#xe603;</i></div>' +
+    '<div class="cc-card-imglist" v-if="item.aList.length > 0">' +
+    '<a class="imglist-i" v-for="img in item.aList" @click.stop.prevent="photoBrowser($index)" style="{{\'background-image: url(\'+img.filenamestring+\')\'}}" href="javascript:"></a>' +
+    '</div>' +
+    '<a class="cc-card-stu" href="javascript:" v-if="item.typeId"><i class="iconfont">&#xe619;</i> {{item.typeId}}</a>' +
+    '</div><div v-else class="cc-lockin" @click="lockon()">' +
+    '<span class="iconfont">&#xe623;</span>' +
+    '</div>' +
+    '<div class="cc-card-footer">' +
+    '<a href="javascript:" @click.stop.prevent="collectCount($event)" v-if="!com"><i class="iconfont">&#xe600;</i> {{item.collectCount}}</a>' +
+    '<a href="javascript:" @click.stop.prevent="praiseCount($event)"><i class="iconfont">&#xe621;</i> {{item.praiseCount}}</a>' +
+    '<a href="javascript:" v-if="!com"><i class="iconfont">&#xe602;</i> {{item.replyCount}}</a>' +
+    '<a href="javascript:"><i class="iconfont">&#xe606;</i> {{item.eavesdropCount}}</a>' +
+    '<a href="javascript:" @click.stop.prevent="reportCount($event)">举报 {{item.reportCount}}</a>' +
+    '</div>' +
     '</article>';
 
 };
