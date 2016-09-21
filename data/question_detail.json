@@ -1,0 +1,199 @@
+{
+  "resultCode": "1000",
+  "message": "操作成功",
+  "problem": {
+    "id": "8",
+    "userId": "o7GP8sutOYodcS1X8dh76IjeNl6Y",
+    "url":"./question_detail.html",
+    "contentText": "风格更好感觉很好看客户交易发布会和姐姐姐姐即使是在啧啧啧啧啧啧啧啧啧少时诵诗书把女女女不呢个教育教育意义由于太热认为我是在查询程序错不错",
+    "praiseCount": 10,
+    "collectCount": 0,
+    "reportCount": 0,
+    "eavesdropCount": 0,
+    "replyCount": 3,
+    "offerMoney": 3,
+    "typeId": "学习指导, 生活隐私",
+    "delFlag": 0,
+    "isSecret": 0,
+    "createTime": "08-19",
+    "remark": "",
+    "userName": null,
+    "nickname": "空城梦",
+    "headimgurl": "imgs/hd.jpg",
+    "ptList": [
+      {
+        "id": "121212123312fgf",
+        "typeName": "学习",
+        "remark": "",
+        "typeIndex": 0
+      },
+      {
+        "id": "1fb565rgfg12fgf",
+        "typeName": "生活",
+        "remark": "",
+        "typeIndex": 1
+      }
+    ],
+    "aList": [
+      {
+        "filenamestring": "imgs/qb.jpg"
+      },
+      {
+        "filenamestring": "imgs/hd.jpg"
+      },
+      {
+        "id": "266A89AEFFA8016931A9C9AA51B0E881",
+        "tablename": "zzk_problem_message",
+        "workid": "7",
+        "attachtype": 1,
+        "accessurl": "wx2016-09-14_266A87A9FFA801694D241B3E09CC7F53.jpg",
+        "filename": "wx2016-09-14_266A87A9FFA801694D241B3E09CC7F53.jpg",
+        "seqnum": 1,
+        "remark": "",
+        "filenamestring": "imgs/qb.jpg"
+      }
+    ],
+    "attachment": {
+      "id": "266A89D9FFA801693A76C428219B405B",
+      "tablename": "zzk_problem_message",
+      "workid": "7",
+      "attachtype": 2,
+      "accessurl": "imgs/candy.mp3",
+      "accesslen": "35",
+      "filename": "wx2016-09-14_266A88A5FFA8016945685B36AF0AA281"
+    },
+    "createTimeString": "09-13"
+  },
+  "answers":[
+    {
+      "id": "2d1",
+      "lock": 1,
+      "zjda": 1,
+      "userId": "o7GP8sutOYodcS1X8dh76IjeNl6Y",
+      "contentText": "风格更好感觉很好看客户交易发布会和姐姐姐姐即使是在啧啧啧啧啧啧啧啧啧少时诵诗书把女女女不呢个教育教育意义由于太热认为我是在查询程序错不错",
+      "praiseCount": 10,
+      "collectCount": 0,
+      "reportCount": 0,
+      "eavesdropCount": 0,
+      "replyCount": 3,
+      "offerMoney": 3,
+      "delFlag": 0,
+      "isSecret": 0,
+      "createTime": "08-19",
+      "remark": "",
+      "userName": null,
+      "nickname": "空城梦",
+      "headimgurl": "imgs/hd.jpg",
+      "aList": [],
+      "createTimeString": "09-13"
+    },
+    {
+      "id": "1321",
+      "lock": 0,
+      "userId": "o7GP8sutOYodcS1X8dh76IjeNl6Y",
+      "contentText": "风格更好感觉很好看客户交易发布会和姐姐姐姐即使是在啧啧啧啧啧啧啧啧啧少时诵诗书把女女女不呢个教育教育意义由于太热认为我是在查询程序错不错",
+      "praiseCount": 10,
+      "collectCount": 0,
+      "reportCount": 0,
+      "eavesdropCount": 0,
+      "replyCount": 3,
+      "offerMoney": 3,
+      "delFlag": 0,
+      "isSecret": 0,
+      "createTime": "08-19",
+      "remark": "",
+      "userName": null,
+      "nickname": "空城梦",
+      "headimgurl": "imgs/hd.jpg",
+      "aList": [
+        {
+          "filenamestring": "imgs/qb.jpg"
+        },
+        {
+          "filenamestring": "imgs/hd.jpg"
+        },
+        {
+          "id": "266A89AEFFA8016931A9C9AA51B0E881",
+          "tablename": "zzk_problem_message",
+          "workid": "7",
+          "attachtype": 1,
+          "accessurl": "wx2016-09-14_266A87A9FFA801694D241B3E09CC7F53.jpg",
+          "filename": "wx2016-09-14_266A87A9FFA801694D241B3E09CC7F53.jpg",
+          "seqnum": 1,
+          "remark": "",
+          "filenamestring": "imgs/qb.jpg"
+        }
+      ],
+      "attachment": {
+        "id": "266A89D9FFA801693A76C428219B405B",
+        "tablename": "zzk_problem_message",
+        "workid": "7",
+        "attachtype": 2,
+        "accessurl": "imgs/candy.mp3",
+        "accesslen": "35",
+        "filename": "wx2016-09-14_266A88A5FFA8016945685B36AF0AA281"
+      },
+      "createTimeString": "09-13"
+    },
+    {
+      "id": "21",
+      "lock": 0,
+      "userId": "o7GP8sutOYodcS1X8dh76IjeNl6Y",
+      "contentText": "风格更好感觉很好看客户交易发布会和姐姐姐姐即使是在啧啧啧啧啧啧啧啧啧少时诵诗书把女女女不呢个教育教育意义由于太热认为我是在查询程序错不错",
+      "praiseCount": 10,
+      "collectCount": 0,
+      "reportCount": 0,
+      "eavesdropCount": 0,
+      "replyCount": 3,
+      "offerMoney": 3,
+      "delFlag": 0,
+      "isSecret": 0,
+      "createTime": "08-19",
+      "remark": "",
+      "userName": null,
+      "nickname": "空城梦",
+      "headimgurl": "imgs/hd.jpg",
+      "aList": [],
+      "attachment": {
+        "id": "266A89D9FFA801693A76C428219B405B",
+        "tablename": "zzk_problem_message",
+        "workid": "7",
+        "attachtype": 2,
+        "accessurl": "imgs/candy.mp3",
+        "accesslen": "35",
+        "filename": "wx2016-09-14_266A88A5FFA8016945685B36AF0AA281"
+      },
+      "createTimeString": "09-13"
+    },
+    {
+      "id": "11",
+      "lock": 1,
+      "userId": "o7GP8sutOYodcS1X8dh76IjeNl6Y",
+      "contentText": "风格更好感觉很好看客户交易发布会和姐姐姐姐即使是在啧啧啧啧啧啧啧啧啧少时诵诗书把女女女不呢个教育教育意义由于太热认为我是在查询程序错不错",
+      "praiseCount": 10,
+      "collectCount": 0,
+      "reportCount": 0,
+      "eavesdropCount": 0,
+      "replyCount": 3,
+      "offerMoney": 3,
+      "delFlag": 0,
+      "isSecret": 0,
+      "createTime": "08-19",
+      "remark": "",
+      "userName": null,
+      "nickname": "空城梦",
+      "headimgurl": "imgs/hd.jpg",
+      "aList": [],
+      "attachment": {
+        "id": "266A89D9FFA801693A76C428219B405B",
+        "tablename": "zzk_problem_message",
+        "workid": "7",
+        "attachtype": 2,
+        "accessurl": "imgs/candy.mp3",
+        "accesslen": "35",
+        "filename": "wx2016-09-14_266A88A5FFA8016945685B36AF0AA281"
+      },
+      "createTimeString": "09-13"
+    }
+  ]
+}
