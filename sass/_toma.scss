@@ -1,0 +1,51 @@
+
+%border-top::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: auto;
+  right: auto;
+  height: 1px;
+  width: 100%;
+  background-color: #e7e7e7;
+  display: block;
+  z-index: 15;
+  -webkit-transform-origin: 50% 0%;
+  transform-origin: 50% 0%;
+  -webkit-transform: scaleY(.5);
+  transform: scaleY(.5);
+}
+%border-bottom::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: auto;
+  bottom: 0;
+  right: auto;
+  height: 1px;
+  width: 100%;
+  background-color: #e7e7e7;
+  display: block;
+  z-index: 15;
+  -webkit-transform-origin: 50% 0%;
+  transform-origin: 50% 0%;
+  -webkit-transform: scaleY(.5);
+  transform: scaleY(.5);
+}
+
+@mixin left-arrows($color) {
+  &::after {
+    content: '';
+    position: absolute;
+    right: 100%;
+    top: 50%;
+    margin-top: -6px;
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid $color;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+  }
+}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>问题列表</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="email=no">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body onload="cc.programs.question_list()">
+<main class="page-group">
+    <section class="page" id="question_list">
+        <div class="content infinite-scroll infinite-scroll-bottom pull-to-refresh-content" data-distance="120" data-ptr-distance="55">
+            <div class="content-inner J_que_list">
+            <!-- view start -->
+                <div class="pull-to-refresh-layer">
+                    <div class="preloader"></div>
+                    <div class="pull-to-refresh-arrow"></div>
+                </div>
+                <!-- ctl="true" 禁用状态栏 track-by="id" 根据ID排重 -->
+                <que-item v-for="item in problemList"
+                               :item="item"
+                               track-by="$index"
+                               ctl="true"
+                               transition="qlitem"
+                               stagger="160"
+                               @click.stop.prevent="saveStr(item.url)"></que-item>
+            <!-- view end -->
+            </div>
+        </div>
+    </section>
+</main>
+<script src="js/io.js"></script>
+<script src="lib/vue.min.js"></script>
+<script src="lib/vue-animated-list.js"></script>
+<script src="lib/zepto.min.js"></script>
+<script src="lib/sm.min.js"></script>
+<script src="lib/sm-extend.min.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

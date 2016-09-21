@@ -1,0 +1,225 @@
+@charset "UTF-8";
+/*!
+ * =====================================================
+ * Created by Toma on 2016-9-15 11:34:00
+ * @version 0.1.0 支招客
+ * =====================================================
+ */
+@import "sm.min";
+@import "sm-extend.min";
+@import "iconfont";
+@import "toma";
+
+// 问题列表
+.cc-card{
+  position: relative;
+  padding: 10px;
+  background: #fff;
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+
+.cc-card-hd{
+  margin-bottom: 10px;
+  line-height: 37px;
+
+  time{
+    float: right;
+    color: #b4b4b4;
+  }
+  span i{
+    margin-right: 5px;
+  }
+}
+.cc-card-con{
+  margin-bottom: 5px;
+  p{
+    font-size: 14px;
+    line-height: 1.6;
+    color: #555;
+    min-height: 38px;
+    margin: 0 0 10px 0;
+  }
+}
+.cc-lockin{
+  position: relative;
+  height: 90px;
+  overflow: hidden;
+  text-align: center;
+  span{
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    line-height: 52px;
+    border: 2px solid #ff8116;
+    border-radius: 200px;
+    font-size: 24px;
+    color: #ff8116;
+  }
+}
+.cc-card-imglist{
+  width: 100%;
+  font-size: 0;
+  .imglist-i{
+    display: inline-block;
+    width: 33.333333%;
+    padding-top: 32.395%;
+    border-right: 5px solid #fff;
+    margin-bottom: 5px;
+    background-color: #e2e2e2;
+    background-position: center;
+    -webkit-background-size: cover;
+    background-size: cover;
+    &:nth-child(3n){
+      border-right: 0;
+    }
+  }
+}
+.cc-card-stu{
+  font-size: 13px;
+  color: #b4b4b4;
+  margin-bottom: 10px;
+}
+.cc-card-footer{
+  display: flex;
+  position: relative;
+  margin: 0 -10px -10px;
+  //@extend %border-top;
+
+  a{
+    font-size: 13px;
+    color: #b4b4b4;
+    text-align: center;
+    flex: 1;
+    line-height: 36px;
+    overflow: hidden;
+  }
+}
+.cc-audio{
+  @include left-arrows(#ff8116);
+  position: relative;
+  margin-left: 6px;
+  width: 120px;
+  height: 36px;
+  border-radius: 4px;
+  background: #ff8116;
+  line-height: 36px;
+  color: #fff;
+  padding-left: 10px;
+  padding-right: 12px;
+  margin-bottom: 14px;
+  -webkit-user-select: none;
+  user-select: none;
+  transition: all .1s ease-in;
+  span,i{
+    position: relative;
+    z-index: 10;
+  }
+}
+.cc-audio-bg{
+  @include left-arrows(#e26f0d);
+  &::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #e26f0d;
+    border-radius: 4px;
+    transform-origin: 0 0;
+    animation: length-chan 1s ease-in infinite;
+  }
+}
+.rotate-min{
+  float: right;
+  display: inline-block;
+  animation: preloader-spin 1s linear infinite;
+}
+
+.user-head-min{
+  display: inline-block;
+  width: 38px;
+  height: 38px;
+  background: #e3e3e3;
+  border-radius: 200px;
+  vertical-align: -13px;
+  background-image: url(../imgs/n_head.jpg);
+  background-position: center;
+  -webkit-background-size: cover;
+  background-size: cover;
+}
+
+.J_colled,.J_praised{
+  color: #f7a661 !important;
+}
+
+// 答案列表
+.cc-common-list{
+  //background: #fff;
+}
+.cc-common-title{
+  @extend %border-bottom;
+  background: #fff;
+  position: relative;
+  font-size: 14px;
+  color: #f7a661;
+  margin: 0;
+  padding: 10px;
+}
+.cc-answer{
+  @extend %border-bottom;
+  margin-bottom: 0;
+  .cc-card-hd{
+    line-height: 32px;
+  }
+  .user-head-min{
+    width: 34px;
+    height: 34px;
+  }
+  &:last-child::before{
+    content:'';
+    height: 0;
+  }
+}
+.cc-com-btn{
+  background: #ff8116;
+  color: #fff !important;
+}
+.zjda{
+  position: relative;
+  background: url(../imgs/zjda.png) #fff no-repeat top right/ 62px auto;
+}
+
+
+// loading
+.preloader-line{
+  text-align: center;
+}
+.cc-pull-up{
+  .pull-to-refresh-arrow{
+    transform: rotate(180deg);
+  }
+}
+.cc-pull-refresh{
+  height: 0;
+  top: -26px;
+}
+
+// 加载动画控制
+.qlitem-transition{
+  transition: all .4s ease-in-out;
+}
+.qlitem-enter, .qlitem-leave {
+  opacity: 0;
+  transform: translate(0,70px) scale(.9);
+}
+
+// 动画
+@keyframes length-chan {
+  0%{ transform: scale(.1,1)}
+  50%{ transform: scale(1,1)}
+  60%{ transform: scale(.8,1)}
+  70%{ transform: scale(1,1)}
+  100%{ transform: scale(.1,1)}
+}

@@ -1,0 +1,54 @@
+/*! 字体 */
+@font-face {font-family: "iconfont";
+  src: url('fonts/iconfont.eot'); /* IE9*/
+  src: url('fonts/iconfont.eot') format('embedded-opentype'), /* IE6-IE8 */
+  url('fonts/iconfont.woff') format('woff'), /* chrome, firefox */
+  url('fonts/iconfont.ttf') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('fonts/iconfont.svg') format('svg'); /* iOS 4.1- */
+}
+
+.iconfont {
+  font-family:"iconfont" !important;
+  font-size:inherit;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-stroke-width: 0.2px;
+  -moz-osx-font-smoothing: grayscale;
+}
+.icon-favor:before { content: "\e600"; }
+.icon-loading:before { content: "\e601"; }
+.icon-comment:before { content: "\e602"; }
+.icon-notification:before { content: "\e603"; }
+.icon-squarecheckfill:before { content: "\e604"; }
+.icon-square:before { content: "\e605"; }
+.icon-lock:before { content: "\e623"; }
+.icon-erji:before { content: "\e606"; }
+.icon-sponsor:before { content: "\e607"; }
+.icon-jinbi:before { content: "\e608"; }
+.icon-guanbi2fill:before { content: "\e609"; }
+.icon-jiahao1:before { content: "\e60a"; }
+.icon-biaoxingfill:before { content: "\e622"; }
+.icon-gengduo:before { content: "\e60b"; }
+.icon-shanchu:before { content: "\e60c"; }
+.icon-tongzhi:before { content: "\e60d"; }
+.icon-xiangshang1:before { content: "\e60e"; }
+.icon-xiangxia1:before { content: "\e60f"; }
+.icon-xiangyou1:before { content: "\e610"; }
+.icon-xiangzuo1:before { content: "\e611"; }
+.icon-hongbao:before { content: "\e612"; }
+.icon-zanfill:before { content: "\e620"; }
+.icon-zans:before { content: "\e621"; }
+.icon-costincluded:before { content: "\e613"; }
+.icon-help:before { content: "\e614"; }
+.icon-clock:before { content: "\e615"; }
+.icon-down:before { content: "\e616"; }
+.icon-expression:before { content: "\e617"; }
+.icon-message:before { content: "\e618"; }
+.icon-ticket:before { content: "\e619"; }
+.icon-up:before { content: "\e61a"; }
+.icon-failed:before { content: "\e61b"; }
+.icon-hint:before { content: "\e61c"; }
+.icon-meeting:before { content: "\e61d"; }
+.icon-setting:before { content: "\e61e"; }
+.icon-yuyin:before { content: "\e61f"; }
+
