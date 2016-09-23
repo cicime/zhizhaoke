@@ -77,7 +77,7 @@ cc.programs = new function () {
       loadin = false;
       $.ajax({
         url: io.question_list.content,
-        type: 'post',
+        type: 'get',
         data: {page: page, info: io.userInfo},
         dataType: 'json',
         beforeSend: function () {
@@ -172,7 +172,7 @@ cc.programs = new function () {
       loadin = false;
       $.ajax({
         url: url,
-        type: 'post',
+        type: 'get',
         data: {
           info: io.userInfo,
           queId: vue.item.id,
@@ -352,7 +352,7 @@ cc.programs = new function () {
           data.id = this.item.id;
           $.ajax({
             url: url,
-            type: 'post',
+            type: 'get',
             data: data,
             dataType: 'json',
             success: function (data) {
