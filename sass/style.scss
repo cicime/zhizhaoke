@@ -30,6 +30,11 @@
   span i{
     margin-right: 5px;
   }
+  .cc-card-row{
+    float: right;
+    color: #ff8116;
+    margin-right: 3px;
+  }
 }
 .cc-card-con{
   margin-bottom: 5px;
@@ -62,16 +67,16 @@
   font-size: 0;
   .imglist-i{
     display: inline-block;
-    width: 33.333333%;
-    padding-top: 32.395%;
-    border-right: 5px solid #fff;
-    margin-bottom: 5px;
+    width: 32.35%;
+    padding-top: 32.35%;
+    margin-right: 1.4%;
+    margin-bottom: 1.4%;
     background-color: #e2e2e2;
     background-position: center;
     -webkit-background-size: cover;
     background-size: cover;
     &:nth-child(3n){
-      border-right: 0;
+      margin-right: 0;
     }
   }
 }
@@ -84,7 +89,6 @@
   display: flex;
   position: relative;
   margin: 0 -10px -10px;
-  //@extend %border-top;
 
   a{
     font-size: 13px;
@@ -149,14 +153,30 @@
   -webkit-background-size: cover;
   background-size: cover;
 }
+.close-swiper{
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: #fff;
+  width: 54px;
+  height: 60px;
+  text-align: center;
+  line-height: 60px;
+  font-size: 18px;
+  opacity: .5;
+  z-index: 700;
+}
 
 .J_colled,.J_praised{
   color: #f7a661 !important;
 }
+.J_addimg{
+  background: url(../imgs/btn-img.jpg) no-repeat center/contain;
+}
 
 // 答案列表
 .cc-common-list{
-  //background: #fff;
+
 }
 .cc-common-title{
   @extend %border-bottom;
@@ -190,7 +210,140 @@
   position: relative;
   background: url(../imgs/zjda.png) #fff no-repeat top right/ 62px auto;
 }
+.logo-ico{
+  display: inline-block;
+  width: 40px;
+  height: 45px;
+  background: url(../imgs/logo.png) no-repeat center/contain;
+}
 
+// 举报
+.cc-list-b{
+  margin: 0;
+  font-size: inherit;
+}
+.cc-modal{
+  width: 15rem;
+  margin-left: -7.4rem;
+  .modal-inner{
+    background: #fff;
+    padding: 0;
+  }
+  .modal-title{
+    text-align: left;
+    font-size: .8rem;
+    padding: 10px 10px 0;
+    i{
+      padding-top: 1px;
+      float: right;
+      color: #d5d5d9;
+    }
+  }
+  .cc-common-title{
+    text-align: left;
+    &:before{
+      content: '';
+      height: 0;
+    }
+    &:first-child{
+      padding-top: 0;
+    }
+    &:nth-child(3){
+      padding-bottom:0;
+    }
+  }
+  .modal-button{
+    background: #ff8116;
+    color: #fff
+  }
+  textarea{
+    font-size: 14px;
+    height: 4rem;
+    padding: 10px;
+  }
+}
+
+// 回答
+.common-ctl{
+  background: #fff;
+  margin-bottom: 20px;
+}
+.answer-voice{
+  height: 110px;
+  text-align: center;
+  line-height: 150px;
+  a {
+    font-size: 36px;
+    width: 70px;
+    height: 70px;
+    border: 2px solid #ff8116;
+    display: inline-block;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 68px;
+    color: #ff8116;
+  }
+}
+.answer-text{
+  position: relative;
+  @extend %border-bottom;
+  textarea{
+    resize: none;
+    width: 100%;
+    padding: 10px;
+    border: 0;
+    font-size: 14px;
+  }
+}
+.answer-imgs{
+  position: relative;
+  @extend %border-bottom;
+  padding: 10px;
+  font-size: 0;
+}
+.ans-img-item{
+  position: relative;
+  display: inline-block;
+  width: 15.4%;
+  padding-top: 15.4%;
+  margin-left: 1.5%;
+  &:first-child{
+    margin-left: 0;
+  }
+}
+.answer-imgs-tag{
+  display: block;
+  padding-top: 6px;
+  font-size: 12px;
+  color: #a9a9a9;
+}
+.common-com{
+  padding: 10px;
+}
+.cc-input{
+  -webkit-appearance: none;
+  border-radius: 4px;
+  border: 1px solid #eee;
+  padding-left: 10px;
+  font-size: 14px;
+  height: 36px;
+  width: 100%;
+  margin-bottom: 15px;
+}
+.cc-btn{
+  width: 100%;
+  height: 36px;
+}
+.com-nim{
+  display: block;
+  font-size: 14px;
+  margin-bottom: 15px;
+  .item-media,
+  .item-media{
+    display: inline-block;
+    vertical-align: middle;
+  }
+}
 
 // loading
 .preloader-line{
@@ -222,4 +375,8 @@
   60%{ transform: scale(.8,1)}
   70%{ transform: scale(1,1)}
   100%{ transform: scale(.1,1)}
+}
+
+.fz-m{
+  font-size: 14px;
 }

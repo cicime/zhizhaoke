@@ -11,12 +11,12 @@ cc.programs = new function () {
   // 动画完成后 重置页面
   Vue.use(VueAnimatedList);
   Vue.transition('qlitem', {
-    afterEnter: function (ele) { $.refreshScroller(); }
+    afterEnter: function () { $.refreshScroller(); }
   });
 
   // 写人浏览器缓存中
   var Util = (function () {
-    var prefix = 'ZZK_'
+    var prefix = 'ZZK_';
     return {
       sionFetch: function (key) {
         return JSON.parse(sessionStorage.getItem(prefix + key) || '{}');
@@ -28,7 +28,7 @@ cc.programs = new function () {
       state: function (title) {
         var cate = location.search;
         var tag = /\?/.test(cate) && !/\?ref_c=/.test(cate) ? '&' : '?';
-        cate = cate.replace(/\?ref_c=\d+/, '');
+        cate = cate.replace(/(\?|&)ref_c=\d+/, '');
         history.replaceState({tit: title}, title, cate + tag + 'ref_c=' + new Date().getTime());
       }
     }
@@ -45,9 +45,7 @@ cc.programs = new function () {
 
     // 读取session中的数据
     var stor = Util.sionFetch('LIST');
-    // 检查用户是否从详情页退回列表页
-    var looked = Util.sionFetch('LOOKED');
-    window.loadin = true;
+    var loadin = true;
 
     window.vue = new Vue({
       el: 'body',
@@ -76,13 +74,13 @@ cc.programs = new function () {
     });
 
     self.fetchData = function (page, callback) {
+      loadin = false;
       $.ajax({
         url: io.question_list.content,
-        type: 'get',
+        type: 'post',
         data: {page: page, info: io.userInfo},
         dataType: 'json',
         beforeSend: function () {
-          loadin = false;
           $('.J_que_list').append('<p class="preloader-line"><i class="preloader"></i></p>');
           $.refreshScroller();
         },
@@ -107,7 +105,6 @@ cc.programs = new function () {
           $.refreshScroller();
           stor.top && $('.content').scrollTop(stor.top);
           Util.sionSave('LIST', {});
-          Util.sionSave('LOOKED', {i: 0});
         });
 
       });
@@ -124,22 +121,7 @@ cc.programs = new function () {
           $.pullToRefreshDone('.pull-to-refresh-content');
         }, 200)
       });
-      /* JS 下拉刷新 --------------------------------------------------------------------
-       $(document).on('scroll', '.content', function () {
-       var _this = $(this);
-       if (_this.scrollTop() <= -50) {
-       $('.pull-to-refresh-layer').addClass('cc-pull-up');
-       _this.on('touchend', function () {
-       $('.pull-to-refresh-arrow').hide();
-       _this.find('.preloader').css('visibility', 'visible');
-       setTimeout( location.reload, 300)
-       });
-       }
-       });
-       ------------------------------------------------------------------------------ */
     };
-
-    // 对地址写入时间戳, 防止缓存
 
     self.init = function () {
       self.bindEvents();
@@ -157,13 +139,12 @@ cc.programs = new function () {
   pro.question_detail = function () {
     var self = {};
     var queListItem = pro.que_item();
-    Util.sionSave('LOOKED', { i: 1 });
-    window.loadin = true;
+    var loadin = true;
 
     var vue = new Vue({
       el: 'body',
       data: {
-        page: 1,
+        page: 0,
         item: {},
         answers: []
       },
@@ -179,6 +160,7 @@ cc.programs = new function () {
         // 更多的回答
         addAnswers: function () {
           var _this = this;
+          this.page++;
           loadin && self.fetchData(io.question_detail.answers, function (data) {
             data.answers.forEach(function (ele) { _this.answers.push(ele) });
           });
@@ -187,13 +169,17 @@ cc.programs = new function () {
     });
 
     self.fetchData = function (url, callback) {
+      loadin = false;
       $.ajax({
         url: url,
-        type: 'get',
-        data: {info: io.userInfo, answerspage: vue.page},
+        type: 'post',
+        data: {
+          info: io.userInfo,
+          queId: vue.item.id,
+          answerspage: vue.page
+        },
         dataType: 'json',
         beforeSend: function () {
-          loadin = false;
           $('.J_que_list').append('<p class="preloader-line"><i class="preloader"></i></p>');
           $.refreshScroller();
         },
@@ -219,9 +205,22 @@ cc.programs = new function () {
     self.init = function () {
       self.bindEvents();
       vue.addProblem();
+
+      pro.issue();
     };
 
     self.init();
+  };
+
+  /**
+   * ====================================================================
+   * 评论回答 & 发布问题
+   * ====================================================================
+   */
+  pro.issue = function () {
+      console.log('oo;l');
+
+
   };
 
   /**
@@ -240,7 +239,7 @@ cc.programs = new function () {
           item: {}
         }
       },
-      props: ['item','ctl','com'],
+      props: ['item','ctl','com','offermoney'],
       computed: {
         media: function () {
           var media = new Audio();
@@ -259,6 +258,9 @@ cc.programs = new function () {
             loadstart: function () {
               $(ele).append('<i class="rotate-min iconfont">&#xe601;</i>');
             },
+            playing: function () {
+              $(ele).addClass('cc-audio-bg');
+            },
             // canplaythrough
             canplay: function () {
               $(ele).find('.rotate-min').remove();
@@ -275,7 +277,6 @@ cc.programs = new function () {
 
             media.play();
             $(media).on(events);
-            $(ele).addClass('cc-audio-bg');
           } else {
             _this.pauseAudio(ele, media);
           }
@@ -298,6 +299,9 @@ cc.programs = new function () {
             toolbar: false,
             theme: 'exposed',
             type: 'popup',
+            onOpen: function () {
+              $('.swiper-container').append('<i class="iconfont close-swiper">&#xe61b;</i>');
+            },
             onClose: function () {
               photoBrowser = null;
               var popup = $('.popup');
@@ -343,21 +347,12 @@ cc.programs = new function () {
             _this.fetchData(io.question.praiseCount,{ type:'praise', ctr: 0 },function () { });
           }
         },
-        // 举报
-        reportCount: function () {
-
-        },
-        // 解锁
-        lockon: function () {
-          this.item.lock = false;
-          setTimeout( $.refreshScroller, 200);
-        },
         fetchData: function (url, data, callback) {
           data.info = io.userInfo;
           data.id = this.item.id;
           $.ajax({
             url: url,
-            type: 'get',
+            type: 'post',
             data: data,
             dataType: 'json',
             success: function (data) {
@@ -366,6 +361,37 @@ cc.programs = new function () {
             error: function () {
               $.alert('请求超时');
             }
+          });
+        },
+        // 举报
+        reportCount: function () {
+          var _this = this;
+          if(_this.ctl) return false;
+          $.modal({
+            extraClass: 'cc-modal',
+            title: '举报 <i class="iconfont close-modal">&#xe61b;</i>',
+            text: pro.model.jubao_m,
+            buttons: [
+              {
+                text: '确认',
+                onClick: function() {
+                  $.alert('提交')
+                }
+              },
+            ]
+          });
+          $(document).on('click','.modal-overlay, .close-modal',function () {
+            $.closeModal();
+          });
+        },
+        // todo 解锁 微信支付接口
+        lockon: function () {
+          var _this = this;
+          $.confirm('<p class="fz-m">偷听需要一元费用，确认偷听吗？</p>', '<i class="logo-ico"></i>', function () {
+            $.alert('支付接口');
+            // 异步解锁
+            _this.item.lock = false;
+            setTimeout( $.refreshScroller, 200);
           });
         }
       }
@@ -381,28 +407,40 @@ cc.programs = new function () {
   // 列表
   pro.model.que_item_m =
     '<article class="cc-card" :class="{\'zjda\': item.zjda}">' +
-    '<div class="cc-card-hd">' +
-    '<span v-if="!item.isSecret"><i class="user-head-min" v-if="item.headimgurl" style="{{\'background-image: url(\'+item.headimgurl+\')\'}}"></i> {{item.userName ? item.userName : item.nickname}}</span>' +
-    '<span v-else><i class="user-head-min"></i> 匿名</span>' +
-    '<time v-if="!com">{{item.createTimeString}}</time></div>' +
-    '<div class="cc-card-con" v-if="!item.lock">' +
-    '<p v-if="item.contentText">{{item.contentText}}</p>' +
-    '<div class="cc-audio" v-if="item.attachment.accessurl" @click.stop.prevent="playAudio(item.attachment.accessurl, $event)">' +
-    '<span>{{item.attachment.accesslen}}s</span> <i class="iconfont">&#xe603;</i></div>' +
-    '<div class="cc-card-imglist" v-if="item.aList.length > 0">' +
-    '<a class="imglist-i" v-for="img in item.aList" @click.stop.prevent="photoBrowser($index)" style="{{\'background-image: url(\'+img.filenamestring+\')\'}}" href="javascript:"></a>' +
-    '</div>' +
-    '<a class="cc-card-stu" href="javascript:" v-if="item.typeId"><i class="iconfont">&#xe619;</i> {{item.typeId}}</a>' +
-    '</div><div v-else class="cc-lockin" @click="lockon()">' +
-    '<span class="iconfont">&#xe623;</span>' +
-    '</div>' +
-    '<div class="cc-card-footer">' +
-    '<a href="javascript:" @click.stop.prevent="collectCount($event)" v-if="!com"><i class="iconfont">&#xe600;</i> {{item.collectCount}}</a>' +
-    '<a href="javascript:" @click.stop.prevent="praiseCount($event)"><i class="iconfont">&#xe621;</i> {{item.praiseCount}}</a>' +
-    '<a href="javascript:" v-if="!com"><i class="iconfont">&#xe602;</i> {{item.replyCount}}</a>' +
-    '<a href="javascript:"><i class="iconfont">&#xe606;</i> {{item.eavesdropCount}}</a>' +
-    '<a href="javascript:" @click.stop.prevent="reportCount($event)">举报 {{item.reportCount}}</a>' +
-    '</div>' +
+      '<div class="cc-card-hd">' +
+        '<span v-if="!item.isSecret"><i class="user-head-min" v-if="item.headimgurl" style="{{\'background-image: url(\'+item.headimgurl+\')\'}}"></i> {{item.userName ? item.userName : item.nickname}}</span>' +
+        '<span v-else><i class="user-head-min"></i> 匿名</span>' +
+        '<time v-if="!com && !offermoney">{{item.createTimeString}}</time>' +
+        '<span v-if="offermoney" class="cc-card-row"><i class="iconfont">&#xe613;</i> {{item.offerMoney.toFixed(2)}}</span></div>' +
+      '<div class="cc-card-con" v-if="!item.lock">' +
+          '<p v-if="item.contentText">{{item.contentText}}</p>' +
+        '<div class="cc-audio" v-if="item.attachment.accessurl" @click.stop.prevent="playAudio(item.attachment.accessurl, $event)">' +
+          '<span>{{item.attachment.accesslen}}s</span> <i class="iconfont">&#xe603;</i></div>' +
+        '<div class="cc-card-imglist" v-if="item.aList.length > 0">' +
+          '<a class="imglist-i" v-for="img in item.aList" @click.stop.prevent="photoBrowser($index)" style="{{\'background-image: url(\'+img.filenamestring+\')\'}}" href="javascript:"></a>' +
+        '</div>' +
+          '<a class="cc-card-stu" href="javascript:" v-if="item.typeId"><i class="iconfont">&#xe619;</i> {{item.typeId}}</a>' +
+      '</div><div v-else class="cc-lockin" @click="lockon()">' +
+          '<span class="iconfont">&#xe623;</span>' +
+      '</div>' +
+      '<div class="cc-card-footer">' +
+        '<a href="javascript:" @click.stop.prevent="collectCount($event)" v-if="!com"><i class="iconfont">&#xe600;</i> {{item.collectCount}}</a>' +
+        '<a href="javascript:" @click.stop.prevent="praiseCount($event)"><i class="iconfont">&#xe621;</i> {{item.praiseCount}}</a>' +
+        '<a href="javascript:" v-if="!com"><i class="iconfont">&#xe602;</i> {{item.replyCount}}</a>' +
+        '<a href="javascript:"><i class="iconfont">&#xe606;</i> {{item.eavesdropCount}}</a>' +
+        '<a href="javascript:" @click.stop.prevent="reportCount($event)">举报 {{item.reportCount}}</a>' +
+      '</div>' +
     '</article>';
+
+  // 举报弹窗
+  pro.model.jubao_m =
+    '<div class="list-block cc-list-b">' +
+    '<h4 class="cc-common-title">请选择举报该用户的原因</h4><ul>' +
+    '<li><label class="label-checkbox item-content"><input type="radio" name="jb-text"><div class="item-media"><i class="icon icon-form-checkbox"></i></div><div class="item-inner"><div class="item-subtitle">发布不适当的内容对我造成骚扰</div></div></label></li>' +
+    '<li><label class="label-checkbox item-content"><input type="radio" name="jb-text"><div class="item-media"><i class="icon icon-form-checkbox"></i></div><div class="item-inner"><div class="item-subtitle">存在欺诈骗钱行为</div></div></label></li>' +
+    '<li><label class="label-checkbox item-content"><input type="radio" name="jb-text"><div class="item-media"><i class="icon icon-form-checkbox"></i></div><div class="item-inner"><div class="item-subtitle">此账号可能被盗用了</div></div></label></li>' +
+    '<li><label class="label-checkbox item-content"><input type="radio" name="jb-text"><div class="item-media"><i class="icon icon-form-checkbox"></i></div><div class="item-inner"><div class="item-subtitle">存在侵权行为</div></div></label></li>' +
+    '<li><label class="label-checkbox item-content"><input type="radio" name="jb-text"><div class="item-media"><i class="icon icon-form-checkbox"></i></div><div class="item-inner"><div class="item-subtitle">发布恶意广告信息</div></div></label></li></ul>' +
+    '<h4 class="cc-common-title">举报内容描述</h4><textarea name="jb-ms" placeholder="请描述举报内容"></textarea></div>';
 
 };

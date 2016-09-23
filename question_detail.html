@@ -12,17 +12,51 @@
 </head>
 <body onload="cc.programs.question_detail()">
 <main class="page-group">
-    <section class="page" id="question_detail">
-        <nav class="bar bar-tab"><a class="tab-item external cc-com-btn" href="#">我来支招</a></nav>
+    <section class="page page-current" id="question_detail">
+        <nav class="bar bar-tab"><a class="tab-item cc-com-btn" href="#zhizhao">我来支招</a></nav>
         <div class="content infinite-scroll infinite-scroll-bottom" data-distance="120" >
             <div class="content-inner J_que_list">
             <!-- view start -->
-                <que-item :item="item"></que-item>
+                <que-item :item="item" offermoney="true"></que-item>
                 <article class="cc-common-list">
                     <h4 class="cc-common-title">答案</h4>
                     <que-item class="cc-answer" v-for="ans in answers" :item="ans" com="true" transition="qlitem" stagger="160"></que-item>
                 </article>
             <!-- view end -->
+            </div>
+        </div>
+    </section>
+    <section class="page" id="zhizhao">
+        <div class="content" data-toggle="scroller" data-type="js">
+            <div class="content-inner J_que_list">
+                <!-- view start -->
+                <article class="common-ctl">
+                    <h4 class="cc-common-title">文字回答</h4>
+                        <div class="answer-text"><textarea rows="4" placeholder="请输入您的答案(不少于20字)"></textarea></div>
+                    <h4 class="cc-common-title">语音回答</h4>
+                        <div class="answer-voice"><a href="javascript:" class="iconfont">&#xe61f;</a></div>
+                    <h4 class="cc-common-title">添加图片</h4>
+                        <div class="answer-imgs">
+                            <a href="javascript:" class="ans-img-item" style="background: url(imgs/hd.jpg) no-repeat center/cover"></a>
+                            <a href="javascript:" class="ans-img-item" style="background: url(imgs/hd.jpg) no-repeat center/cover"></a>
+                            <a href="javascript:" class="ans-img-item" style="background: url(imgs/hd.jpg) no-repeat center/cover"></a>
+                            <a href="javascript:" class="ans-img-item" style="background: url(imgs/hd.jpg) no-repeat center/cover"></a>
+                            <a href="javascript:" class="ans-img-item" style="background: url(imgs/hd.jpg) no-repeat center/cover"></a>
+                            <a href="javascript:" class="ans-img-item J_addimg"></a>
+                            <span class="answer-imgs-tag">最多添加6张</span>
+                        </div>
+                    <h4 class="cc-common-title">视频地址</h4>
+                    <div class="common-com">
+                        <input type="text" class="cc-input" placeholder="视频地址 http://">
+                        <label class="label-checkbox com-nim">
+                            <input type="checkbox" name="nimin">
+                            <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+                            <div class="item-media">匿名发表</div>
+                        </label>
+                        <button type="button" class="button button-fill button-warning cc-btn">提交答案</button>
+                    </div>
+                </article>
+                <!-- view end -->
             </div>
         </div>
     </section>

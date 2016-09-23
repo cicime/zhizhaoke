@@ -11,17 +11,17 @@ io.userInfo = {
 
 io.question_list = {
   // 列表页 - 分页返回全部问题
-  content: './data/question_list.json'
+  content: '../data/question_list.json'
 };
 io.question_detail = {
   // 问题详情页
-  content: './data/question_detail.json',
+  content: '../data/question_detail.json',
   // 加载更多的答案
-  answers: './data/question_detail.json'
+  answers: '../data/question_detail.json'
 };
 io.question = {
   // 问题 - 点赞 收藏 举报 - 返回状态码
-  collectCount: './data/question_list.json',
-  praiseCount: './data/question_list.json',
-  reportCount: './data/question_list.json'
+  collectCount: '../data/question_list.json',
+  praiseCount: '../data/question_list.json',
+  reportCount: '../data/question_list.json'
 };
