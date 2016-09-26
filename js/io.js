@@ -29,6 +29,7 @@ io.question = {
 io.quiz = {
   // 提交问题, 回答的地址
   content: './data/question_list.json'
+  
 };
 
 
