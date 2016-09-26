@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>问题列表</title>
+    <title>我的收藏</title>
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -10,24 +10,17 @@
     <meta name="format-detection" content="email=no">
     <link href="css/style.css" rel="stylesheet">
 </head>
-<body onload="cc.programs.questionList().init()">
+<body onload="cc.programs.userCollect()">
 <main class="page-group">
-    <section class="page" id="questionList">
-        <div class="content infinite-scroll infinite-scroll-bottom pull-to-refresh-content" data-distance="120" data-ptr-distance="55">
+    <section class="page page-current" id="userCollect">
+        <div class="content">
             <div class="content-inner J_que_list">
             <!-- view start -->
-                <div class="pull-to-refresh-layer">
-                    <div class="preloader"></div>
-                    <div class="pull-to-refresh-arrow"></div>
-                </div>
-                <!-- ctl="true" 禁用状态栏 track-by="id" 根据ID排重 -->
-                <que-item v-for="item in problemList"
-                               :item="item"
-                               track-by="$index"
-                               ctl="true"
-                               transition="qlitem"
-                               stagger="160"
-                               @click.stop.prevent="saveStr(item.url)"></que-item>
+                <header class="user-banner min" style="background-image: url(imgs/bg2.jpg)">
+                    <span class="user-info"><a href="javascript:" class="user-head-min" style="background-image: url(imgs/hd.jpg)"></a> 用户BD009</span>
+                </header>
+
+
             <!-- view end -->
             </div>
         </div>

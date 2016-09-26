@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>用户中心</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="email=no">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+<main class="page-group">
+    <section class="page page-current" id="userShouyi">
+        <nav class="bar bar-tab cc-bar"><a class="tab-item cc-com-btn" href="javascript:">保存</a></nav>
+        <div class="content">
+            <div class="content-inner J_que_list">
+            <!-- view start -->
+                <header class="user-banner min" style="background-image: url(imgs/bg2.jpg)">
+                    <span class="user-info"><a href="javascript:" class="user-head-min" style="background-image: url(imgs/hd.jpg)"></a> 用户BD009</span>
+                </header>
+
+                <div class="list-block cc-setting">
+                    <ul>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title label">真实姓名</div>
+                                    <div class="item-input">
+                                        <input type="text" placeholder="真实姓名">
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title label">性别</div>
+                                    <div class="item-input">
+                                        <select>
+                                            <option>男</option>
+                                            <option>女</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title label">手机号码</div>
+                                    <div class="item-input change-num">
+                                        <a href="javascript:" class="">更改号码</a>
+                                        <input type="number" placeholder="手机号码">
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title label">出生年月</div>
+                                    <div class="item-input">
+                                        <input type="date" placeholder="出生年月" value="2016-09-30">
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+            <!-- view end -->
+            </div>
+        </div>
+    </section>
+</main>
+<script src="js/io.js"></script>
+<script src="lib/vue.min.js"></script>
+<script src="lib/vue-animated-list.js"></script>
+<script src="lib/zepto.min.js"></script>
+<script src="lib/sm.min.js"></script>
+<script src="lib/sm-extend.min.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

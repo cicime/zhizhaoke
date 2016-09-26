@@ -30,6 +30,15 @@ cc.programs = new function () {
         var tag = /\?/.test(cate) && !/\?ref_c=/.test(cate) ? '&' : '?';
         cate = cate.replace(/(\?|&)ref_c=\d+/, '');
         history.replaceState({tit: title}, title, cate + tag + 'ref_c=' + new Date().getTime());
+      },
+      createURL: function () {
+        if (window.URL) {
+          return window.URL.createObjectURL(blob);
+        } else if (window.webkitURL) {
+          return window.webkitURL.createObjectURL(blob);
+        } else {
+          return null;
+        }
       }
     }
   })();
@@ -39,7 +48,7 @@ cc.programs = new function () {
    * 问题列表
    * ====================================================================
    */
-  pro.question_list = function () {
+  pro.questionList = function () {
     var self = {};
     var queItem = pro.que_item();
 
@@ -73,12 +82,16 @@ cc.programs = new function () {
       }
     });
 
+    self.data = {};
+    self.data.info = io.userInfo;
+    self.url = io.questionList.content;
     self.fetchData = function (page, callback) {
       loadin = false;
+      self.data.page = page;
       $.ajax({
-        url: io.question_list.content,
+        url: self.url,
         type: 'get',
-        data: {page: page, info: io.userInfo},
+        data: self.data,
         dataType: 'json',
         beforeSend: function () {
           $('.J_que_list').append('<p class="preloader-line"><i class="preloader"></i></p>');
@@ -128,7 +141,7 @@ cc.programs = new function () {
       vue.addProblemList();
     };
 
-    self.init()
+    return self;
   };
 
   /**
@@ -136,7 +149,7 @@ cc.programs = new function () {
    * 问题详情
    * ====================================================================
    */
-  pro.question_detail = function () {
+  pro.questionDetail = function () {
     var self = {};
     var queListItem = pro.que_item();
     var loadin = true;
@@ -152,7 +165,7 @@ cc.programs = new function () {
       methods: {
         addProblem: function () {
           var _this = this;
-          self.fetchData(io.question_detail.content, function (data) {
+          self.fetchData(io.questionDetail.content, function (data) {
             _this.item = data.problem;
             _this.answers = data.answers;
           });
@@ -161,7 +174,7 @@ cc.programs = new function () {
         addAnswers: function () {
           var _this = this;
           this.page++;
-          loadin && self.fetchData(io.question_detail.answers, function (data) {
+          loadin && self.fetchData(io.questionDetail.answers, function (data) {
             data.answers.forEach(function (ele) { _this.answers.push(ele) });
           });
         }
@@ -212,16 +225,139 @@ cc.programs = new function () {
     self.init();
   };
 
+
+
   /**
    * ====================================================================
    * 评论回答 & 发布问题
    * ====================================================================
    */
   pro.issue = function () {
-      console.log('oo;l');
+    var self = {};
 
+
+    self.bindEvents = function () {
+      $('.tag-showall').on('click',function () {
+        $('.tag-list').toggleClass('showall');
+      });
+      $('#sub').on('click',function () {
+        self._resolveData(function (data) {
+
+        });
+      });
+      $('.J_addimg').on('click',function () {
+
+      });
+    };
+
+
+    self._resolveData = function (callback) {
+      $.ajax({
+        url: io.quiz.content,
+        type: 'get',
+        data: {
+          info: io.userInfo
+        },
+        dataType: 'json',
+        beforeSend: function () {
+          $.refreshScroller();
+        },
+        success: function (data) {
+          data.resultCode <= 1000 ? callback(data) : $.alert(data.message);
+        },
+        error: function () {
+          $.alert('请求超时');
+        }
+      });
+    };
+
+    self.init = function () {
+      self.bindEvents();
+    };
+
+    self.init();
+  };
+
+
+  /**
+   * ====================================================================
+   * 专家支招
+   * ====================================================================
+   */
+  pro.specialist = function () {
+    var self = {};
+
+    var timesAll = function () {
+      var arr = {};
+      var MINT = 8;
+      var MAXT = 20;
+      for (var i = MINT; i <= MAXT; i++) {
+        arr[i + ':00-' + (i + 1) + ':00'] = {};
+      }
+      return arr;
+    }
+
+    Vue.component('chooser-date', {
+      template: pro.model.chooserDate_m,
+      data: function () {
+        return {
+          date: '2016-09-30',
+          times: timesAll()
+        };
+      }
+    });
+
+    new Vue({ el: 'body' });
+
+    self.fetchData = function () {
+
+    };
+
+    self.bindEvents = function () {
+      $('.cho-date').calendar({
+        onClose:function () {
+          $('.picker-calendar').remove();
+        }
+      });
+    };
+
+    self.init = function () {
+      self.bindEvents();
+    };
+
+    self.init();
 
   };
+
+
+  /**
+   * ====================================================================
+   * 我的问题
+   * ====================================================================
+   */
+  pro.userQuestion = function () {
+    var self = {};
+    var list = pro.questionList();
+    list.url = io.questionList.content;
+    list.data.userQuestion = true;
+    list.init();
+  };
+
+
+  /**
+   * ====================================================================
+   * 我的支招
+   * ====================================================================
+   */
+  pro.userZhizhao = function () {
+    var self = {};
+    var queListItem = pro.que_item();
+
+    new Vue({ el: 'body' });
+  };
+
+
+
 
   /**
    * ====================================================================
@@ -398,6 +534,7 @@ cc.programs = new function () {
     });
   };
 
+
   /**
    * ====================================================================
    * HTML 模板
@@ -442,4 +579,18 @@ cc.programs = new function () {
     '<li><label class="label-checkbox item-content"><input type="radio" name="jb-text"><div class="item-media"><i class="icon icon-form-checkbox"></i></div><div class="item-inner"><div class="item-subtitle">存在侵权行为</div></div></label></li>' +
     '<li><label class="label-checkbox item-content"><input type="radio" name="jb-text"><div class="item-media"><i class="icon icon-form-checkbox"></i></div><div class="item-inner"><div class="item-subtitle">发布恶意广告信息</div></div></label></li></ul>' +
     '<h4 class="cc-common-title">举报内容描述</h4><textarea name="jb-ms" placeholder="请描述举报内容"></textarea></div>';
+
+  // 时间选择器
+  pro.model.chooserDate_m =
+    '<div class="chooser-date">' +
+      '<div class="cho-hd">' +
+        '<input type="text" class="cho-date" v-model="date" readonly>' +
+        '<a href="javascript:" class="prev iconfont">&#xe611;</a>' +
+        '<a href="javascript:" class="next iconfont">&#xe610;</a>' +
+      '</div><div class="cho-con row">' +
+    '<label class="cho-item col-33" v-for="t in times">' +
+      '<input type="checkbox" :disabled="!t.usable">' +
+      '<span class="cho-chekbox">{{$key}}</span>' +
+    '</label></div></div>';
+
 };

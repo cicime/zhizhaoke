@@ -8,12 +8,12 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
     <meta name="format-detection" content="email=no">
-    <link href="css/style.css?ver=0.0.1" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
 </head>
-<body onload="cc.programs.question_detail()">
+<body onload="cc.programs.questionDetail()">
 <main class="page-group">
-    <section class="page page-current" id="question_detail">
-        <nav class="bar bar-tab"><a class="tab-item cc-com-btn" href="#zhizhao">我来支招</a></nav>
+    <section class="page page-current" id="questionDetail">
+        <nav class="bar bar-tab cc-bar"><a class="tab-item cc-com-btn" href="#zhizhao">我来支招</a></nav>
         <div class="content infinite-scroll infinite-scroll-bottom" data-distance="120" >
             <div class="content-inner J_que_list">
             <!-- view start -->
@@ -27,12 +27,13 @@
         </div>
     </section>
     <section class="page" id="zhizhao">
-        <div class="content" data-toggle="scroller" data-type="js">
+        <div class="content" data-toggle="scroller">
             <div class="content-inner J_que_list">
                 <!-- view start -->
                 <article class="common-ctl">
+                    <form id="formZhizhao">
                     <h4 class="cc-common-title">文字回答</h4>
-                        <div class="answer-text"><textarea rows="4" placeholder="请输入您的答案(不少于20字)"></textarea></div>
+                        <div class="answer-text"><textarea rows="4" name="answer" placeholder="请输入您的答案(不少于20字)"></textarea></div>
                     <h4 class="cc-common-title">语音回答</h4>
                         <div class="answer-voice"><a href="javascript:" class="iconfont">&#xe61f;</a></div>
                     <h4 class="cc-common-title">添加图片</h4>
@@ -47,26 +48,27 @@
                         </div>
                     <h4 class="cc-common-title">视频地址</h4>
                     <div class="common-com">
-                        <input type="text" class="cc-input" placeholder="视频地址 http://">
+                        <input type="text" class="cc-input" placeholder="视频地址 http://" name="videourl">
                         <label class="label-checkbox com-nim">
                             <input type="checkbox" name="nimin">
                             <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
                             <div class="item-media">匿名发表</div>
                         </label>
-                        <button type="button" class="button button-fill button-warning cc-btn">提交答案</button>
+                        <button type="button" id="sub" class="button button-fill button-warning cc-btn">提交答案</button>
                     </div>
+                    </form>
                 </article>
                 <!-- view end -->
             </div>
         </div>
     </section>
 </main>
-<script src="js/io.js?ver=0.0.1"></script>
+<script src="js/io.js"></script>
 <script src="lib/vue.min.js"></script>
 <script src="lib/vue-animated-list.js"></script>
 <script src="lib/zepto.min.js"></script>
 <script src="lib/sm.min.js"></script>
 <script src="lib/sm-extend.min.js"></script>
-<script src="js/main.js?ver=0.0.1"></script>
+<script src="js/main.js"></script>
 </body>
 </html>
