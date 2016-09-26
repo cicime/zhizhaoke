@@ -29,7 +29,7 @@ io.question = {
 io.quiz = {
   // 提交问题, 回答的地址
   content: './data/question_list.json'
-  
+
 };
 
 
@@ -82,14 +82,6 @@ function init(req) {
     wx.onMenuShareAppMessage(share_config.share);//分享给好友
     wx.onMenuShareTimeline(share_config.share);//分享到朋友圈
     wx.onMenuShareQQ(share_config.share);//分享给手机QQ
-    wx.chooseImage({
-      count: 1, // 默认9
-      sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-      sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
-      success: function (res) {
-        var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-      }
-    });
   });
 
   wx.error(function (res) {
