@@ -218,7 +218,6 @@ cc.programs = new function () {
 
           var _this = this;
           var len = _this.maxlen - _this.imglist.length;
-          if (_this.imglist.length >= 6) $('.J_addimg').hide();
           wx.chooseImage({
             count: len, // 默认9
             sizeType: ['original', 'compressed'],
@@ -228,9 +227,9 @@ cc.programs = new function () {
               localIds.forEach(function (ele) {
                 _this.imglist.push(ele)
               });
+              if (_this.imglist.length >= 6) $('.J_addimg').hide();
             }
           });
-
         }
       }
     });
