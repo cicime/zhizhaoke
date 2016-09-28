@@ -275,29 +275,34 @@ cc.programs = new function () {
       },function (v) {
         vue.voice = {};
       });
-      // 提交
       $('#sub').on('click', self.submit);
     };
 
+    // 提交验证
     self.submit = function () {
       if(!vue.ans && !vue.voice.localId){
         $.alert('请使用文字或语音回答');
         return;
       }
       $(this).prop('disabled', true);
+
       // 如果有录音先上传录音
+      var canuse = 1;
       if(vue.voice.localId){
+        canuse++;
         wx.uploadVoice({
           localId: vue.voice.localId,
           isShowProgressTips: 1, // 默认为1，显示进度提示
           success: function (res) {
             vue.voice.serverId = res.serverId;
+            canuseFoo();
           }
         });
       }
       // 如果有图片
       var i = 0;
       if(vue.imglist.length){
+        canuse++;
         uploadImg();
       }
 
@@ -311,7 +316,7 @@ cc.programs = new function () {
             if (i < vue.imglist.length) {
               uploadImg();
             }else{
-
+              canuseFoo();
             }
           },
           fail: function (res) {
@@ -320,7 +325,18 @@ cc.programs = new function () {
         });
       }
 
-      alert('ol');
+      function canuseFoo() {
+        canuse--;
+        if(canuse == 0){
+          self._resolveData();
+        }
+      }
+
+      canuseFoo();
+    };
+
+    self._resolveData = function () {
+      alert('===');
     };
 
     self.init = function () {
