@@ -310,16 +310,8 @@ cc.programs = new function () {
         wx.stopRecord({
           success: function (res) {
             voice.localId = res.localId;
-
-            wx.translateVoice({
-              localId: voice.localId,
-              isShowProgressTips: 1,
-              success: function (res) {
-                alert(JSON.stringify(res));
-                ele.find('.J_startRecord').hide();
-                ele.find('.J_paly_voice').show();
-              }
-            });
+            ele.find('.J_startRecord').hide();
+            ele.find('.J_paly_voice').show();
           },
           fail: function (res) {
             alert(JSON.stringify(res));
