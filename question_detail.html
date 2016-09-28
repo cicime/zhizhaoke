@@ -35,7 +35,10 @@
                         <h4 class="cc-common-title">文字回答</h4>
                         <div class="answer-text"><textarea rows="4" name="answer" placeholder="请输入您的答案(不少于20字)" v-model="ans"></textarea></div>
                         <h4 class="cc-common-title">语音回答</h4>
-                        <div class="answer-voice"><a href="javascript:" class="iconfont">&#xe61f;</a></div>
+                        <div class="answer-voice">
+                            <div class="cc-audio J_paly_voice" hidden><span>35s</span> <i class="iconfont">&#xe603;</i> <i class="iconfont J_del_voice">&#xe609;</i></div>
+                            <a href="javascript:" class="iconfont J_startRecord">&#xe61f;</a>
+                        </div>
                         <h4 class="cc-common-title">添加图片</h4>
                         <div class="answer-imgs">
                             <a href="javascript:" v-for="img in imglist" class="ans-img-item" style="background-image: {{'url('+img +')'}}"></a>
