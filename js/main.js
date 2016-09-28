@@ -300,8 +300,6 @@ cc.programs = new function () {
 
     var events = {
       touchstart: function () {
-        ele.find('.J_startRecord').hide();
-        ele.find('.J_paly_voice').show();
         wx.startRecord({
           cancel: function () {
             alert('用户拒绝授权录音');
@@ -312,6 +310,8 @@ cc.programs = new function () {
         wx.stopRecord({
           success: function (res) {
             voice.localId = res.localId;
+            ele.find('.J_startRecord').hide();
+            ele.find('.J_paly_voice').show();
           },
           fail: function (res) {
             alert(JSON.stringify(res));
