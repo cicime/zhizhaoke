@@ -304,7 +304,7 @@ cc.programs = new function () {
 
       function uploadImg() {
         wx.uploadImage({
-          localId: images.localId[i],
+          localId: vue.imglist[i],
           isShowProgressTips: 1,
           success: function (res) {
             i++;
