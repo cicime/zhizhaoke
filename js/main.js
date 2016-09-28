@@ -317,23 +317,35 @@ cc.programs = new function () {
             alert(JSON.stringify(res));
           }
         });
+        wx.translateVoice({
+          localId: voice.localId, // 需要识别的音频的本地Id，由录音相关接口获得
+          isShowProgressTips: 1, // 默认为1，显示进度提示
+          success: function (res) {
+            alert(res.translateResult); // 语音识别的结果
+          }
+        });
       }
     };
 
     ele.find('a').on(events);
 
     $(document).on('click','.J_paly_voice', function () {
-      ele.find('.J_paly_voice').addClass('cc-audio-bg');
       wx.playVoice({
         localId: voice.localId,
       });
+      ele.find('.J_paly_voice').addClass('cc-audio-bg');
+    });
+    wx.onVoicePlayEnd({
+      complete: function (res) {
+        ele.find('.J_paly_voice').removeClass('cc-audio-bg');
+      }
     });
     $(document).on('click','.J_del_voice', function (e) {
       wx.stopVoice({
         localId: voice.localId
       });
       ele.find('.J_startRecord').css('display','inline-block');
-      ele.find('.J_paly_voice').hide();
+      ele.find('.J_paly_voice').hide().removeClass('cc-audio-bg');
     });
   };
 
