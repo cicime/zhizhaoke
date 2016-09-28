@@ -327,9 +327,10 @@ cc.programs = new function () {
       // wx.playVoice({
       //   localId: voice.localId,
       // });
-      var media = new Audio();
-      media.src = voice.localId;
-      media.play();
+      // var media = new Audio();
+      // media.src = voice.localId;
+      // media.play();
+      alert(voice.localId);
 
       ele.find('.J_paly_voice').addClass('cc-audio-bg');
     });
