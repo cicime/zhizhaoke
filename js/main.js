@@ -191,9 +191,12 @@ cc.programs = new function () {
         page: 0,
         item: {},
         answers: [],
-        imglist:[],
+        imglist: [],
+        imgsever: [],
         maxlen: 6,
         ans:'',
+        videoUrl: '',
+        nimin: false,
         voice: {}
       },
       components: [queListItem],
@@ -273,11 +276,51 @@ cc.programs = new function () {
         vue.voice = {};
       });
       // 提交
-      $('#sub').on('click', function () {
-        if(!vue.ans && !vue.voice.localId){
-          $.alert('请使用文字或语音回答');
-        }
-      });
+      $('#sub').on('click', self.submit);
+    };
+
+    self.submit = function () {
+      if(!vue.ans && !vue.voice.localId){
+        $.alert('请使用文字或语音回答');
+        return;
+      }
+      $(this).prop('disabled', true);
+      // 如果有录音先上传录音
+      if(vue.voice.localId){
+        wx.uploadVoice({
+          localId: vue.voice.localId,
+          isShowProgressTips: 1, // 默认为1，显示进度提示
+          success: function (res) {
+            vue.voice.serverId = res.serverId;
+            $.alert('录音上传完毕');
+          }
+        });
+      }
+      // 如果有图片
+      var i = 0;
+      if(vue.imglist.length){
+        uploadImg();
+      }
+
+      function uploadImg() {
+        wx.uploadImage({
+          localId: images.localId[i],
+          isShowProgressTips: 1,
+          success: function (res) {
+            i++;
+            vue.imgsever.push(res.serverId);
+            if (i < vue.imglist.length) {
+              uploadImg();
+            }else{
+              $.alert('图片上传完毕');
+            }
+          },
+          fail: function (res) {
+            alert(JSON.stringify(res));
+          }
+        });
+      }
+
     };
 
     self.init = function () {

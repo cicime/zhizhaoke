@@ -41,15 +41,15 @@
                         </div>
                         <h4 class="cc-common-title">添加图片</h4>
                         <div class="answer-imgs">
-                            <a href="javascript:" v-for="img in imglist" class="ans-img-item" style="background-image: {{'url('+img +')'}}"></a>
+                            <a href="javascript:" v-for="img in imglist" class="ans-img-item" style="background-image: {{'url('+ img +')'}}"></a>
                             <label href="javascript:" class="ans-img-item J_addimg" @click="addimg($event)"></label>
                             <span class="answer-imgs-tag">最多添加6张</span>
                         </div>
                         <h4 class="cc-common-title">视频地址</h4>
                         <div class="common-com">
-                            <input type="text" class="cc-input" placeholder="视频地址 http://" name="videourl">
+                            <input type="text" class="cc-input" placeholder="视频地址 http://" name="videourl" v-model="videoUrl">
                             <label class="label-checkbox com-nim">
-                                <input type="checkbox" name="nimin">
+                                <input type="checkbox" name="nimin" v-model="nimin">
                                 <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
                                 <div class="item-media">匿名发表</div>
                             </label>
