@@ -295,8 +295,10 @@ cc.programs = new function () {
     var ele = $('.answer-voice');
     var voice = {
       localId: '',
-      serverId: ''
+      serverId: '',
+      len: 0
     };
+    var time;
 
     var events = {
       touchstart: function () {
@@ -306,12 +308,18 @@ cc.programs = new function () {
           }
         });
         ele.find('.J_paly_voice').show();
+        time = setInterval(function () {
+          voice.len++;
+          $('.J_time').html(voice.len+'s');
+        }, 1000);
       },
       touchend: function () {
         wx.stopRecord({
           success: function (res) {
             voice.localId = res.localId;
-            ele.find('.J_startRecord').hide();
+            // ele.find('.J_startRecord').hide();
+            ele.addClass('min');
+            time.clearInterval();
           },
           fail: function (res) {
             alert(JSON.stringify(res));
@@ -338,7 +346,8 @@ cc.programs = new function () {
       wx.stopVoice({
         localId: voice.localId
       });
-      ele.find('.J_startRecord').css('display','inline-block');
+      // ele.find('.J_startRecord').css('display','inline-block');
+      ele.removeClass('min');
       ele.find('.J_paly_voice').hide().removeClass('cc-audio-bg');
     });
   };

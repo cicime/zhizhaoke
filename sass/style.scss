@@ -292,6 +292,13 @@
   line-height: 150px;
   user-select: none;
   -webkit-user-select: none;
+  &.min{
+    height: 1px;
+    > a {
+      display: none;
+    }
+  }
+
   a {
     font-size: 36px;
     width: 70px;
