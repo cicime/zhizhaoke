@@ -331,6 +331,9 @@ cc.programs = new function () {
     $(document).on('click','.J_del_voice', function (e) {
       e.stopPropagation();
       e.preventDefault();
+      wx.pauseVoice({
+        localId: voice.localId
+      });
       ele.find('.J_startRecord').css('display','inline-block');
       ele.find('.J_paly_voice').hide();
     });
