@@ -288,6 +288,8 @@
   height: 110px;
   text-align: center;
   line-height: 150px;
+  user-select: none;
+  -webkit-user-select: none;
   a {
     font-size: 36px;
     width: 70px;
