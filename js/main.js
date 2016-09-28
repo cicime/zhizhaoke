@@ -330,6 +330,7 @@ cc.programs = new function () {
     });
     wx.onVoicePlayEnd({
       complete: function (res) {
+        alert('sdf');
         ele.find('.J_paly_voice').removeClass('cc-audio-bg');
       }
     });
