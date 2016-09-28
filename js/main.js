@@ -223,6 +223,7 @@ cc.programs = new function () {
               var localIds = res.localIds;
               localIds.forEach(function (ele) {
                 this.imglist.push(ele)
+                alert(ele);
               });
             }
           });
