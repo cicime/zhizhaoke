@@ -211,10 +211,12 @@ cc.programs = new function () {
           });
         },
         addimg: function (e) {
+          // todo 图片上传接口 返回服务器地址
           // var file = e.target.files[0];
           // this.imglist.push(Util.createURL(file));
           // if (this.imglist.length >= 6) $('.J_addimg').hide();
-          // todo 图片上传接口 返回服务器地址
+
+          var _this = this;
           wx.chooseImage({
             count: 1, // 默认9
             sizeType: ['original', 'compressed'],
@@ -222,7 +224,7 @@ cc.programs = new function () {
             success: function (res) {
               var localIds = res.localIds;
               localIds.forEach(function (ele) {
-                this.imglist.push(ele)
+                _this.imglist.push(ele)
                 alert(ele);
               });
             }
