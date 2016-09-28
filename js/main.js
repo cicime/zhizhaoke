@@ -300,6 +300,7 @@ cc.programs = new function () {
 
     var events = {
       touchstart: function () {
+        ele.find('.J_paly_voice').show();
         wx.startRecord({
           cancel: function () {
             alert('用户拒绝授权录音');
@@ -311,8 +312,6 @@ cc.programs = new function () {
           success: function (res) {
             voice.localId = res.localId;
             ele.find('.J_startRecord').hide();
-            ele.find('.J_paly_voice').show();
-
           },
           fail: function (res) {
             alert(JSON.stringify(res));
@@ -324,15 +323,16 @@ cc.programs = new function () {
     ele.find('a').on(events);
 
     $(document).on('click','.J_paly_voice', function () {
-      // wx.playVoice({
-      //   localId: voice.localId,
-      // });
-      var media = new Audio();
-      media.src = voice.localId;
-      media.play();
-      alert(voice.localId);
-
+      wx.playVoice({
+        localId: voice.localId,
+      });
       ele.find('.J_paly_voice').addClass('cc-audio-bg');
+      wx.onVoicePlayEnd({
+        success: function (res) {
+          var localId = res.localId;
+          ele.find('.J_paly_voice').removeClass('cc-audio-bg');
+        }
+      });
     });
     $(document).on('click','.J_del_voice', function (e) {
       wx.stopVoice({
