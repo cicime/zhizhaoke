@@ -291,7 +291,7 @@ cc.programs = new function () {
    * 录音接口
    * ====================================================================
    */
-  pro.voice = function (callback) {
+  pro.voice = function (add, remove) {
     var ele = $('.answer-voice');
     var voice = {
       localId: '',
@@ -319,6 +319,7 @@ cc.programs = new function () {
             voice.localId = res.localId;
             ele.addClass('min');
             clearInterval(time);
+            add(voice);
           },
           fail: function (res) {
             alert(JSON.stringify(res));
@@ -328,7 +329,7 @@ cc.programs = new function () {
     };
 
     ele.find('a').on(events);
-
+    // 播放
     $(document).on('click','.J_paly_voice', function () {
       wx.playVoice({
         localId: voice.localId,
@@ -336,11 +337,11 @@ cc.programs = new function () {
       ele.find('.J_paly_voice').addClass('cc-audio-bg');
       wx.onVoicePlayEnd({
         success: function (res) {
-          var localId = res.localId;
           ele.find('.J_paly_voice').removeClass('cc-audio-bg');
         }
       });
     });
+    // 移除
     $(document).on('click','.J_del_voice', function (e) {
       wx.stopVoice({
         localId: voice.localId
@@ -349,6 +350,7 @@ cc.programs = new function () {
       ele.removeClass('min');
       $('.J_time').html('0s');
       ele.find('.J_paly_voice').hide().removeClass('cc-audio-bg');
+      remove(voice);
     });
   };
 
