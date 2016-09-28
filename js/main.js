@@ -345,6 +345,7 @@ cc.programs = new function () {
       wx.stopVoice({
         localId: voice.localId
       });
+      voice.len = 0;
       ele.removeClass('min');
       ele.find('.J_paly_voice').hide().removeClass('cc-audio-bg');
     });
