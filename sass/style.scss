@@ -202,6 +202,7 @@
   color: #f7a661;
   margin: 0;
   padding: 10px;
+  user-select: none;
 }
 .cc-answer{
   @extend %border-bottom;
