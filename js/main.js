@@ -218,7 +218,7 @@ cc.programs = new function () {
           // if (this.imglist.length >= 6) $('.J_addimg').hide();
 
           var _this = this;
-          var len = maxlen - _this.imglist.length;
+          var len = _this.maxlen - _this.imglist.length;
           wx.chooseImage({
             count: len, // 默认9
             sizeType: ['original', 'compressed'],
