@@ -317,7 +317,7 @@ cc.programs = new function () {
               localId: voice.localId,
               isShowProgressTips: 1,
               success: function (res) {
-                alert(res.translateResult);
+                alert(JSON.stringify(res));
               }
             });
           },
