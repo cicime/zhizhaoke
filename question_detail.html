@@ -39,8 +39,8 @@
                     <h4 class="cc-common-title">添加图片</h4>
                         <div class="answer-imgs">
                             <a href="javascript:" v-for="img in imglist" class="ans-img-item" style="background-image: {{'url('+img +')'}}"></a>
-                            <label href="javascript:" class="ans-img-item J_addimg">
-                                <input type="file" id="addimg" hidden @change="addimg($event)">
+                            <label href="javascript:" class="ans-img-item J_addimg" @click="addimg($event)">
+                                <!--<input type="file" id="addimg" hidden @change="addimg($event)">-->
                             </label>
                             <span class="answer-imgs-tag">最多添加6张</span>
                         </div>

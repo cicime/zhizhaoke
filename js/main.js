@@ -211,11 +211,18 @@ cc.programs = new function () {
           });
         },
         addimg: function (e) {
-          var file = e.target.files[0];
-          this.imglist.push(Util.createURL(file));
-          if (this.imglist.length >= 6) $('.J_addimg').hide();
+          // var file = e.target.files[0];
+          // this.imglist.push(Util.createURL(file));
+          // if (this.imglist.length >= 6) $('.J_addimg').hide();
           // todo 图片上传接口 返回服务器地址
-
+          wx.chooseImage({
+            count: 1, // 默认9
+            sizeType: ['original', 'compressed'],
+            sourceType: ['album', 'camera'],
+            success: function (res) {
+              var localIds = res.localIds;
+            }
+          });
         }
       }
     });
@@ -252,6 +259,7 @@ cc.programs = new function () {
       $(document).on('infinite', '.infinite-scroll-bottom',function() {
         vue.addAnswers();
       });
+
     };
 
     self.init = function () {
