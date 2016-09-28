@@ -323,7 +323,6 @@ cc.programs = new function () {
     ele.find('a').on(events);
 
     $(document).on('click','.J_paly_voice', function () {
-      e.preventDefault();
       ele.addClass('cc-audio-bg');
       wx.playVoice({
         localId: voice.localId,
