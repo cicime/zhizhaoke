@@ -215,10 +215,10 @@ cc.programs = new function () {
           // todo 图片上传接口 返回服务器地址
           // var file = e.target.files[0];
           // this.imglist.push(Util.createURL(file));
-          // if (this.imglist.length >= 6) $('.J_addimg').hide();
 
           var _this = this;
           var len = _this.maxlen - _this.imglist.length;
+          if (_this.imglist.length >= 6) $('.J_addimg').hide();
           wx.chooseImage({
             count: len, // 默认9
             sizeType: ['original', 'compressed'],
