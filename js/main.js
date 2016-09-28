@@ -305,11 +305,11 @@ cc.programs = new function () {
           }
         });
       },
-      touchend: function (ele) {
+      touchend: function () {
         wx.stopRecord({
           success: function (res) {
             voice.localId = res.localId;
-            alert(ele);
+            alert('sdfs');
           },
           fail: function (res) {
             alert(JSON.stringify(res));
@@ -317,7 +317,7 @@ cc.programs = new function () {
         });
       }
     };
-    $('.answer-voice a').on(events, this);
+    $('.answer-voice a').on(events);
   };
 
 
