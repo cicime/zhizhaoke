@@ -309,6 +309,7 @@ cc.programs = new function () {
         wx.stopRecord({
           success: function (res) {
             voice.localId = res.localId;
+            alert(this);
           },
           fail: function (res) {
             alert(JSON.stringify(res));
@@ -316,7 +317,7 @@ cc.programs = new function () {
         });
       }
     };
-    $('.answer-voice').on(events);
+    $('.answer-voice a').on(events);
   };
 
 
