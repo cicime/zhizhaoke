@@ -312,16 +312,17 @@ cc.programs = new function () {
             voice.localId = res.localId;
             ele.find('.J_startRecord').hide();
             ele.find('.J_paly_voice').show();
+
+            wx.translateVoice({
+              localId: voice.localId,
+              isShowProgressTips: 1,
+              success: function (res) {
+                alert(res.translateResult);
+              }
+            });
           },
           fail: function (res) {
             alert(JSON.stringify(res));
-          }
-        });
-        wx.translateVoice({
-          localId: voice.localId, // 需要识别的音频的本地Id，由录音相关接口获得
-          isShowProgressTips: 1, // 默认为1，显示进度提示
-          success: function (res) {
-            alert(res.translateResult); // 语音识别的结果
           }
         });
       }
