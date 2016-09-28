@@ -292,11 +292,26 @@ cc.programs = new function () {
    * ====================================================================
    */
   pro.voice = function (callback) {
+    var voice = {
+      localId: '',
+      serverId: ''
+    };
+
     var events = {
       touchstart: function () {
         wx.startRecord({
           cancel: function () {
             alert('用户拒绝授权录音');
+          }
+        });
+      },
+      touchend: function () {
+        wx.stopRecord({
+          success: function (res) {
+            voice.localId = res.localId;
+          },
+          fail: function (res) {
+            alert(JSON.stringify(res));
           }
         });
       }
