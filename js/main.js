@@ -324,7 +324,6 @@ cc.programs = new function () {
 
     $(document).on('click','.J_paly_voice', function () {
       e.stopPropagation();
-      e.preventDefault();
       ele.addClass('cc-audio-bg');
       wx.playVoice({
         localId: voice.localId,
