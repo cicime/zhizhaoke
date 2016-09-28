@@ -174,6 +174,11 @@
   opacity: .5;
   z-index: 700;
 }
+.cc-card-delet{
+  float: right;
+  color: #b4b4b4;
+  padding:0 10px;
+}
 
 .J_colled,.J_praised{
   color: #f7a661 !important;
@@ -323,6 +328,8 @@
   width: 15.4%;
   padding-top: 15.4%;
   margin-left: 1.5%;
+  -webkit-background-size: cover;
+  background-size: cover;
   &:first-child{
     margin-left: 0;
   }
@@ -704,27 +711,29 @@
     padding: 10px;
   }
   .cho-item{
+    position: relative;
+
     input{
       width: 0;
       height: 0;
       opacity: 0;
       position: absolute;
     }
-    span{
+    .cho-chekbox{
       display: block;
       border: 1px solid #ff8116;
       font-size: .7rem;
       text-align: center;
-      margin-bottom: 10px;
+      margin-bottom: 20px;
       padding: 5px 0;
       line-height: 1.5;
       border-radius: 4px;
     }
-    input:disabled + span{
+    input:disabled + .cho-chekbox{
       border: 1px solid #e3e3e3;
       color: #e3e3e3;
     }
-    input:checked + span{
+    input:checked + .cho-chekbox{
       position: relative;
       overflow: hidden;
       &:before{
@@ -747,6 +756,14 @@
       }
     }
   }
+  .cho-text{
+    position: absolute;
+    bottom: 3px;
+    width: 100%;
+    text-align: center;
+    font-size: 11px;
+    color: #ff8116;
+  }
 }
 
 .content-xw{
@@ -757,7 +774,59 @@
   border: 0;
 }
 
-
+// 我的预约
+.cc-u-box{
+  position: relative;
+  @extend %border-bottom;
+}
+.cc-u-item{
+  position: relative;
+  @extend %border-bottom;
+  display: flex;
+  background: #fff;
+  padding: 10px;
+}
+.cc-u-il{
+  width: 20%;
+  overflow: hidden;
+  text-align: center;
+  border-right: 1px solid #eee;
+  p{
+    margin: 5px 0 0;
+    font-size: 12px;
+  }
+}
+.cc-u-ir{
+  padding-left: 10px;
+  width: 79%;
+  color: #888;
+}
+.cc-u-inhead{
+  margin: 0;
+  font-size: 14px;
+  font-weight: inherit;
+  margin-bottom: 16px;
+}
+.cc-u-inbody{
+  font-size: 14px;
+  span{
+    float: right;
+    color: #ff8116;
+    small{
+      color: #888;
+    }
+  }
+}
+.btn-box{
+  padding: 10px;
+  background: #f7f7f9;
+  .button{
+    width: 90px;
+    background: #fff;
+    float: right;
+    margin-left: 10px;
+  }
+}
 
 
 

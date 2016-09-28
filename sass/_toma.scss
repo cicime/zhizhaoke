@@ -28,8 +28,7 @@
   background-color: #e7e7e7;
   display: block;
   z-index: 15;
-  -webkit-transform-origin: 50% 0%;
-  transform-origin: 50% 0%;
+  transform-origin: 50% 100%;
   -webkit-transform: scaleY(.5);
   transform: scaleY(.5);
 }

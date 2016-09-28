@@ -38,12 +38,10 @@
                         <div class="answer-voice"><a href="javascript:" class="iconfont">&#xe61f;</a></div>
                     <h4 class="cc-common-title">添加图片</h4>
                         <div class="answer-imgs">
-                            <a href="javascript:" class="ans-img-item" style="background: url(imgs/hd.jpg) no-repeat center/cover"></a>
-                            <a href="javascript:" class="ans-img-item" style="background: url(imgs/hd.jpg) no-repeat center/cover"></a>
-                            <a href="javascript:" class="ans-img-item" style="background: url(imgs/hd.jpg) no-repeat center/cover"></a>
-                            <a href="javascript:" class="ans-img-item" style="background: url(imgs/hd.jpg) no-repeat center/cover"></a>
-                            <a href="javascript:" class="ans-img-item" style="background: url(imgs/hd.jpg) no-repeat center/cover"></a>
-                            <a href="javascript:" class="ans-img-item J_addimg"></a>
+                            <a href="javascript:" v-for="img in imglist" class="ans-img-item" style="background-image: {{'url('+img +')'}}"></a>
+                            <label href="javascript:" class="ans-img-item J_addimg">
+                                <input type="file" id="addimg" hidden @change="addimg($event)">
+                            </label>
                             <span class="answer-imgs-tag">最多添加6张</span>
                         </div>
                     <h4 class="cc-common-title">视频地址</h4>

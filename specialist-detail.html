@@ -65,41 +65,42 @@
                     <span class="user-info spe"><a href="javascript:" class="user-head-min" style="background-image: url(imgs/hd.jpg)"></a> 用户BD009</span>
                 </header>
                 <h4 class="cc-common-title">选择预约时间</h4>
-                <chooser-date></chooser-date>
-
-                <div class="content-xw">
-                    <h4 class="cc-common-title">咨询方式 <small class="gray">(每次60分钟)</small></h4>
-                    <div class="spe-row">
-                        <div class="spe-item">
-                            <div class="spe-inner spe-bg">
-                                <h4>电话咨询</h4>
-                                <p><span class="theme">200.00</span>元/次</p>
+                <form id="formContent">
+                    <chooser-date :date="date" :times="times"></chooser-date>
+                    <div class="content-xw">
+                        <h4 class="cc-common-title">咨询方式 <small class="gray">(每次60分钟)</small></h4>
+                        <div class="spe-row">
+                            <div class="spe-item">
+                                <div class="spe-inner spe-bg">
+                                    <h4>电话咨询</h4>
+                                    <p><span class="theme">200.00</span>元/次</p>
+                                </div>
+                            </div>
+                            <div class="spe-item">
+                                <div class="spe-inner spe-bg">
+                                    <h4>视频咨询</h4>
+                                    <p><span class="theme">200.00</span>元/次</p>
+                                </div>
+                            </div>
+                            <div class="spe-item">
+                                <div class="spe-inner spe-bg">
+                                    <h4>面对面咨询</h4>
+                                    <p><span class="theme">200.00</span>元/次</p>
+                                </div>
                             </div>
                         </div>
-                        <div class="spe-item">
-                            <div class="spe-inner spe-bg">
-                                <h4>视频咨询</h4>
-                                <p><span class="theme">200.00</span>元/次</p>
-                            </div>
-                        </div>
-                        <div class="spe-item">
-                            <div class="spe-inner spe-bg">
-                                <h4>面对面咨询</h4>
-                                <p><span class="theme">200.00</span>元/次</p>
-                            </div>
+                        <h4 class="cc-common-title">咨询内容描述</h4>
+                        <div class="answer-text"><textarea rows="4" placeholder="请输入您咨询的内容" name="ans" v-model="ans"></textarea></div>
+                        <div class="common-com">
+                            <label class="label-checkbox com-nim">
+                                <input type="checkbox" name="tonyi" v-model="tonyi" value="tonyi">
+                                <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+                                <div class="item-media"> 同意 <a href="javascript:" class="theme">《支招客咨询协议》</a></div>
+                            </label>
+                            <button type="button" class="button button-fill button-warning cc-btn" id="sub">完成</button>
                         </div>
                     </div>
-                    <h4 class="cc-common-title">咨询内容描述</h4>
-                    <div class="answer-text"><textarea rows="4" placeholder="请输入您咨询的内容"></textarea></div>
-                    <div class="common-com">
-                        <label class="label-checkbox com-nim">
-                            <input type="checkbox" name="tonyi" checked>
-                            <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
-                            <div class="item-media"> 同意 <a href="javascript:" class="theme">《支招客咨询协议》</a></div>
-                        </label>
-                        <button type="button" class="button button-fill button-warning cc-btn">完成</button>
-                    </div>
-                </div>
+                </form>
                 <!-- view end -->
             </div>
         </div>

@@ -19,8 +19,15 @@
                 <header class="user-banner min" style="background-image: url(imgs/bg2.jpg)">
                     <span class="user-info"><a href="javascript:" class="user-head-min" style="background-image: url(imgs/hd.jpg)"></a> 用户BD009</span>
                 </header>
-
-
+                <que-item v-for="item in problemList"
+                          :item="item"
+                          track-by="$index"
+                          collect="true"
+                          :index="$index"
+                          ctl="true"
+                          transition="qlitem"
+                          stagger="160"
+                          @click.stop.prevent="saveStr(item.url)"></que-item>
             <!-- view end -->
             </div>
         </div>

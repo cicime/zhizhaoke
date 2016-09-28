@@ -24,8 +24,10 @@
                     <div class="answer-voice"><a href="javascript:" class="iconfont">&#xe61f;</a></div>
                     <h4 class="cc-common-title">添加图片</h4>
                     <div class="answer-imgs">
-                        <a href="javascript:" class="ans-img-item" style="background: url(imgs/hd.jpg) no-repeat center/cover"></a>
-                        <label href="javascript:" class="ans-img-item J_addimg"><!--<input type="file" id="addimg" multiple hidden>--></label>
+                        <a href="javascript:" v-for="img in imglist" class="ans-img-item" style="background-image: {{'url('+img +')'}}"></a>
+                        <label href="javascript:" class="ans-img-item J_addimg">
+                            <input type="file" id="addimg" hidden @change="addimg($event)">
+                        </label>
                         <span class="answer-imgs-tag">最多添加6张</span>
                     </div>
                     <div class="tag-list">
@@ -90,9 +92,9 @@
         </div>
     </section>
 </main>
+<script src="lib/zepto.min.js"></script>
 <script src="lib/vue.min.js"></script>
 <script src="lib/vue-animated-list.js"></script>
-<script src="lib/zepto.min.js"></script>
 <script src="lib/sm.min.js"></script>
 <script src="lib/sm-extend.min.js"></script>
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>

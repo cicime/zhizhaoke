@@ -10,7 +10,7 @@
     <meta name="format-detection" content="email=no">
     <link href="css/style.css" rel="stylesheet">
 </head>
-<body>
+<body onload="cc.programs.userSubscribe()">
 <main class="page-group">
     <section class="page page-current">
         <div class="content">
@@ -20,7 +20,162 @@
                     <span class="user-info"><a href="javascript:" class="user-head-min" style="background-image: url(imgs/hd.jpg)"></a> 用户BD009</span>
                 </header>
 
-
+                <div class="buttons-tab cc-tab">
+                    <a href="#tab1" class="tab-link button">未支付</a>
+                    <a href="#tab2" class="tab-link button active">已支付</a>
+                    <a href="#tab3" class="tab-link button">待评价</a>
+                    <a href="#tab4" class="tab-link button">已完成</a>
+                </div>
+                <div class="tabs">
+                    <div id="tab1" class="tab">
+                        <article class="cc-u-box">
+                            <div class="cc-u-item">
+                                <div class="cc-u-il">
+                                    <a href="javascript:" class="user-head-min" style="background-image: url(imgs/hd.jpg)"></a>
+                                    <p>张以上地</p>
+                                </div>
+                                <div class="cc-u-ir">
+                                    <h4 class="cc-u-inhead">2016-9-28 15:26:38</h4>
+                                    <div class="cc-u-inbody">
+                                        <span>700.00 <small>元</small></span>
+                                        电话咨询，面对面咨询
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="btn-box clearfix">
+                                <a href="javascript:" class="button button-warning">去支付</a>
+                                <a href="javascript:" class="button button-dark J_del">删除订单</a>
+                            </div>
+                        </article>
+                        <article class="cc-u-box">
+                            <div class="cc-u-item">
+                                <div class="cc-u-il">
+                                    <a href="javascript:" class="user-head-min" style="background-image: url(imgs/hd.jpg)"></a>
+                                    <p>张以上地</p>
+                                </div>
+                                <div class="cc-u-ir">
+                                    <h4 class="cc-u-inhead">2016-9-28 15:26:38</h4>
+                                    <div class="cc-u-inbody">
+                                        <span>700.00 <small>元</small></span>
+                                        电话咨询，面对面咨询
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="btn-box clearfix">
+                                <a href="javascript:" class="button button-warning">去支付</a>
+                                <a href="javascript:" class="button button-dark J_del">删除订单</a>
+                            </div>
+                        </article>
+                    </div>
+                    <div id="tab2" class="tab active">
+                        <div class="cc-u-item">
+                            <div class="cc-u-il">
+                                <a href="javascript:" class="user-head-min" style="background-image: url(imgs/hd.jpg)"></a>
+                                <p>张以上地</p>
+                            </div>
+                            <div class="cc-u-ir">
+                                <h4 class="cc-u-inhead">2016-9-28 15:26:38</h4>
+                                <div class="cc-u-inbody">
+                                    <span>700.00 <small>元</small></span>
+                                    电话咨询，面对面咨询
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cc-u-item">
+                            <div class="cc-u-il">
+                                <a href="javascript:" class="user-head-min" style="background-image: url(imgs/hd.jpg)"></a>
+                                <p>张以上地</p>
+                            </div>
+                            <div class="cc-u-ir">
+                                <h4 class="cc-u-inhead">2016-9-28 15:26:38</h4>
+                                <div class="cc-u-inbody">
+                                    <span>700.00 <small>元</small></span>
+                                    电话咨询，面对面咨询
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tab3" class="tab">
+                        <article class="cc-u-box">
+                            <div class="cc-u-item">
+                                <div class="cc-u-il">
+                                    <a href="javascript:" class="user-head-min" style="background-image: url(imgs/hd.jpg)"></a>
+                                    <p>张以上地</p>
+                                </div>
+                                <div class="cc-u-ir">
+                                    <h4 class="cc-u-inhead">2016-9-28 15:26:38</h4>
+                                    <div class="cc-u-inbody">
+                                        <span>700.00 <small>元</small></span>
+                                        电话咨询，面对面咨询
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="btn-box clearfix">
+                                <a href="javascript:" class="button button-warning">去评价</a>
+                                <a href="javascript:" class="button button-dark">删除订单</a>
+                            </div>
+                        </article>
+                        <article class="cc-u-box">
+                            <div class="cc-u-item">
+                                <div class="cc-u-il">
+                                    <a href="javascript:" class="user-head-min" style="background-image: url(imgs/hd.jpg)"></a>
+                                    <p>张以上地</p>
+                                </div>
+                                <div class="cc-u-ir">
+                                    <h4 class="cc-u-inhead">2016-9-28 15:26:38</h4>
+                                    <div class="cc-u-inbody">
+                                        <span>700.00 <small>元</small></span>
+                                        电话咨询，面对面咨询
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="btn-box clearfix">
+                                <a href="javascript:" class="button button-warning">去评价</a>
+                                <a href="javascript:" class="button button-dark">删除订单</a>
+                            </div>
+                        </article>
+                    </div>
+                    <div id="tab4" class="tab">
+                        <article class="cc-u-box">
+                            <div class="cc-u-item">
+                                <div class="cc-u-il">
+                                    <a href="javascript:" class="user-head-min" style="background-image: url(imgs/hd.jpg)"></a>
+                                    <p>张以上地</p>
+                                </div>
+                                <div class="cc-u-ir">
+                                    <h4 class="cc-u-inhead">2016-9-28 15:26:38</h4>
+                                    <div class="cc-u-inbody">
+                                        <span>700.00 <small>元</small></span>
+                                        电话咨询，面对面咨询
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="btn-box clearfix">
+                                <a href="javascript:" class="button button-warning">查看评价</a>
+                                <a href="javascript:" class="button button-dark">删除订单</a>
+                            </div>
+                        </article>
+                        <article class="cc-u-box">
+                            <div class="cc-u-item">
+                                <div class="cc-u-il">
+                                    <a href="javascript:" class="user-head-min" style="background-image: url(imgs/hd.jpg)"></a>
+                                    <p>张以上地</p>
+                                </div>
+                                <div class="cc-u-ir">
+                                    <h4 class="cc-u-inhead">2016-9-28 15:26:38</h4>
+                                    <div class="cc-u-inbody">
+                                        <span>700.00 <small>元</small></span>
+                                        电话咨询，面对面咨询
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="btn-box clearfix">
+                                <a href="javascript:" class="button button-warning">查看评价</a>
+                                <a href="javascript:" class="button button-dark">删除订单</a>
+                            </div>
+                        </article>
+                    </div>
+                </div>
             <!-- view end -->
             </div>
         </div>
