@@ -267,6 +267,9 @@ cc.programs = new function () {
       $(document).on('infinite', '.infinite-scroll-bottom',function() {
         vue.addAnswers();
       });
+      // 录音
+      pro.voice();
+      // 提交
       $('#sub').on('click', function () {
           if(!vue.ans){
             $.alert('答案不能为空');
