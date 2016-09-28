@@ -193,7 +193,8 @@ cc.programs = new function () {
         answers: [],
         imglist:[],
         maxlen: 6,
-        ans:''
+        ans:'',
+        voice: {}
       },
       components: [queListItem],
       methods: {
@@ -268,11 +269,15 @@ cc.programs = new function () {
         vue.addAnswers();
       });
       // 录音
-      pro.voice();
+      pro.voice(function (v) {
+        vue.voice = v;
+      },function (v) {
+        vue.voice = {};
+      });
       // 提交
       $('#sub').on('click', function () {
-          if(!vue.ans){
-            $.alert('答案不能为空');
+          if(!vue.ans || !vue.voice.localId){
+            $.alert('请使用文字或语音回答');
           }
       });
     };
