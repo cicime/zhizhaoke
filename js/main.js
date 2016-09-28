@@ -223,6 +223,7 @@ cc.programs = new function () {
             sourceType: ['album', 'camera'],
             success: function (res) {
               var localIds = res.localIds;
+              alert(localIds);
               localIds.forEach(function (ele) {
                 _this.imglist.push(ele)
                 alert(ele);
