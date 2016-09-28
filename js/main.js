@@ -302,7 +302,7 @@ cc.programs = new function () {
       touchstart: function () {
         wx.startRecord({
           cancel: function () {
-            alert('用户拒绝授权录音');
+            alert('已拒绝授权录音');
           }
         });
         ele.find('.J_paly_voice').show();

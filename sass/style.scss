@@ -286,6 +286,7 @@
   margin-bottom: 20px;
 }
 .answer-voice{
+  position: relative;
   height: 110px;
   text-align: center;
   line-height: 150px;
@@ -308,8 +309,10 @@
     }
   }
   .cc-audio{
-    margin: 0 auto;
-    margin-top: 12px;
+    position: absolute;
+    top: -39px;
+    left: 50%;
+    margin-left: -65px;
   }
   .J_del_voice{
     position: absolute;
