@@ -16,13 +16,13 @@
         <nav class="bar bar-tab cc-bar"><a class="tab-item cc-com-btn" href="#zhizhao">我来支招</a></nav>
         <div class="content infinite-scroll infinite-scroll-bottom" data-distance="120" >
             <div class="content-inner J_que_list">
-            <!-- view start -->
+                <!-- view start -->
                 <que-item :item="item" offermoney="true"></que-item>
                 <article class="cc-common-list">
                     <h4 class="cc-common-title">答案</h4>
                     <que-item class="cc-answer" v-for="ans in answers" :item="ans" com="true" transition="qlitem" stagger="160"></que-item>
                 </article>
-            <!-- view end -->
+                <!-- view end -->
             </div>
         </div>
     </section>
@@ -32,28 +32,26 @@
                 <!-- view start -->
                 <article class="common-ctl">
                     <form id="formZhizhao">
-                    <h4 class="cc-common-title">文字回答</h4>
+                        <h4 class="cc-common-title">文字回答</h4>
                         <div class="answer-text"><textarea rows="4" name="answer" placeholder="请输入您的答案(不少于20字)"></textarea></div>
-                    <h4 class="cc-common-title">语音回答</h4>
+                        <h4 class="cc-common-title">语音回答</h4>
                         <div class="answer-voice"><a href="javascript:" class="iconfont">&#xe61f;</a></div>
-                    <h4 class="cc-common-title">添加图片</h4>
+                        <h4 class="cc-common-title">添加图片</h4>
                         <div class="answer-imgs">
                             <a href="javascript:" v-for="img in imglist" class="ans-img-item" style="background-image: {{'url('+img +')'}}"></a>
-                            <label href="javascript:" class="ans-img-item J_addimg" @click="addimg($event)">
-                                <!--<input type="file" id="addimg" hidden @change="addimg($event)">-->
-                            </label>
+                            <label href="javascript:" class="ans-img-item J_addimg" @click="addimg($event)"></label>
                             <span class="answer-imgs-tag">最多添加6张</span>
                         </div>
-                    <h4 class="cc-common-title">视频地址</h4>
-                    <div class="common-com">
-                        <input type="text" class="cc-input" placeholder="视频地址 http://" name="videourl">
-                        <label class="label-checkbox com-nim">
-                            <input type="checkbox" name="nimin">
-                            <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
-                            <div class="item-media">匿名发表</div>
-                        </label>
-                        <button type="button" id="sub" class="button button-fill button-warning cc-btn">提交答案</button>
-                    </div>
+                        <h4 class="cc-common-title">视频地址</h4>
+                        <div class="common-com">
+                            <input type="text" class="cc-input" placeholder="视频地址 http://" name="videourl">
+                            <label class="label-checkbox com-nim">
+                                <input type="checkbox" name="nimin">
+                                <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+                                <div class="item-media">匿名发表</div>
+                            </label>
+                            <button type="button" id="sub" class="button button-fill button-warning cc-btn">提交答案</button>
+                        </div>
                     </form>
                 </article>
                 <!-- view end -->
