@@ -312,7 +312,7 @@ cc.programs = new function () {
             voice.localId = res.localId;
             ele.find('.J_startRecord').hide();
             ele.find('.J_paly_voice').show();
-
+            alert('sdf');
             wx.translateVoice({
               localId: voice.localId,
               isShowProgressTips: 1,
