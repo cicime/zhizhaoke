@@ -221,11 +221,19 @@ cc.programs = new function () {
             sourceType: ['album', 'camera'],
             success: function (res) {
               var localIds = res.localIds;
+              localIds.forEach(function (ele) {
+                this.imglist.push(ele)
+              });
             }
           });
+
         }
       }
     });
+
+    self.addImage = function () {
+
+    };
 
     self.fetchData = function (url, callback) {
       loadin = false;
