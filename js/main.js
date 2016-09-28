@@ -328,15 +328,42 @@ cc.programs = new function () {
       function canuseFoo() {
         canuse--;
         if(canuse == 0){
-          self._resolveData();
+          self._resolveData(function () {
+            // 提交完成
+            $.alert('提交成功');
+          });
         }
       }
 
       canuseFoo();
     };
 
-    self._resolveData = function () {
-      alert('===');
+    self._resolveData = function (callback) {
+      $.ajax({
+        url: io.questionDetail.submit,
+        type: 'get',
+        data: {
+          info: io.userInfo,
+          answer: vue.ans,
+          voice: vue.voice.serverId,
+          images: vue.imgsever,
+          video: vue.videoUrl,
+          nimin: vue.nimin
+        },
+        dataType: 'json',
+        beforeSend: function () {
+          $.showIndicator();
+          $.refreshScroller();
+        },
+        success: function (data) {
+          $.hideIndicator();
+          data.resultCode <= 1000 ? callback(data) : $.alert(data.message);
+        },
+        error: function () {
+          $.hideIndicator();
+          $.alert('请求超时');
+        }
+      });
     };
 
     self.init = function () {
