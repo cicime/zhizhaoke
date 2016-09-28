@@ -324,7 +324,6 @@ cc.programs = new function () {
           }
         });
       }
-
       function canuseFoo() {
         canuse--;
         if(canuse == 0){
@@ -334,7 +333,6 @@ cc.programs = new function () {
           });
         }
       }
-
       canuseFoo();
     };
 
@@ -397,6 +395,7 @@ cc.programs = new function () {
           }
         });
         ele.find('.J_paly_voice').show();
+        ele.addClass('play');
         time = setInterval(function () {
           voice.len++;
           $('.J_time').html(voice.len+'s');
@@ -406,7 +405,7 @@ cc.programs = new function () {
         wx.stopRecord({
           success: function (res) {
             voice.localId = res.localId;
-            ele.addClass('min');
+            ele.removeClass('play').addClass('min');
             clearInterval(time);
             add(voice);
           },

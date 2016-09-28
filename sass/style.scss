@@ -298,8 +298,22 @@
       display: none;
     }
   }
-
+  &.play{
+    &:before{
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #eee;
+      transform: scale(1);
+      animation: wbefor 1s ease-in-out infinite;
+    }
+  }
   a {
+    position: relative;
     font-size: 36px;
     width: 70px;
     height: 70px;
@@ -309,6 +323,7 @@
     text-align: center;
     line-height: 68px;
     color: #ff8116;
+    z-index: 30;
     &:active{
       background: #ff8116;
       color: #ffffff;
@@ -323,7 +338,7 @@
   }
   .J_del_voice{
     position: absolute;
-    left: 108%;
+    left: 114%;
     color: #bbb;
     font-size: 20px;
   }
@@ -344,6 +359,7 @@
   @extend %border-bottom;
   padding: 10px;
   font-size: 0;
+  user-select: none;
 }
 .ans-img-item{
   position: relative;
@@ -887,6 +903,10 @@
   60%{ transform: scale(.8,1)}
   70%{ transform: scale(1,1)}
   100%{ transform: scale(.1,1)}
+}
+@keyframes wbefor {
+  0%{ transform: scale(.01,1)}
+  100%{ transform: scale(1,1)}
 }
 
 .fz-m{
