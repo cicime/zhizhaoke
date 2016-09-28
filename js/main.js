@@ -191,7 +191,8 @@ cc.programs = new function () {
         page: 0,
         item: {},
         answers: [],
-        imglist:[]
+        imglist:[],
+        maxlen: 6
       },
       components: [queListItem],
       methods: {
@@ -217,16 +218,15 @@ cc.programs = new function () {
           // if (this.imglist.length >= 6) $('.J_addimg').hide();
 
           var _this = this;
+          var len = maxlen - _this.imglist.length
           wx.chooseImage({
-            count: 1, // 默认9
+            count: len, // 默认9
             sizeType: ['original', 'compressed'],
             sourceType: ['album', 'camera'],
             success: function (res) {
               var localIds = res.localIds;
-              alert(localIds);
               localIds.forEach(function (ele) {
                 _this.imglist.push(ele)
-                alert(ele);
               });
             }
           });
