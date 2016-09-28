@@ -311,6 +311,7 @@ cc.programs = new function () {
             if (i < vue.imglist.length) {
               uploadImg();
             }else{
+
             }
           },
           fail: function (res) {
