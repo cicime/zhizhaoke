@@ -292,7 +292,6 @@ cc.programs = new function () {
           isShowProgressTips: 1, // 默认为1，显示进度提示
           success: function (res) {
             vue.voice.serverId = res.serverId;
-            $.alert('录音上传完毕'+vue.voice.serverId);
           }
         });
       }
@@ -312,7 +311,6 @@ cc.programs = new function () {
             if (i < vue.imglist.length) {
               uploadImg();
             }else{
-              $.alert('图片上传完毕'+vue.imgsever);
             }
           },
           fail: function (res) {
@@ -321,6 +319,7 @@ cc.programs = new function () {
         });
       }
 
+      alert('ol');
     };
 
     self.init = function () {
