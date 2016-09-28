@@ -276,7 +276,7 @@ cc.programs = new function () {
       });
       // 提交
       $('#sub').on('click', function () {
-          if(!vue.ans || !vue.voice.localId){
+          if(!vue.ans && !vue.voice.localId){
             $.alert('请使用文字或语音回答');
           }
       });
