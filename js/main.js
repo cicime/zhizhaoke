@@ -317,9 +317,8 @@ cc.programs = new function () {
         wx.stopRecord({
           success: function (res) {
             voice.localId = res.localId;
-            // ele.find('.J_startRecord').hide();
             ele.addClass('min');
-            time.clearInterval();
+            clearInterval(time);
           },
           fail: function (res) {
             alert(JSON.stringify(res));
@@ -346,7 +345,6 @@ cc.programs = new function () {
       wx.stopVoice({
         localId: voice.localId
       });
-      // ele.find('.J_startRecord').css('display','inline-block');
       ele.removeClass('min');
       ele.find('.J_paly_voice').hide().removeClass('cc-audio-bg');
     });
