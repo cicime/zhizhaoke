@@ -327,7 +327,7 @@ cc.programs = new function () {
         return;
       }
       wx.playVoice({
-        localId: voice.localId
+        localId: voice.localId,
       });
     })
   };
