@@ -192,7 +192,8 @@ cc.programs = new function () {
         item: {},
         answers: [],
         imglist:[],
-        maxlen: 6
+        maxlen: 6,
+        ans:''
       },
       components: [queListItem],
       methods: {
@@ -234,10 +235,6 @@ cc.programs = new function () {
       }
     });
 
-    self.addImage = function () {
-
-    };
-
     self.fetchData = function (url, callback) {
       loadin = false;
       $.ajax({
@@ -270,7 +267,11 @@ cc.programs = new function () {
       $(document).on('infinite', '.infinite-scroll-bottom',function() {
         vue.addAnswers();
       });
-
+      $('#sub').on('click', function () {
+          if(!vue.ans){
+            $.alert('答案不能为空');
+          }
+      });
     };
 
     self.init = function () {
