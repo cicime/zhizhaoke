@@ -300,12 +300,12 @@ cc.programs = new function () {
 
     var events = {
       touchstart: function () {
-        ele.find('.J_paly_voice').show();
         wx.startRecord({
           cancel: function () {
             alert('用户拒绝授权录音');
           }
         });
+        ele.find('.J_paly_voice').show();
       },
       touchend: function () {
         wx.stopRecord({
