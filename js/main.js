@@ -323,14 +323,16 @@ cc.programs = new function () {
     ele.find('a').on(events);
 
     $(document).on('click','.J_paly_voice', function () {
-      if (voice.localId == '') {
-        $.alert('请先使用 startRecord 接口录制一段声音');
-        return;
-      }
       wx.playVoice({
         localId: voice.localId,
       });
-    })
+    });
+    $(document).on('click','.J_del_voice', function (e) {
+      e.stopPropagation();
+      e.preventDefault();
+      ele.find('.J_startRecord').show();
+      ele.find('.J_paly_voice').hide();
+    });
   };
 
 
