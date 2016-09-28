@@ -347,6 +347,7 @@ cc.programs = new function () {
       });
       voice.len = 0;
       ele.removeClass('min');
+      $('.J_time').html('0s');
       ele.find('.J_paly_voice').hide().removeClass('cc-audio-bg');
     });
   };
