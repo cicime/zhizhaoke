@@ -20,11 +20,11 @@ io.questionList = {
 };
 io.questionDetail = {
   // 问题详情页
-  content: '../data/question_detail.json',
+  content: './data/question_detail.json',
   // 加载更多的答案
-  answers: '../data/question_detail.json',
+  answers: './data/question_detail.json',
   // 提交答案
-  submit: '../data/question_detail.json'
+  submit: './data/question_detail.json'
 };
 io.question = {
   // 问题 - 点赞 收藏 举报 - 返回状态码
