@@ -292,6 +292,7 @@ cc.programs = new function () {
    * ====================================================================
    */
   pro.voice = function (callback) {
+    var ele = $('.answer-voice');
     var voice = {
       localId: '',
       serverId: ''
@@ -309,7 +310,7 @@ cc.programs = new function () {
         wx.stopRecord({
           success: function (res) {
             voice.localId = res.localId;
-            alert('sdfs');
+            ele.html('<div class="cc-audio J_paly_voice"><span>35s</span> <i class="iconfont">&#xe602;</i></div>');
           },
           fail: function (res) {
             alert(JSON.stringify(res));
@@ -317,7 +318,18 @@ cc.programs = new function () {
         });
       }
     };
-    $('.answer-voice a').on(events);
+
+    ele.find('a').on(events);
+
+    $(document).on('click','.J_paly_voice', function () {
+      if (voice.localId == '') {
+        $.alert('请先使用 startRecord 接口录制一段声音');
+        return;
+      }
+      wx.playVoice({
+        localId: voice.localId
+      });
+    })
   };
 
 
