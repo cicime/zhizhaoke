@@ -329,7 +329,7 @@ cc.programs = new function () {
       });
     });
     $(document).on('click','.J_del_voice', function (e) {
-      wx.pauseVoice({
+      wx.stopVoice({
         localId: voice.localId
       });
       ele.find('.J_startRecord').css('display','inline-block');
