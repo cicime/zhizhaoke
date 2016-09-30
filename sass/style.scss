@@ -295,9 +295,6 @@
   line-height: 150px;
   user-select: none;
   -webkit-user-select: none;
-  &.max{
-    height: 146px;
-  }
   &.min{
     height: 1px;
     > a {
@@ -893,6 +890,20 @@
   text-align: right;
   color: #888;
   margin-right: 5px;
+}
+
+// 我的问题详情
+.asked-box{
+  background: #fff;
+  .modal-inner:after{
+    height: 0;
+  }
+  .cc-common-title:first-child:before{
+    height: 1px;
+  }
+  .answer-voice{
+    margin-bottom: 40px;
+  }
 }
 
 

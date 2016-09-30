@@ -1080,7 +1080,7 @@ cc.programs = new function () {
         tapAsked: function () {
           $.modal({
             title: '追问 <i class="iconfont close-modal">&#xe61b;</i>',
-            extraClass: 'cc-modal',
+            extraClass: 'cc-modal asked-box',
             text: pro.model.tapAsked_m,
             buttons: [{
               text: '确认',
@@ -1229,8 +1229,8 @@ cc.programs = new function () {
 
   // 追问 弹窗
   pro.model.tapAsked_m = '<h4 class="cc-common-title">输入提问的内容</h4>' +
-    '<div class="answer-text"><textarea rows="5" name="answer" placeholder="详细描述您的问题(不少于20字)"></textarea></div> <span></span>' +
-    '<h4 class="cc-common-title">语音回答</h4><div class="answer-voice max"><div class="cc-audio J_paly_voice" hidden>' +
+    '<div class="answer-text"><textarea rows="5" name="answer" placeholder="详细描述您的问题(不少于20字)"></textarea></div><span></span>' +
+    '<h4 class="cc-common-title">语音回答</h4><div class="answer-voice"><div class="cc-audio J_paly_voice" hidden>' +
     '<span class="J_time">0s</span><i class="iconfont">&#xe603;</i><span class="iconfont J_del_voice">&#xe609;</span></div>' +
     '<a href="javascript:" class="iconfont J_startRecord">&#xe61f;</a></div>';
 };
