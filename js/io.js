@@ -73,15 +73,15 @@ io.userQuestionDetail = {
 
 /* ----------------------- 微信 remove start ----------------------------------*/
 
-// $.ajax({
-//   url: 'http://cloud.bmob.cn/bfc3efa954f1495f/signature',
-//   data: {url: location.href},
-//   dataType: 'jsonp',
-//   jsonp: 'callback',
-//   success: function (result) {
-//     init(result)
-//   }
-// });
+$.ajax({
+  url: 'http://cloud.bmob.cn/bfc3efa954f1495f/signature',
+  data: {url: location.href},
+  dataType: 'jsonp',
+  jsonp: 'callback',
+  success: function (result) {
+    init(result)
+  }
+});
 
 function init(req) {
   wx.config({
