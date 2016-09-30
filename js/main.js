@@ -390,7 +390,7 @@ cc.programs = new function () {
    * ====================================================================
    */
   pro.voice = function (add, remove) {
-    var ele = $('.answer-voice');
+    var ele;
     var voice = {
       localId: '',
       serverId: '',
@@ -404,6 +404,7 @@ cc.programs = new function () {
             alert('已拒绝授权录音');
           }
         });
+        ele = $('.answer-voice');
         ele.find('.J_paly_voice').show();
         ele.addClass('play');
         time = setInterval(function () {
@@ -1139,17 +1140,17 @@ cc.programs = new function () {
             extraClass: 'cc-modal',
             text: pro.model.chooser_m,
             buttons: [{
-                text: '确认',
-                onClick: function() {
-                  var check = $('.J_zixun .item-content').find('input:checked');
-                  var val = check.val();
-                  var txt = check.siblings('.item-inner').text();
-                  if(val){
-                    thischeck.val(val).prop('checked', true);
-                    _this.find('.cho-text').html(txt);
-                  }
+              text: '确认',
+              onClick: function() {
+                var check = $('.J_zixun .item-content').find('input:checked');
+                var val = check.val();
+                var txt = check.siblings('.item-inner').text();
+                if(val){
+                  thischeck.val(val).prop('checked', true);
+                  _this.find('.cho-text').html(txt);
                 }
-              }]
+              }
+            }]
           });
           $(document).on('click','.modal-overlay, .close-modal',function () {
             $.closeModal();
@@ -1169,30 +1170,30 @@ cc.programs = new function () {
   // 列表
   pro.model.que_item_m =
     '<article class="cc-card" :class="{\'zjda\': item.zjda}">' +
-      '<div class="cc-card-hd">' +
-        '<span v-if="!item.isSecret"><i class="user-head-min" v-if="item.headimgurl" style="{{\'background-image: url(\'+item.headimgurl+\')\'}}"></i> {{item.userName ? item.userName : item.nickname}}</span>' +
-        '<span v-else><i class="user-head-min"></i> 匿名</span><span v-if="collect" @click.stop.prevent="removecollect(item.id)" class="iconfont cc-card-delet">&#xe60c;</span>' +
-        '<time v-if="!com && !offermoney">{{item.createTimeString}}</time>' +
-        '<span v-if="offermoney" class="cc-card-row"><i class="iconfont">&#xe613;</i> {{item.offerMoney.toFixed(2)}}</span>' +
-        '<span v-if="com && !zjda" class="cc-card-row min" @click="bestAns()">设为最佳答案</span></div>' +
-      '<div class="cc-card-con" v-if="!item.lock">' +
-          '<p v-if="item.contentText">{{item.contentText}}</p><a href="javascript:" class="cc-asked" v-if="asked" @click="tapAsked()">追问</a>' +
-        '<div class="cc-audio" v-if="item.attachment.accessurl" @click.stop.prevent="playAudio(item.attachment.accessurl, $event)">' +
-          '<span>{{item.attachment.accesslen}}s</span> <i class="iconfont">&#xe603;</i></div>' +
-        '<div class="cc-card-imglist" v-if="item.aList.length > 0">' +
-          '<a class="imglist-i" v-for="img in item.aList" @click.stop.prevent="photoBrowser($index)" style="{{\'background-image: url(\'+img.filenamestring+\')\'}}" href="javascript:"></a>' +
-        '</div>' +
-          '<a class="cc-card-stu" href="javascript:" v-if="item.typeId"><i class="iconfont">&#xe619;</i> {{item.typeId}}</a>' +
-      '</div><div v-else class="cc-lockin" @click="lockon()">' +
-          '<span class="iconfont">&#xe623;</span>' +
-      '</div>' +
-      '<div class="cc-card-footer">' +
-        '<a href="javascript:" @click.stop.prevent="collectCount($event)" v-if="!com"><i class="iconfont">&#xe600;</i> {{item.collectCount}}</a>' +
-        '<a href="javascript:" @click.stop.prevent="praiseCount($event)"><i class="iconfont">&#xe621;</i> {{item.praiseCount}}</a>' +
-        '<a href="javascript:" v-if="!com"><i class="iconfont">&#xe602;</i> {{item.replyCount}}</a>' +
-        '<a href="javascript:"><i class="iconfont">&#xe606;</i> {{item.eavesdropCount}}</a>' +
-        '<a href="javascript:" @click.stop.prevent="reportCount($event)">举报 {{item.reportCount}}</a>' +
-      '</div>' +
+    '<div class="cc-card-hd">' +
+    '<span v-if="!item.isSecret"><i class="user-head-min" v-if="item.headimgurl" style="{{\'background-image: url(\'+item.headimgurl+\')\'}}"></i> {{item.userName ? item.userName : item.nickname}}</span>' +
+    '<span v-else><i class="user-head-min"></i> 匿名</span><span v-if="collect" @click.stop.prevent="removecollect(item.id)" class="iconfont cc-card-delet">&#xe60c;</span>' +
+    '<time v-if="!com && !offermoney">{{item.createTimeString}}</time>' +
+    '<span v-if="offermoney" class="cc-card-row"><i class="iconfont">&#xe613;</i> {{item.offerMoney.toFixed(2)}}</span>' +
+    '<span v-if="com && !zjda" class="cc-card-row min" @click="bestAns()">设为最佳答案</span></div>' +
+    '<div class="cc-card-con" v-if="!item.lock">' +
+    '<p v-if="item.contentText">{{item.contentText}}</p><a href="javascript:" class="cc-asked" v-if="asked" @click="tapAsked()">追问</a>' +
+    '<div class="cc-audio" v-if="item.attachment.accessurl" @click.stop.prevent="playAudio(item.attachment.accessurl, $event)">' +
+    '<span>{{item.attachment.accesslen}}s</span> <i class="iconfont">&#xe603;</i></div>' +
+    '<div class="cc-card-imglist" v-if="item.aList.length > 0">' +
+    '<a class="imglist-i" v-for="img in item.aList" @click.stop.prevent="photoBrowser($index)" style="{{\'background-image: url(\'+img.filenamestring+\')\'}}" href="javascript:"></a>' +
+    '</div>' +
+    '<a class="cc-card-stu" href="javascript:" v-if="item.typeId"><i class="iconfont">&#xe619;</i> {{item.typeId}}</a>' +
+    '</div><div v-else class="cc-lockin" @click="lockon()">' +
+    '<span class="iconfont">&#xe623;</span>' +
+    '</div>' +
+    '<div class="cc-card-footer">' +
+    '<a href="javascript:" @click.stop.prevent="collectCount($event)" v-if="!com"><i class="iconfont">&#xe600;</i> {{item.collectCount}}</a>' +
+    '<a href="javascript:" @click.stop.prevent="praiseCount($event)"><i class="iconfont">&#xe621;</i> {{item.praiseCount}}</a>' +
+    '<a href="javascript:" v-if="!com"><i class="iconfont">&#xe602;</i> {{item.replyCount}}</a>' +
+    '<a href="javascript:"><i class="iconfont">&#xe606;</i> {{item.eavesdropCount}}</a>' +
+    '<a href="javascript:" @click.stop.prevent="reportCount($event)">举报 {{item.reportCount}}</a>' +
+    '</div>' +
     '</article>';
 
   // 举报弹窗
@@ -1208,14 +1209,14 @@ cc.programs = new function () {
   // 时间选择器
   pro.model.chooserDate_m =
     '<div class="chooser-date">' +
-      '<div class="cho-hd">' +
-        '<input type="text" class="cho-date" v-model="date" readonly @change="dateChange(date)">' +
-        '<a href="javascript:" class="prev iconfont" @click="prevDate()">&#xe611;</a>' +
-        '<a href="javascript:" class="next iconfont" @click="nextDate()">&#xe610;</a>' +
-      '</div><div class="cho-con row">' +
+    '<div class="cho-hd">' +
+    '<input type="text" class="cho-date" v-model="date" readonly @change="dateChange(date)">' +
+    '<a href="javascript:" class="prev iconfont" @click="prevDate()">&#xe611;</a>' +
+    '<a href="javascript:" class="next iconfont" @click="nextDate()">&#xe610;</a>' +
+    '</div><div class="cho-con row">' +
     '<label class="cho-item col-33" v-for="t in times" @click.stop.prevent="reser($event, t.usable)">' +
-      '<input type="checkbox" :disabled="!t.usable" name="times[{{date}}][{{$key}}]" :checked="t.check" :value="t.value">' +
-      '<span class="cho-chekbox">{{$key}}</span><span class="cho-text" v-html="t.txt"></span>' +
+    '<input type="checkbox" :disabled="!t.usable" name="times[{{date}}][{{$key}}]" :checked="t.check" :value="t.value">' +
+    '<span class="cho-chekbox">{{$key}}</span><span class="cho-text" v-html="t.txt"></span>' +
     '</label></div></div>';
 
   // 咨询弹窗
@@ -1228,7 +1229,7 @@ cc.programs = new function () {
 
   // 追问 弹窗
   pro.model.tapAsked_m = '<h4 class="cc-common-title">输入提问的内容</h4>' +
-    '<div class="answer-text"><textarea rows="5" name="answer" placeholder="详细描述您的问题(不少于20字)"></textarea></div>' +
+    '<div class="answer-text"><textarea rows="5" name="answer" placeholder="详细描述您的问题(不少于20字)"></textarea></div> <span></span>' +
     '<h4 class="cc-common-title">语音回答</h4><div class="answer-voice max"><div class="cc-audio J_paly_voice" hidden>' +
     '<span class="J_time">0s</span><i class="iconfont">&#xe603;</i><span class="iconfont J_del_voice">&#xe609;</span></div>' +
     '<a href="javascript:" class="iconfont J_startRecord">&#xe61f;</a></div>';
