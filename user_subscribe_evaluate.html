@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>预约评价</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="email=no">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body onload="cc.programs.userSubscribe().start()">
+<main class="page-group">
+    <section class="page page-current" id="evaluate">
+        <nav class="bar bar-tab cc-bar"><a class="tab-item cc-com-btn" href="javascript:" id="sub">发表评价</a></nav>
+        <div class="content">
+            <div class="content-inner J_que_list">
+            <!-- view start -->
+                <div class="cc-u-item m-b">
+                    <div class="cc-u-il">
+                        <a href="javascript:" class="user-head-min" style="background-image: url(imgs/hd.jpg)"></a>
+                        <p>张以上地</p>
+                    </div>
+                    <div class="cc-u-ir">
+                        <h4 class="cc-u-inhead">2016-9-28 15:26:38</h4>
+                        <div class="cc-u-inbody">
+                            <span>700.00 <small>元</small></span>
+                            电话咨询，面对面咨询
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cc-eva">
+                    <h4 class="cc-common-title">点评</h4>
+                    <div class="start-box" data-size="0" id="start">
+                        <i class="icon-favor iconfont" data-no="1"></i>
+                        <i class="icon-favor iconfont" data-no="2"></i>
+                        <i class="icon-favor iconfont" data-no="3"></i>
+                        <i class="icon-favor iconfont" data-no="4"></i>
+                        <i class="icon-favor iconfont" data-no="5"></i>
+                    </div>
+                    <h4 class="cc-common-title">评价描述</h4>
+                    <div class="answer-text"><textarea rows="6" placeholder="清输入评价描述" name="ans" id="ans"></textarea></div>
+                </div>
+
+            <!-- view end -->
+            </div>
+        </div>
+    </section>
+</main>
+<script src="lib/vue.min.js"></script>
+<script src="lib/vue-animated-list.js"></script>
+<script src="lib/zepto.min.js"></script>
+<script src="lib/sm.min.js"></script>
+<script src="lib/sm-extend.min.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="js/io.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

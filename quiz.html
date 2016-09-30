@@ -18,57 +18,58 @@
             <!-- view start -->
                 <article class="common-ctl">
                     <form id="formZhizhao">
-                    <h4 class="cc-common-title">文字回答</h4>
-                    <div class="answer-text"><textarea rows="4" name="answer" placeholder="请输入您的答案(不少于20字)"></textarea></div>
-                    <h4 class="cc-common-title">语音回答</h4>
-                    <div class="answer-voice"><a href="javascript:" class="iconfont">&#xe61f;</a></div>
+                    <h4 class="cc-common-title">请输入提问内容</h4>
+                        <div class="answer-text"><textarea rows="4" name="answer" placeholder="请描述您的问题(不少于20字)" v-model="ans"></textarea></div>
+                    <h4 class="cc-common-title">语音输入</h4>
+                        <div class="answer-voice">
+                            <div class="cc-audio J_paly_voice" hidden><span class="J_time">0s</span> <i class="iconfont">&#xe603;</i> <i class="iconfont J_del_voice">&#xe609;</i></div>
+                            <a href="javascript:" class="iconfont J_startRecord">&#xe61f;</a>
+                        </div>
                     <h4 class="cc-common-title">添加图片</h4>
-                    <div class="answer-imgs">
-                        <a href="javascript:" v-for="img in imglist" class="ans-img-item" style="background-image: {{'url('+img +')'}}"></a>
-                        <label href="javascript:" class="ans-img-item J_addimg">
-                            <input type="file" id="addimg" hidden @change="addimg($event)">
-                        </label>
-                        <span class="answer-imgs-tag">最多添加6张</span>
-                    </div>
+                        <div class="answer-imgs">
+                            <a href="javascript:" v-for="img in imglist" class="ans-img-item" style="background-image: {{'url('+ img +')'}}"></a>
+                            <label href="javascript:" class="ans-img-item J_addimg" @click="addimg($event)"></label>
+                            <span class="answer-imgs-tag">最多添加6张</span>
+                        </div>
                     <div class="tag-list">
                         <div class="tag-list-l">
                             <label class="label-checkbox com-nim tag-item">
-                                <input type="checkbox" name="tag">
+                                <input type="checkbox" name="tag" value="sud1" v-model="tag">
                                 <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
                                 <div class="item-media"> 学习</div>
                             </label>
                             <label class="label-checkbox com-nim tag-item">
-                                <input type="checkbox" name="tag">
+                                <input type="checkbox" name="tag" value="sud2" v-model="tag">
                                 <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
                                 <div class="item-media"> 体育</div>
                             </label>
                             <label class="label-checkbox com-nim tag-item">
-                                <input type="checkbox" name="tag">
+                                <input type="checkbox" name="tag" value="sud3" v-model="tag">
                                 <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
                                 <div class="item-media"> 思想指导</div>
                             </label>
                             <label class="label-checkbox com-nim tag-item">
-                                <input type="checkbox" name="tag">
+                                <input type="checkbox" name="tag" value="sud4" v-model="tag">
                                 <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
                                 <div class="item-media"> 体育</div>
                             </label>
                             <label class="label-checkbox com-nim tag-item">
-                                <input type="checkbox" name="tag">
+                                <input type="checkbox" name="tag" value="sud5" v-model="tag">
                                 <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
                                 <div class="item-media"> 思想指导</div>
                             </label>
                             <label class="label-checkbox com-nim tag-item">
-                                <input type="checkbox" name="tag">
+                                <input type="checkbox" name="tag" value="sud6" v-model="tag">
                                 <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
                                 <div class="item-media"> 心理指导</div>
                             </label>
                             <label class="label-checkbox com-nim tag-item">
-                                <input type="checkbox" name="tag">
+                                <input type="checkbox" name="tag" value="sud7" v-model="tag">
                                 <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
                                 <div class="item-media"> 思想指导</div>
                             </label>
                             <label class="label-checkbox com-nim tag-item">
-                                <input type="checkbox" name="tag">
+                                <input type="checkbox" name="tag" value="sud8" v-model="tag">
                                 <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
                                 <div class="item-media"> 心理指导</div>
                             </label>
@@ -79,9 +80,9 @@
                     </div>
                     <div class="common-com">
                         <label class="label-checkbox com-nim">
-                            <input type="checkbox" name="nimin">
+                            <input type="checkbox" name="nimin" v-model="nimin">
                             <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
-                            <div class="item-media"> 匿名发表</div>
+                            <div class="item-media">匿名发表</div>
                         </label>
                         <button type="button" id="sub" class="button button-fill button-warning cc-btn">提交答案</button>
                     </div>

@@ -10,7 +10,7 @@
     <meta name="format-detection" content="email=no">
     <link href="css/style.css" rel="stylesheet">
 </head>
-<body onload="cc.programs.userSubscribe()">
+<body onload="cc.programs.userSubscribe().init()">
 <main class="page-group">
     <section class="page page-current">
         <div class="content">
@@ -28,7 +28,7 @@
                 </div>
                 <div class="tabs">
                     <div id="tab1" class="tab">
-                        <article class="cc-u-box">
+                        <article class="cc-u-box J_box" data-id="订单id...">
                             <div class="cc-u-item">
                                 <div class="cc-u-il">
                                     <a href="javascript:" class="user-head-min" style="background-image: url(imgs/hd.jpg)"></a>
@@ -47,7 +47,7 @@
                                 <a href="javascript:" class="button button-dark J_del">删除订单</a>
                             </div>
                         </article>
-                        <article class="cc-u-box">
+                        <article class="cc-u-box J_box" data-id="订单id2...">
                             <div class="cc-u-item">
                                 <div class="cc-u-il">
                                     <a href="javascript:" class="user-head-min" style="background-image: url(imgs/hd.jpg)"></a>
@@ -96,7 +96,7 @@
                         </div>
                     </div>
                     <div id="tab3" class="tab">
-                        <article class="cc-u-box">
+                        <article class="cc-u-box J_box" data-id="订单id5...">
                             <div class="cc-u-item">
                                 <div class="cc-u-il">
                                     <a href="javascript:" class="user-head-min" style="background-image: url(imgs/hd.jpg)"></a>
@@ -111,11 +111,11 @@
                                 </div>
                             </div>
                             <div class="btn-box clearfix">
-                                <a href="javascript:" class="button button-warning">去评价</a>
-                                <a href="javascript:" class="button button-dark">删除订单</a>
+                                <a href="user_subscribe_evaluate.html" class="button button-warning external">去评价</a>
+                                <a href="javascript:" class="button button-dark J_del">删除订单</a>
                             </div>
                         </article>
-                        <article class="cc-u-box">
+                        <article class="cc-u-box J_box" data-id="订单id3...">
                             <div class="cc-u-item">
                                 <div class="cc-u-il">
                                     <a href="javascript:" class="user-head-min" style="background-image: url(imgs/hd.jpg)"></a>
@@ -130,13 +130,13 @@
                                 </div>
                             </div>
                             <div class="btn-box clearfix">
-                                <a href="javascript:" class="button button-warning">去评价</a>
-                                <a href="javascript:" class="button button-dark">删除订单</a>
+                                <a href="user_subscribe_evaluate.html" class="button button-warning external">去评价</a>
+                                <a href="javascript:" class="button button-dark J_del">删除订单</a>
                             </div>
                         </article>
                     </div>
                     <div id="tab4" class="tab">
-                        <article class="cc-u-box">
+                        <article class="cc-u-box J_box" data-id="订单id3...">
                             <div class="cc-u-item">
                                 <div class="cc-u-il">
                                     <a href="javascript:" class="user-head-min" style="background-image: url(imgs/hd.jpg)"></a>
@@ -151,11 +151,11 @@
                                 </div>
                             </div>
                             <div class="btn-box clearfix">
-                                <a href="javascript:" class="button button-warning">查看评价</a>
-                                <a href="javascript:" class="button button-dark">删除订单</a>
+                                <a href="user_subscribe_evaluate.html" class="button button-warning external">查看评价</a>
+                                <a href="javascript:" class="button button-dark J_del">删除订单</a>
                             </div>
                         </article>
-                        <article class="cc-u-box">
+                        <article class="cc-u-box J_box" data-id="订单id3...">
                             <div class="cc-u-item">
                                 <div class="cc-u-il">
                                     <a href="javascript:" class="user-head-min" style="background-image: url(imgs/hd.jpg)"></a>
@@ -170,8 +170,8 @@
                                 </div>
                             </div>
                             <div class="btn-box clearfix">
-                                <a href="javascript:" class="button button-warning">查看评价</a>
-                                <a href="javascript:" class="button button-dark">删除订单</a>
+                                <a href="user_subscribe_evaluate.html" class="button button-warning external">查看评价</a>
+                                <a href="javascript:" class="button button-dark J_del">删除订单</a>
                             </div>
                         </article>
                     </div>
@@ -181,12 +181,13 @@
         </div>
     </section>
 </main>
-<script src="js/io.js"></script>
 <script src="lib/vue.min.js"></script>
 <script src="lib/vue-animated-list.js"></script>
 <script src="lib/zepto.min.js"></script>
 <script src="lib/sm.min.js"></script>
 <script src="lib/sm-extend.min.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="js/io.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>

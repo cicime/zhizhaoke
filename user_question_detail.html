@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>我的问题详情</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="email=no">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body onload="cc.programs.userQuestionDetail()">
+<main class="page-group">
+    <section class="page page-current" id="questionDetail">
+        <div class="content">
+            <div class="content-inner J_que_list">
+            <!-- view start -->
+                <que-item :item="item" offermoney="true" asked="true"></que-item>
+                <article class="cc-common-list">
+                    <h4 class="cc-common-title">答案</h4>
+                    <que-item class="cc-answer" v-for="ans in answers" :item="ans" :zjda="item.zjda" com="true" transition="qlitem" stagger="160"></que-item>
+                </article>
+            <!-- view end -->
+            </div>
+        </div>
+    </section>
+</main>
+<script src="js/io.js"></script>
+<script src="lib/vue.min.js"></script>
+<script src="lib/vue-animated-list.js"></script>
+<script src="lib/zepto.min.js"></script>
+<script src="lib/sm.min.js"></script>
+<script src="lib/sm-extend.min.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

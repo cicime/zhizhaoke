@@ -184,6 +184,8 @@ cc.programs = new function () {
     var self = {};
     var queListItem = pro.que_item();
     var loadin = true;
+    // 主数据
+    self.urlContent = io.questionDetail.content;
 
     var vue = new Vue({
       el: 'body',
@@ -203,7 +205,7 @@ cc.programs = new function () {
       methods: {
         addProblem: function () {
           var _this = this;
-          self.fetchData(io.questionDetail.content, function (data) {
+          self.fetchData(self.urlContent, function (data) {
             _this.item = data.problem;
             _this.answers = data.answers;
           });
@@ -216,7 +218,7 @@ cc.programs = new function () {
             data.answers.forEach(function (ele) { _this.answers.push(ele) });
           });
         },
-        addimg: function (e) {
+        addimg: function () {
           // todo 图片上传接口
           var _this = this;
           var len = _this.maxlen - _this.imglist.length;
@@ -236,6 +238,7 @@ cc.programs = new function () {
         }
       }
     });
+    self.vue = vue;
 
     self.fetchData = function (url, callback) {
       loadin = false;
@@ -280,8 +283,12 @@ cc.programs = new function () {
 
     // 提交验证
     self.submit = function () {
-      if(!vue.ans && !vue.voice.localId){
+      if(!$.trim(vue.ans) && !vue.voice.localId){
         $.alert('请使用文字或语音回答');
+        return;
+      }
+      if($.trim(vue.ans) && vue.ans.length < 20){
+        $.alert('文字长度不能少于20字');
         return;
       }
       $(this).prop('disabled', true);
@@ -324,6 +331,7 @@ cc.programs = new function () {
           }
         });
       }
+
       function canuseFoo() {
         canuse--;
         if(canuse == 0){
@@ -333,6 +341,7 @@ cc.programs = new function () {
           });
         }
       }
+
       canuseFoo();
     };
 
@@ -344,6 +353,7 @@ cc.programs = new function () {
           info: io.userInfo,
           answer: vue.ans,
           voice: vue.voice.serverId,
+          voicelen: vue.voice.len,
           images: vue.imgsever,
           video: vue.videoUrl,
           nimin: vue.nimin
@@ -369,7 +379,8 @@ cc.programs = new function () {
       vue.addProblem();
     };
 
-    self.init();
+    // self.init();
+    return self;
   };
 
 
@@ -386,7 +397,6 @@ cc.programs = new function () {
       len: 0
     };
     var time;
-
     var events = {
       touchstart: function () {
         wx.startRecord({
@@ -415,8 +425,8 @@ cc.programs = new function () {
         });
       }
     };
+    $(document).on(events, '.answer-voice a');
 
-    ele.find('a').on(events);
     // 播放
     $(document).on('click','.J_paly_voice', function () {
       wx.playVoice({
@@ -445,25 +455,41 @@ cc.programs = new function () {
 
   /**
    * ====================================================================
-   * 评论回答 & 发布问题
+   * 发布问题
    * ====================================================================
    */
   pro.issue = function () {
     var self = {};
 
-    new Vue({
+    var vue = new Vue({
       el: '#formZhizhao',
       data:{
-        imglist:[]
+        imglist:[],
+        imgsever: [],
+        maxlen: 6,
+        ans:'',
+        tag: [],
+        nimin: false,
+        voice: {}
       },
       methods:{
         addimg: function (e) {
-          var file = e.target.files[0];
-          this.imglist.push(Util.createURL(file));
-          if (this.imglist.length >= 6) $('.J_addimg').hide();
-          // todo 图片上传接口 返回服务器地址
-
+          var _this = this;
+          var len = _this.maxlen - _this.imglist.length;
+          wx.chooseImage({
+            count: len, // 默认9
+            sizeType: ['original', 'compressed'],
+            sourceType: ['album', 'camera'],
+            success: function (res) {
+              var localIds = res.localIds;
+              localIds.forEach(function (ele) {
+                _this.imglist.push(ele)
+              });
+              if (_this.imglist.length >= 6) $('.J_addimg').hide();
+            }
+          });
         }
+
       }
     });
 
@@ -471,30 +497,107 @@ cc.programs = new function () {
       $('.tag-showall').on('click',function () {
         $('.tag-list').toggleClass('showall');
       });
-      $('#sub').on('click',function () {
-        self._resolveData({
-          // 上传数据
-
-        },function (data) {
-          console.log(data);
-        });
+      // 录音
+      pro.voice(function (v) {
+        vue.voice = v;
+      },function (v) {
+        vue.voice = {};
       });
+      $('#sub').on('click', self.submit);
     };
 
-    self._resolveData = function (data, callback) {
-      data.info = io.userInfo;
+    // 提交验证
+    self.submit = function () {
+      if($.trim(vue.ans)){
+        $.alert('问题描述不能为空');
+        return;
+      }
+      if(vue.ans.length < 20){
+        $.alert('文字长度不能少于20字');
+        return;
+      }
+      if(!vue.tag.length){
+        $.alert('请添加问题标签');
+        return;
+      }
+      $(this).prop('disabled', true);
+
+      // 如果有录音先上传录音
+      var canuse = 1;
+      if(vue.voice.localId){
+        canuse++;
+        wx.uploadVoice({
+          localId: vue.voice.localId,
+          isShowProgressTips: 1, // 默认为1，显示进度提示
+          success: function (res) {
+            vue.voice.serverId = res.serverId;
+            canuseFoo();
+          }
+        });
+      }
+      // 如果有图片
+      var i = 0;
+      if(vue.imglist.length){
+        canuse++;
+        uploadImg();
+      }
+
+      function uploadImg() {
+        wx.uploadImage({
+          localId: vue.imglist[i],
+          isShowProgressTips: 1,
+          success: function (res) {
+            i++;
+            vue.imgsever.push(res.serverId);
+            if (i < vue.imglist.length) {
+              uploadImg();
+            }else{
+              canuseFoo();
+            }
+          },
+          fail: function (res) {
+            alert(JSON.stringify(res));
+          }
+        });
+      }
+
+      function canuseFoo() {
+        canuse--;
+        if(canuse == 0){
+          self._resolveData(function () {
+            // 提交完成
+            $.alert('提交成功');
+          });
+        }
+      }
+
+      canuseFoo();
+    };
+
+    self._resolveData = function (callback) {
       $.ajax({
         url: io.quiz.content,
         type: 'get',
-        data: data,
+        data: {
+          info: io.userInfo,
+          answer: vue.ans,
+          voice: vue.voice.serverId,
+          voicelen: vue.voice.len,
+          images: vue.imgsever,
+          tag: vue.tag,
+          nimin: vue.nimin
+        },
         dataType: 'json',
         beforeSend: function () {
+          $.showIndicator();
           $.refreshScroller();
         },
         success: function (data) {
+          $.hideIndicator();
           data.resultCode <= 1000 ? callback(data) : $.alert(data.message);
         },
         error: function () {
+          $.hideIndicator();
           $.alert('请求超时');
         }
       });
@@ -593,7 +696,7 @@ cc.programs = new function () {
           $.alert('请选择预约时间');
           return;
         }
-        if(!vue.ans){
+        if(!$.trim(vue.ans)){
           $.alert('请填写咨询内容');
           return;
         }
@@ -628,9 +731,19 @@ cc.programs = new function () {
    */
   pro.userQuestion = function () {
     var list = pro.questionList();
-    list.url = io.questionList.content;
+    list.url = io.userQuestionList.content;
     list.data.userQuestion = true;
     list.init();
+  };
+  // 我的问题详情
+  pro.userQuestionDetail = function () {
+    var detail = pro.questionDetail();
+    detail.urlContent = io.userQuestionDetail.content;
+    // 监听用户设置最佳答案
+    detail.vue.$on('zjda',function () {
+      this.item.zjda = true;
+    });
+    detail.init();
   };
 
 
@@ -669,7 +782,7 @@ cc.programs = new function () {
     self._resolveData = function (data, callback) {
       data.info = io.userInfo;
       $.ajax({
-        url: io.quiz.content,
+        url: io.userSubscribe.content,
         type: 'get',
         data: data,
         dataType: 'json',
@@ -687,11 +800,71 @@ cc.programs = new function () {
 
     self.bindEvents = function () {
       $('.J_del').on('click',function () {
-        self._resolveData({
-
-        },function () {
-
+        var box = $(this).parents('.J_box');
+        var id = box.data('id');
+        $.confirm('确定要删除吗？', function () {
+          self._resolveData({
+            info: io.userInfo,
+            indentId: id,
+            type: 'remove'
+          },function () {
+            box.remove();
+          });
         });
+      });
+    };
+
+    self.start = function () {
+      var size = $('.start-box').data('size');
+      function resizeStart(z) {
+        $('.start-box').data('size', z);
+        for(var i = 1; i<= 5; i++){
+          var start = $('.start-box i[data-no="'+i+'"]');
+          if(i <= z){
+            start.removeClass('icon-favor').addClass('icon-biaoxingfill');
+          }else{
+            start.removeClass('icon-biaoxingfill').addClass('icon-favor');
+          }
+        }
+      }
+      resizeStart(size);
+      $(document).on('click','.start-box i',function (e) {
+        resizeStart($(e.target).data('no'));
+      });
+      $(document).on('click','#sub', self.submit);
+    };
+
+    self.submit = function () {
+      var ans = $.trim($('#ans').val());
+      var start = $('#start').data('size');
+      if(!ans){
+        $.alert('评价描述不能为空');
+        return;
+      }
+      self.sub({
+        ans: ans,
+        start: start,
+        info: io.userInfo
+      },function () {
+        $.alert('提交成功');
+      });
+    };
+
+    self.sub = function (data, callback) {
+      $.ajax({
+        url: io.userSubscribe.evaluate,
+        type: 'get',
+        data: data,
+        dataType: 'json',
+        beforeSend: function () {
+          $.refreshScroller();
+        },
+        success: function (data) {
+          data.resultCode <= 1000 ? callback(data) : $.alert(data.message);
+        },
+        error: function () {
+          $.alert('请求超时');
+        }
       });
     };
 
@@ -699,7 +872,7 @@ cc.programs = new function () {
       self.bindEvents();
     };
 
-    self.init();
+    return self;
   };
 
 
@@ -721,7 +894,17 @@ cc.programs = new function () {
           item: {}
         }
       },
-      props: ['item','ctl','com','offermoney','collect','index'],
+      /**
+       * item: 数据
+       * ctl: 下面按钮是否可用
+       * com: 评论区
+       * offermoney: 显示赏金
+       * collect: 显示可删除收藏的图标
+       * index: 数据下标
+       * asked: 是否显示追问按钮
+       * zjda: 是否拥有最佳答案
+       */
+      props: ['item','ctl','com','offermoney','collect','index','asked','zjda'],
       computed: {
         media: function () {
           var media = new Audio();
@@ -882,6 +1065,38 @@ cc.programs = new function () {
           _this.fetchData(io.user.userRmoveCollect, {type:'removecollect'}, function () {
             _this.$dispatch('removecollect',_this.index);
           });
+        },
+        // 设置最佳答案
+        bestAns: function () {
+          var _this = this;
+          $.confirm('<p class="fz-m">确定设为最佳答案吗？</p>', '<i class="logo-ico"></i>', function () {
+            _this.item.zjda = true;
+            _this.$dispatch('zjda');
+            _this.fetchData(io.userQuestionDetail.zjda,{ type:'zjda', ctr: 1 },function () { });
+          });
+        },
+        // 追问
+        tapAsked: function () {
+          $.modal({
+            title: '追问 <i class="iconfont close-modal">&#xe61b;</i>',
+            extraClass: 'cc-modal',
+            text: pro.model.tapAsked_m,
+            buttons: [{
+              text: '确认',
+              onClick: function() {
+                var check = $('.J_zixun .item-content').find('input:checked');
+                var val = check.val();
+                var txt = check.siblings('.item-inner').text();
+                if(val){
+                  thischeck.val(val).prop('checked', true);
+                  _this.find('.cho-text').html(txt);
+                }
+              }
+            }]
+          });
+          $(document).on('click','.modal-overlay, .close-modal',function () {
+            $.closeModal();
+          });
         }
       }
     });
@@ -924,17 +1139,17 @@ cc.programs = new function () {
             extraClass: 'cc-modal',
             text: pro.model.chooser_m,
             buttons: [{
-              text: '确认',
-              onClick: function() {
-                var check = $('.J_zixun .item-content').find('input:checked');
-                var val = check.val();
-                var txt = check.siblings('.item-inner').text();
-                if(val){
-                  thischeck.val(val).prop('checked', true);
-                  _this.find('.cho-text').html(txt);
+                text: '确认',
+                onClick: function() {
+                  var check = $('.J_zixun .item-content').find('input:checked');
+                  var val = check.val();
+                  var txt = check.siblings('.item-inner').text();
+                  if(val){
+                    thischeck.val(val).prop('checked', true);
+                    _this.find('.cho-text').html(txt);
+                  }
                 }
-              }
-            }]
+              }]
           });
           $(document).on('click','.modal-overlay, .close-modal',function () {
             $.closeModal();
@@ -954,29 +1169,30 @@ cc.programs = new function () {
   // 列表
   pro.model.que_item_m =
     '<article class="cc-card" :class="{\'zjda\': item.zjda}">' +
-    '<div class="cc-card-hd">' +
-    '<span v-if="!item.isSecret"><i class="user-head-min" v-if="item.headimgurl" style="{{\'background-image: url(\'+item.headimgurl+\')\'}}"></i> {{item.userName ? item.userName : item.nickname}}</span>' +
-    '<span v-else><i class="user-head-min"></i> 匿名</span><span v-if="collect" @click.stop.prevent="removecollect(item.id)" class="iconfont cc-card-delet">&#xe60c;</span>' +
-    '<time v-if="!com && !offermoney">{{item.createTimeString}}</time>' +
-    '<span v-if="offermoney" class="cc-card-row"><i class="iconfont">&#xe613;</i> {{item.offerMoney.toFixed(2)}}</span></div>' +
-    '<div class="cc-card-con" v-if="!item.lock">' +
-    '<p v-if="item.contentText">{{item.contentText}}</p>' +
-    '<div class="cc-audio" v-if="item.attachment.accessurl" @click.stop.prevent="playAudio(item.attachment.accessurl, $event)">' +
-    '<span>{{item.attachment.accesslen}}s</span> <i class="iconfont">&#xe603;</i></div>' +
-    '<div class="cc-card-imglist" v-if="item.aList.length > 0">' +
-    '<a class="imglist-i" v-for="img in item.aList" @click.stop.prevent="photoBrowser($index)" style="{{\'background-image: url(\'+img.filenamestring+\')\'}}" href="javascript:"></a>' +
-    '</div>' +
-    '<a class="cc-card-stu" href="javascript:" v-if="item.typeId"><i class="iconfont">&#xe619;</i> {{item.typeId}}</a>' +
-    '</div><div v-else class="cc-lockin" @click="lockon()">' +
-    '<span class="iconfont">&#xe623;</span>' +
-    '</div>' +
-    '<div class="cc-card-footer">' +
-    '<a href="javascript:" @click.stop.prevent="collectCount($event)" v-if="!com"><i class="iconfont">&#xe600;</i> {{item.collectCount}}</a>' +
-    '<a href="javascript:" @click.stop.prevent="praiseCount($event)"><i class="iconfont">&#xe621;</i> {{item.praiseCount}}</a>' +
-    '<a href="javascript:" v-if="!com"><i class="iconfont">&#xe602;</i> {{item.replyCount}}</a>' +
-    '<a href="javascript:"><i class="iconfont">&#xe606;</i> {{item.eavesdropCount}}</a>' +
-    '<a href="javascript:" @click.stop.prevent="reportCount($event)">举报 {{item.reportCount}}</a>' +
-    '</div>' +
+      '<div class="cc-card-hd">' +
+        '<span v-if="!item.isSecret"><i class="user-head-min" v-if="item.headimgurl" style="{{\'background-image: url(\'+item.headimgurl+\')\'}}"></i> {{item.userName ? item.userName : item.nickname}}</span>' +
+        '<span v-else><i class="user-head-min"></i> 匿名</span><span v-if="collect" @click.stop.prevent="removecollect(item.id)" class="iconfont cc-card-delet">&#xe60c;</span>' +
+        '<time v-if="!com && !offermoney">{{item.createTimeString}}</time>' +
+        '<span v-if="offermoney" class="cc-card-row"><i class="iconfont">&#xe613;</i> {{item.offerMoney.toFixed(2)}}</span>' +
+        '<span v-if="com && !zjda" class="cc-card-row min" @click="bestAns()">设为最佳答案</span></div>' +
+      '<div class="cc-card-con" v-if="!item.lock">' +
+          '<p v-if="item.contentText">{{item.contentText}}</p><a href="javascript:" class="cc-asked" v-if="asked" @click="tapAsked()">追问</a>' +
+        '<div class="cc-audio" v-if="item.attachment.accessurl" @click.stop.prevent="playAudio(item.attachment.accessurl, $event)">' +
+          '<span>{{item.attachment.accesslen}}s</span> <i class="iconfont">&#xe603;</i></div>' +
+        '<div class="cc-card-imglist" v-if="item.aList.length > 0">' +
+          '<a class="imglist-i" v-for="img in item.aList" @click.stop.prevent="photoBrowser($index)" style="{{\'background-image: url(\'+img.filenamestring+\')\'}}" href="javascript:"></a>' +
+        '</div>' +
+          '<a class="cc-card-stu" href="javascript:" v-if="item.typeId"><i class="iconfont">&#xe619;</i> {{item.typeId}}</a>' +
+      '</div><div v-else class="cc-lockin" @click="lockon()">' +
+          '<span class="iconfont">&#xe623;</span>' +
+      '</div>' +
+      '<div class="cc-card-footer">' +
+        '<a href="javascript:" @click.stop.prevent="collectCount($event)" v-if="!com"><i class="iconfont">&#xe600;</i> {{item.collectCount}}</a>' +
+        '<a href="javascript:" @click.stop.prevent="praiseCount($event)"><i class="iconfont">&#xe621;</i> {{item.praiseCount}}</a>' +
+        '<a href="javascript:" v-if="!com"><i class="iconfont">&#xe602;</i> {{item.replyCount}}</a>' +
+        '<a href="javascript:"><i class="iconfont">&#xe606;</i> {{item.eavesdropCount}}</a>' +
+        '<a href="javascript:" @click.stop.prevent="reportCount($event)">举报 {{item.reportCount}}</a>' +
+      '</div>' +
     '</article>';
 
   // 举报弹窗
@@ -992,14 +1208,14 @@ cc.programs = new function () {
   // 时间选择器
   pro.model.chooserDate_m =
     '<div class="chooser-date">' +
-    '<div class="cho-hd">' +
-    '<input type="text" class="cho-date" v-model="date" readonly @change="dateChange(date)">' +
-    '<a href="javascript:" class="prev iconfont" @click="prevDate()">&#xe611;</a>' +
-    '<a href="javascript:" class="next iconfont" @click="nextDate()">&#xe610;</a>' +
-    '</div><div class="cho-con row">' +
+      '<div class="cho-hd">' +
+        '<input type="text" class="cho-date" v-model="date" readonly @change="dateChange(date)">' +
+        '<a href="javascript:" class="prev iconfont" @click="prevDate()">&#xe611;</a>' +
+        '<a href="javascript:" class="next iconfont" @click="nextDate()">&#xe610;</a>' +
+      '</div><div class="cho-con row">' +
     '<label class="cho-item col-33" v-for="t in times" @click.stop.prevent="reser($event, t.usable)">' +
-    '<input type="checkbox" :disabled="!t.usable" name="times[{{date}}][{{$key}}]" :checked="t.check" :value="t.value">' +
-    '<span class="cho-chekbox">{{$key}}</span><span class="cho-text" v-html="t.txt"></span>' +
+      '<input type="checkbox" :disabled="!t.usable" name="times[{{date}}][{{$key}}]" :checked="t.check" :value="t.value">' +
+      '<span class="cho-chekbox">{{$key}}</span><span class="cho-text" v-html="t.txt"></span>' +
     '</label></div></div>';
 
   // 咨询弹窗
@@ -1009,4 +1225,11 @@ cc.programs = new function () {
     '<li><label class="label-checkbox item-content"><input type="radio" name="jb-text" value="video"><div class="item-media"><i class="icon icon-form-checkbox"></i></div><div class="item-inner"><div class="item-subtitle">视频咨询</div></div></label></li>' +
     '<li><label class="label-checkbox item-content"><input type="radio" name="jb-text" value="toface"><div class="item-media"><i class="icon icon-form-checkbox"></i></div><div class="item-inner"><div class="item-subtitle">面对面咨询</div></div></label></li></ul>' +
     '</div>';
+
+  // 追问 弹窗
+  pro.model.tapAsked_m = '<h4 class="cc-common-title">输入提问的内容</h4>' +
+    '<div class="answer-text"><textarea rows="5" name="answer" placeholder="详细描述您的问题(不少于20字)"></textarea></div>' +
+    '<h4 class="cc-common-title">语音回答</h4><div class="answer-voice max"><div class="cc-audio J_paly_voice" hidden>' +
+    '<span class="J_time">0s</span><i class="iconfont">&#xe603;</i><span class="iconfont J_del_voice">&#xe609;</span></div>' +
+    '<a href="javascript:" class="iconfont J_startRecord">&#xe61f;</a></div>';
 };

@@ -45,23 +45,43 @@ io.specialist = {
   form: './data/specialist.json'
 };
 
+io.userSubscribe = {
+  // 我的订单
+  content: './data/specialist.json',
+  // 订单评价
+  evaluate: './data/specialist.json'
+}
+
 io.user = {
+  // 收藏
   userCollect: './data/question_list_collect.json',
-  userRmoveCollect: './data/question_list_collect.json',
+  // 移除收藏
+  userRmoveCollect: './data/question_list_collect.json'
+};
+
+io.userQuestionList = {
+  // 我的问题列表
+  content: './data/user_question_list.json'
+};
+io.userQuestionDetail = {
+  // 我的问题详情
+  content: './data/user_question_detail.json',
+  // 设置最佳答案
+  zjda: './data/user_question_detail.json'
 };
 
 
-/* 微信 */
+/* ----------------------- 微信 remove start ----------------------------------*/
 
-$.ajax({
-  url: 'http://cloud.bmob.cn/bfc3efa954f1495f/signature',
-  data: {url: location.href},
-  dataType: 'jsonp',
-  jsonp: 'callback',
-  success: function (result) {
-    init(result)
-  }
-});
+// $.ajax({
+//   url: 'http://cloud.bmob.cn/bfc3efa954f1495f/signature',
+//   data: {url: location.href},
+//   dataType: 'jsonp',
+//   jsonp: 'callback',
+//   success: function (result) {
+//     init(result)
+//   }
+// });
 
 function init(req) {
   wx.config({
@@ -116,3 +136,5 @@ function init(req) {
     alert(JSON.stringify(res))
   });
 }
+
+/* ----------------------- 微信 remove end   ----------------------------------*/
