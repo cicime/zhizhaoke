@@ -413,15 +413,6 @@ cc.programs = new function () {
     };
     var time;
     var events = {
-      tap: function () {
-        return false;
-      },
-      click: function () {
-        return false;
-      },
-      touchmove: function () {
-        return false;
-      },
       touchstart: function () {
         wx.startRecord({
           cancel: function () {
@@ -450,7 +441,8 @@ cc.programs = new function () {
         });
       }
     };
-    $(document).on(events, '.answer-voice a');
+    $(document).on('touchstart', '.answer-voice a',events.touchstart);
+    $(document).on('touchend', '.answer-voice a',events.touchend);
 
     // 播放
     $(document).on('click','.J_paly_voice', function () {
