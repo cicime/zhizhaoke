@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>我的偷听</title>
+    <title>我的预约详情</title>
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -10,38 +10,43 @@
     <meta name="format-detection" content="email=no">
     <link href="css/style.css" rel="stylesheet">
 </head>
-<body onload="cc.programs.userListen()">
+<body>
 <main class="page-group">
-    <section class="page page-current" id="userZhizhao">
+    <section class="page page-current">
         <div class="content">
             <div class="content-inner J_que_list">
             <!-- view start -->
                 <header class="user-banner min" style="background-image: url(imgs/bg2.jpg)">
                     <span class="user-info"><a href="javascript:" class="user-head-min" style="background-image: url(imgs/hd.jpg)"></a> 用户BD009</span>
                 </header>
-                <div class="buttons-tab cc-tab">
-                    <a href="#tab1" class="tab-link J_tab1 active button">我的偷听</a>
-                    <a href="#tab2" class="tab-link J_tab2 button">幸运偷听</a>
-                </div>
-                <div class="tabs">
-                    <div id="tab1" class="tab active">
-                        <que-ans v-for="item in listMine" :ele="item" track-by="$index" xytt="true" transition="qlitem" stagger="160"></que-ans>
-                    </div>
-                    <div id="tab2" class="tab">
-                        <que-ans v-for="item in listLuck" :ele="item" track-by="$index" xytt="true" transition="qlitem" stagger="160"></que-ans>
-                    </div>
-                </div>
+                <h4 class="cc-common-title">预约时间</h4>
+                <ul class="cc-list-con">
+                    <li>
+                        <span class="cc-li-l">2016-10-01 13:00:48</span>
+                        <span class="cc-li-r"><span class="gray">电话资讯</span> 126<small> 元</small></span>
+                    </li>
+                    <li>
+                        <span class="cc-li-l">2016-10-01 13:00:48</span>
+                        <span class="cc-li-r"><span class="gray">电话资讯</span> 126<small> 元</small></span>
+                    </li>
+                    <li>
+                        <span class="cc-li-l">2016-10-01 13:00:48</span>
+                        <span class="cc-li-r"><span class="gray">电话资讯</span> 126<small> 元</small></span>
+                    </li>
+                </ul>
+                <h4 class="cc-common-title">咨询内容</h4>
+                <p class="cc-txt">a士大夫；流口水发；拉萨发；拉斯科发；拉萨付款；离开；来看看啦手动阀</p>
             <!-- view end -->
             </div>
         </div>
     </section>
 </main>
-<script src="js/io.js"></script>
 <script src="lib/vue.min.js"></script>
 <script src="lib/vue-animated-list.js"></script>
 <script src="lib/zepto.min.js"></script>
 <script src="lib/sm.min.js"></script>
 <script src="lib/sm-extend.min.js"></script>
+<script src="js/io.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>

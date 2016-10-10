@@ -16,59 +16,69 @@ io.userInfo = {
 
 io.questionList = {
   // 列表页 - 分页返回全部问题
-  content: './data/question_list.json'
+  content: '../data/question_list.json'
 };
 io.questionDetail = {
   // 问题详情页
-  content: './data/question_detail.json',
+  content: '../data/question_detail.json',
   // 加载更多的答案
-  answers: './data/question_detail.json',
+  answers: '../data/question_detail.json',
   // 提交答案
-  submit: './data/question_detail.json'
+  submit: '../data/question_detail.json'
 };
 io.question = {
   // 问题 - 点赞 收藏 举报 - 返回状态码
-  collectCount: './data/question_list.json',
-  praiseCount: './data/question_list.json',
-  reportCount: './data/question_list.json'
+  collectCount: '../data/question_list.json',
+  praiseCount: '../data/question_list.json',
+  reportCount: '../data/question_list.json'
 };
 
 io.quiz = {
   // 提交问题, 回答的地址
-  content: './data/question_list.json'
+  content: '../data/question_list.json'
 };
 
 io.specialist = {
   // 获取可用时间
-  times: './data/specialist.json',
+  times: '../data/specialist.json',
   // 提交地址
-  form: './data/specialist.json'
+  form: '../data/specialist.json'
 };
 
 io.userSubscribe = {
   // 我的订单
-  content: './data/specialist.json',
+  content: '../data/specialist.json',
   // 订单评价
-  evaluate: './data/specialist.json'
+  evaluate: '../data/specialist.json'
 }
 
 io.user = {
   // 收藏
-  userCollect: './data/question_list_collect.json',
+  userCollect: '../data/question_list_collect.json',
   // 移除收藏
-  userRmoveCollect: './data/question_list_collect.json'
+  userRmoveCollect: '../data/question_list_collect.json'
 };
 
 io.userQuestionList = {
   // 我的问题列表
-  content: './data/user_question_list.json'
+  content: '../data/user_question_list.json'
 };
 io.userQuestionDetail = {
   // 我的问题详情
-  content: './data/user_question_detail.json',
+  content: '../data/user_question_detail.json',
   // 设置最佳答案
-  zjda: './data/user_question_detail.json'
+  zjda: '../data/user_question_detail.json',
+  // 追问
+  asked: '../data/user_question_detail.json'
 };
+io.userZhizhao = {
+  // 我的支招
+  content: '../data/user_zhizhao.json'
+}
+io.userListen = {
+  // 我的偷听
+  content: '../data/user_listen.json'
+}
 
 
 /* ----------------------- 微信 remove start ----------------------------------*/

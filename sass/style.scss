@@ -17,6 +17,13 @@
   background: #fff;
   font-size: 15px;
   margin-bottom: 10px;
+  &.next-ans{
+    @extend %border-bottom;
+    margin-bottom: 0;
+    & + .cc-card{
+      background-color: #f8f8fb;
+    }
+  }
 }
 
 .cc-card-hd{
@@ -226,10 +233,17 @@
   background: #ff8116;
   color: #fff !important;
 }
+
+// 最佳答案 & 幸运偷听
 .zjda{
   position: relative;
   background: url(../imgs/zjda.png) #fff no-repeat top right/ 62px auto;
 }
+.xytt{
+  position: relative;
+  background: url(../imgs/xytt.png) #fff no-repeat top right/ 62px auto;
+}
+
 .logo-ico{
   display: inline-block;
   width: 40px;
@@ -451,6 +465,9 @@
   margin: 0;
   padding: 0;
   background: #fff;
+  height: auto;
+  transition: all .3s ease-in-out;
+
   li{
     position: relative;
     @extend %border-bottom;
@@ -894,18 +911,131 @@
 
 // 我的问题详情
 .asked-box{
-  background: #fff;
+  //background: #fff;
   .modal-inner:after{
     height: 0;
   }
   .cc-common-title:first-child:before{
     height: 1px;
   }
-  .answer-voice{
-    margin-bottom: 40px;
+  .modal-buttons{
+    display: block;
+    margin-top: 40px;
+  }
+  .cc-m-btn{
+    user-select: none;
+    width: 100%;
+    padding: 0 .25rem;
+    height: 2.2rem;
+    font-size: .85rem;
+    line-height: 2.2rem;
+    text-align: center;
+    background: #ff8116;
+    color: #fff;
+    display: block;
+    position: relative;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    cursor: pointer;
+    box-sizing: border-box;
+    -webkit-box-flex: 1;
+    border-radius: 0 0 .35rem .35rem;
+  }
+}
+.cc-txt{
+  padding: 10px;
+  font-size: 14px;
+  background: #fff;
+  margin: 0 0 15px;
+}
+.red-packer{
+  box-shadow: 0 0 5px rgba(0,0,0,.3);
+  .modal-inner{
+    background: url(../imgs/red_packer.jpg) no-repeat center/ contain;
+    padding-top: 159%;
+  }
+  .modal-text{
+    margin-left: -0.75rem;
+  }
+  .user-head-min{
+    position: absolute;
+    top: 40px;
+    left: 50%;
+    margin-left: -18px;
+    width: 42px;
+    height: 42px;
+  }
+  .user-name{
+    font-size: 14px;
+    color: #fff;
+    position: absolute;
+    top: 88px;
+    left: 4px;
+    display: block;
+    width: 100%;
+  }
+  .J_redpacker{
+    display: block;
+    position: absolute;
+    top: 62%;
+    left: 50%;
+    margin-left: -46px;
+    width: 92px;
+    height: 92px;
+  }
+  .J_closeModal{
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40px;
+    height: 40px;
   }
 }
 
+.cc-minlist{
+  font-size: 14px;
+  margin-bottom: 15px;
+  background: #f8f8fb;
+  .cc-list-hd{
+    padding: 8px 10px;
+    position: relative;
+    @extend %border-bottom;
+  }
+  .cc-list-con{
+    background: transparent;
+    li{
+      padding: 8px 10px;
+    }
+    li .user-head-min{
+      width: 26px;
+      height: 26px;
+      vertical-align: -8px;
+      &:before{
+        content: none;
+      }
+    }
+  }
+  .hidemore{
+    height: 126px;
+    overflow: hidden;
+  }
+  .showmore{
+    display: block;
+    padding: 4px 10px;
+    text-align: center;
+  }
+}
+.input-pho-grop{
+  padding: 0 10px;
+  display: flex;
+  .cp-a{
+    height: 36px;
+    margin-left: 5px;
+    line-height: 35px;
+  }
+}
 
 
 // loading

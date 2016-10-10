@@ -10,7 +10,7 @@
     <meta name="format-detection" content="email=no">
     <link href="css/style.css" rel="stylesheet">
 </head>
-<body onload="cc.programs.userZhizhao()">
+<body onload="cc.programs.userZhizhao().init()">
 <main class="page-group">
     <section class="page page-current" id="userZhizhao">
         <div class="content">
@@ -19,7 +19,26 @@
                 <header class="user-banner min" style="background-image: url(imgs/bg2.jpg)">
                     <span class="user-info"><a href="javascript:" class="user-head-min" style="background-image: url(imgs/hd.jpg)"></a> 用户BD009</span>
                 </header>
-
+                <div class="buttons-tab cc-tab">
+                    <a href="#tab1" class="tab-link J_tab1 active button">最佳支招</a>
+                    <a href="#tab2" class="tab-link J_tab2 button">幸运支招</a>
+                    <a href="#tab3" class="tab-link J_tab3 button">被偷听支招</a>
+                    <a href="#tab4" class="tab-link J_tab4 button">其他支招</a>
+                </div>
+                <div class="tabs">
+                    <div id="tab1" class="tab active">
+                        <que-ans v-for="item in listBest" :ele="item" track-by="$index" transition="qlitem" stagger="160"></que-ans>
+                    </div>
+                    <div id="tab2" class="tab">
+                        <que-ans v-for="item in listLuck" :ele="item" track-by="$index" luckhandle="true" transition="qlitem" stagger="160"></que-ans>
+                    </div>
+                    <div id="tab3" class="tab">
+                        <que-ans v-for="item in listListen" :ele="item" track-by="$index" lihandle="true" transition="qlitem" stagger="160"></que-ans>
+                    </div>
+                    <div id="tab4" class="tab">
+                        <que-ans v-for="item in listOther" :ele="item" track-by="$index" transition="qlitem" stagger="160"></que-ans>
+                    </div>
+                </div>
 
             <!-- view end -->
             </div>

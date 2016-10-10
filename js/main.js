@@ -27,9 +27,10 @@ cc.programs = new function () {
       // 地址写入时间戳，防止再次加载时引用缓存
       state: function (title) {
         var cate = location.search;
+        var hash = location.hash;
         var tag = /\?/.test(cate) && !/\?ref_c=/.test(cate) ? '&' : '?';
         cate = cate.replace(/(\?|&)ref_c=\d+/, '');
-        history.replaceState({tit: title}, title, cate + tag + 'ref_c=' + new Date().getTime());
+        history.replaceState({tit: title}, title, cate + tag + 'ref_c=' + new Date().getTime() + hash);
       },
       createURL: function (blob) {
         if (window.URL) {
@@ -64,6 +65,20 @@ cc.programs = new function () {
           return v;
         };
         return encodeURI(pp(par));
+      },
+      hashTabs: function () {
+        $('.tab-link').on('click', function () {
+          window.location.hash = this.href.replace(/^.*#/,'');
+        });
+        $(window).on('hashchange', function () {
+          hashed()
+        });
+        function hashed() {
+          var ha = location.hash.substr(1) || 'tab1'
+          $('.page').addClass('page-current');
+          $('.J_' + ha).trigger('click');
+        }
+        hashed();
       }
     }
   })();
@@ -82,7 +97,7 @@ cc.programs = new function () {
     var stor = Util.sionFetch('LIST');
     var loadin = true;
 
-    window.vue = new Vue({
+    var vue = new Vue({
       el: 'body',
       data: {
         page: stor.page || 0,
@@ -398,6 +413,15 @@ cc.programs = new function () {
     };
     var time;
     var events = {
+      tap: function () {
+        return false;
+      },
+      click: function () {
+        return false;
+      },
+      touchmove: function () {
+        return false;
+      },
       touchstart: function () {
         wx.startRecord({
           cancel: function () {
@@ -630,7 +654,8 @@ cc.programs = new function () {
       return arr;
     };
 
-    var vue = new Vue({
+    self.timeUrl = io.specialist.times;
+    self.vue = new Vue({
       el: 'body',
       component: ['chooseDate'],
       data: {
@@ -642,7 +667,7 @@ cc.programs = new function () {
       methods:{
         timesChange: function () {
           var _this = this;
-          self.fetchData(io.specialist.times, {
+          self.fetchData(self.timeUrl, {
             date: _this.date,
             info: io.userInfo
           },function (data) {
@@ -697,31 +722,31 @@ cc.programs = new function () {
           $.alert('请选择预约时间');
           return;
         }
-        if(!$.trim(vue.ans)){
+        if(!$.trim(self.vue.ans)){
           $.alert('请填写咨询内容');
           return;
         }
-        if(!vue.tonyi){
+        if(!self.vue.tonyi){
           $.alert('请同意咨询协议');
           return;
         }
         var formData = $('#formContent').serialize();
         formData = formData + Util.parseParam({
             info: io.userInfo,
-            date: vue.date
+            date: self.vue.date
           });
         self.fetchData(io.specialist.form, formData, function (data) {
-          // location.href = 'specialist-pay.html';
+          location.href = 'specialist-pay.html';
         });
       });
     };
 
     self.init = function () {
-      vue.timesChange();
+      self.vue.timesChange();
       self.bindEvents();
     };
 
-    self.init();
+    return self;
   };
 
 
@@ -744,6 +769,45 @@ cc.programs = new function () {
     detail.vue.$on('zjda',function () {
       this.item.zjda = true;
     });
+    // 追问
+    detail.vue.$on('tapAsked', function (que) {
+      if(que && que.length < 20){
+        alert('追加问题不能小于20字');
+        return;
+      }
+      if(!que && !detail.vue.voice.serverId){
+        alert('没有内容~');
+        return;
+      }
+      $.ajax({
+        url: io.userQuestionDetail.asked,
+        type: 'get',
+        data: {
+          info: io.userInfo,
+          que: que,
+          id: detail.vue.item.id,
+          voice: detail.vue.voice
+        },
+        dataType: 'json',
+        beforeSend: function () {
+          $.showIndicator();
+          $.refreshScroller();
+        },
+        success: function (data) {
+          $.hideIndicator();
+          data.resultCode <= 1000 ? function (d) {
+            $.closeModal();
+            // todo 显示追问结果？
+            console.log('追问-提交');
+          }(data) : $.alert(data.message);
+        },
+        error: function () {
+          $.hideIndicator();
+          $.alert('请求超时');
+        }
+      });
+    });
+
     detail.init();
   };
 
@@ -754,7 +818,156 @@ cc.programs = new function () {
    * ====================================================================
    */
   pro.userZhizhao = function () {
+    var self = {};
+    var queAns = pro.queAns();
+    var vue;
+    // 读取session中的数据
+    var store = Util.sionFetch('ZHIZHAO');
 
+    self.vue = function () {
+      return new Vue({
+        el: 'body',
+        data: {
+          page: store.page || 0,
+          listBest: store.listBest || [],
+          listLuck: store.listLuck || [],
+          listListen: store.listListen || [],
+          listOther: store.listOther || []
+        },
+        components: [queAns],
+        methods: {
+          addProblemList: function () {
+            var _this = this;
+            self.fetchData(this.page, function (data) {
+              _this.listBest = data.list_best;
+              _this.listLuck = data.list_luck;
+              _this.listListen = data.list_listen;
+              _this.listOther = data.list_other;
+              _this.$nextTick(function () {
+                $.refreshScroller();
+                store.top && $('.content').scrollTop(store.top);
+                Util.sionSave('ZHIZHAO', {});
+              });
+            });
+          }
+        },
+        events: {
+          linked: function (url) {
+            Util.sionSave('ZHIZHAO', {
+              top: $('.content').scrollTop(),
+              page: this.page,
+              listBest: this.listBest,
+              listLuck: this.listLuck,
+              listOther: this.listOther,
+              listListen: this.listListen
+            });
+            Util.state('我的支招');
+            window.location.href = url;
+          }
+        }
+      });
+    };
+
+    self.url = io.userZhizhao.content;
+    self.data = {};
+    self.fetchData = function (page, callback) {
+      self.data.info = io.userInfo;
+      self.data.page = page;
+      $.ajax({
+        url: self.url,
+        type: 'get',
+        data: self.data,
+        dataType: 'json',
+        beforeSend: function () {
+          $('.J_que_list').append('<p class="preloader-line"><i class="preloader"></i></p>');
+          $.refreshScroller();
+        },
+        success: function (data) {
+          $('.preloader-line').remove();
+          data.resultCode <= 1000 ? callback(data) : $.alert(data.message);
+        },
+        error: function () {
+          $('.preloader-line').remove();
+          $.alert('请求超时');
+        }
+      });
+    };
+
+    self.bindEvents = function () {
+      Util.hashTabs();
+    };
+
+    self.init = function () {
+      vue = self.vue()
+      vue.addProblemList();
+      self.bindEvents();
+    };
+
+    return self;
+  };
+
+
+  /**
+   * ====================================================================
+   * 我的偷听
+   * ====================================================================
+   */
+  pro.userListen = function () {
+    var queAns = pro.queAns();
+    var zhi = pro.userZhizhao()
+    var store = Util.sionFetch('LISTEN');
+
+    zhi.url = io.userListen.content;
+    zhi.vue = function () {
+      return new Vue({
+        el: 'body',
+        data: {
+          page: store.page || 0,
+          listMine: store.listMine || [],
+          listLuck: store.listLuck || [],
+        },
+        components: [queAns],
+        methods: {
+          addProblemList: function () {
+            var _this = this;
+            zhi.fetchData(this.page, function (data) {
+              _this.listMine = data.list_minelisten;
+              _this.listLuck = data.list_lucklisten;
+              _this.$nextTick(function () {
+                $.refreshScroller();
+                store.top && $('.content').scrollTop(store.top);
+                Util.sionSave('LISTEN', {});
+              });
+            });
+          }
+        },
+        events: {
+          linked: function (url) {
+            Util.sionSave('LISTEN', {
+              top: $('.content').scrollTop(),
+              page: this.page,
+              listMine: this.listMine,
+              listLuck: this.listLuck,
+            });
+            Util.state('我的支招');
+            window.location.href = url;
+          }
+        }
+      });
+    };
+    zhi.init();
+  };
+
+
+  /**
+   * ====================================================================
+   * 我的时间
+   * ====================================================================
+   */
+  pro.userTimes = function () {
+    var spe = pro.specialist();
+    spe.timeUrl = io.specialist.times;
+    spe.init();
   };
 
 
@@ -813,6 +1026,7 @@ cc.programs = new function () {
           });
         });
       });
+      Util.hashTabs();
     };
 
     self.start = function () {
@@ -877,6 +1091,42 @@ cc.programs = new function () {
   };
 
 
+  /**
+   * ====================================================================
+   * 用户个人中心 - 设置
+   * ====================================================================
+   */
+  pro.user = function () {
+    var self = {};
+
+    self.bindEvents = function () {
+      $(document).on('click','#btnChangePho',function () {
+        $.modal({
+          extraClass: 'cc-modal',
+          title: '更改手机号码 <i class="iconfont close-modal">&#xe61b;</i>',
+          text: '<div class="input-pho-grop"><input type="text" class="cc-input" placeholder="请输入新的手机号"></div>' +
+                '<div class="input-pho-grop"><div class="cc-cell"><input type="text" class="cc-input" placeholder="验证码"></div>' +
+                '<div class="cc-cell"><a href="#" class="button button-warning cp-a">获取验证码</a></div></div>',
+          buttons: [
+            {
+              text: '确认',
+              onClick: function() {
+                $.alert('提交');
+              }
+            },
+          ]
+        });
+      });
+      $(document).on('click','.modal-overlay, .close-modal',function () {
+        $.closeModal();
+      });
+    };
+    self.init = function () {
+      self.bindEvents();
+    };
+    self.init();
+  };
+
 
 
   /**
@@ -904,8 +1154,11 @@ cc.programs = new function () {
        * index: 数据下标
        * asked: 是否显示追问按钮
        * zjda: 是否拥有最佳答案
+       * userqd: 我的问题详情
+       * luckhandle: 显示幸运红包
+       * xytt: 显示幸运偷听
        */
-      props: ['item','ctl','com','offermoney','collect','index','asked','zjda'],
+      props: ['item','ctl','com','offermoney','collect','index','asked','zjda','userqd','luckhandle','xytt'],
       computed: {
         media: function () {
           var media = new Audio();
@@ -1078,24 +1331,36 @@ cc.programs = new function () {
         },
         // 追问
         tapAsked: function () {
+          var _this = this;
           $.modal({
             title: '追问 <i class="iconfont close-modal">&#xe61b;</i>',
             extraClass: 'cc-modal asked-box',
-            text: pro.model.tapAsked_m,
-            buttons: [{
-              text: '确认',
-              onClick: function() {
-                var check = $('.J_zixun .item-content').find('input:checked');
-                var val = check.val();
-                var txt = check.siblings('.item-inner').text();
-                if(val){
-                  thischeck.val(val).prop('checked', true);
-                  _this.find('.cho-text').html(txt);
-                }
-              }
-            }]
+            text: pro.model.tapAsked_m
           });
           $(document).on('click','.modal-overlay, .close-modal',function () {
+            $.closeModal();
+          });
+          $(document).on('click','#sub',function () {
+            var que = $.trim($('#queAsk').val());
+            _this.$dispatch('tapAsked', que);
+          });
+        },
+        // 打开红包
+        openPacker: function () {
+          var _this = this;
+          if(_this.item.luck.open) return;
+          $.modal({
+            extraClass: 'red-packer',
+            text: '<a href="javascript:" class="user-head-min" style="background-image: url('+ _this.item.headimgurl +')"></a>' +
+                  '<span class="user-name">'+ (_this.item.userName || _this.item.nickname) +'</span>' +
+                  '<a href="javascript:" class="J_redpacker"></a><a href="javascript:" class="J_closeModal"></a>',
+          });
+          $(document).on('click','.modal-overlay, .J_closeModal',function () {
+            $.closeModal();
+          });
+          $(document).on('click','.J_redpacker',function () {
+            // todo 打开微信红包
+            console.log('微信红包');
             $.closeModal();
           });
         }
@@ -1108,10 +1373,9 @@ cc.programs = new function () {
     return Vue.component('chooser-date', {
       template: pro.model.chooserDate_m,
       data: function () {
-        return {
-        };
+        return {};
       },
-      props: ['date','times'],
+      props: ['date','times','sel'],
       methods: {
         dateChange: function (de) {
           this.$dispatch('date', de);
@@ -1128,6 +1392,11 @@ cc.programs = new function () {
         },
         reser: function (e, use) {
           if(!use) return false;
+          if(this.sel){
+            // todo 点击时间
+            console.log('链接');
+            return;
+          }
           var _this = $(e.currentTarget);
           var thischeck = _this.find('input');
           if(thischeck.prop('checked')){
@@ -1140,17 +1409,17 @@ cc.programs = new function () {
             extraClass: 'cc-modal',
             text: pro.model.chooser_m,
             buttons: [{
-              text: '确认',
-              onClick: function() {
-                var check = $('.J_zixun .item-content').find('input:checked');
-                var val = check.val();
-                var txt = check.siblings('.item-inner').text();
-                if(val){
-                  thischeck.val(val).prop('checked', true);
-                  _this.find('.cho-text').html(txt);
+                text: '确认',
+                onClick: function() {
+                  var check = $('.J_zixun .item-content').find('input:checked');
+                  var val = check.val();
+                  var txt = check.siblings('.item-inner').text();
+                  if(val){
+                    thischeck.val(val).prop('checked', true);
+                    _this.find('.cho-text').html(txt);
+                  }
                 }
-              }
-            }]
+              }]
           });
           $(document).on('click','.modal-overlay, .close-modal',function () {
             $.closeModal();
@@ -1160,6 +1429,44 @@ cc.programs = new function () {
     });
   };
 
+  // 单个 问题+答案组合
+  pro.queAns = function () {
+    var queItem = pro.que_item();
+    return Vue.component('que-ans', {
+      template: '<que-item :item="ele.question" ctl="true" class="next-ans" @click.stop.prevent="url(ele.question.url)"></que-item>' +
+                '<que-item :item="ele.answer" ctl="true" com="true" :luckhandle="luckhandle" :xytt="xytt" :class="{ \'next-ans\': lihandle}"></que-item>' +
+                '<div class="cc-minlist" v-if="lihandle"><div class="cc-list-hd"><span class="cc-li-l">偷听({{ele.listen.len}})</span> <span class="cc-li-r">共{{ele.listen.allmoney}}元</span></div>' +
+                '<ul class="cc-list-con" :class="{ \'hidemore\' : showmore }">' +
+                  '<li v-for="i in ele.listen.list">' +
+                    '<span class="cc-li-l"><i class="user-head-min sx"style="background-image: {{\'url(\'+i.headimgurl+\')\'}}"></i> {{ i.userName || i.nickname }}</span>' +
+                    '<span class="cc-li-r"><i class="iconfont">&#xe613;</i> {{i.money}}</span></li>' +
+                  '' +
+                '</ul><span v-if="ele.listen.len > 3" @click="showMore()" class="showmore">' +
+                  '<i class="iconfont" v-if="hidemore">&#xe616;</i><i v-else class="iconfont">&#xe61a;</i></span></div>',
+      data: function () {
+        return {
+          showmore: false,
+          hidemore: true,
+        }
+      },
+      computed: {
+        showmore: function () {
+          return this.ele.listen.len > 3 && this.hidemore;
+        }
+      },
+      props: ['ele','luckhandle','lihandle','xytt'],
+      component: ['queItem'],
+      methods: {
+        url: function (url) {
+          this.$dispatch('linked', url);
+        },
+        showMore: function () {
+          this.hidemore = !this.hidemore;
+        }
+      }
+    })
+  };
+//
 
   /**
    * ====================================================================
@@ -1169,31 +1476,32 @@ cc.programs = new function () {
   pro.model = {};
   // 列表
   pro.model.que_item_m =
-    '<article class="cc-card" :class="{\'zjda\': item.zjda}">' +
-    '<div class="cc-card-hd">' +
-    '<span v-if="!item.isSecret"><i class="user-head-min" v-if="item.headimgurl" style="{{\'background-image: url(\'+item.headimgurl+\')\'}}"></i> {{item.userName ? item.userName : item.nickname}}</span>' +
-    '<span v-else><i class="user-head-min"></i> 匿名</span><span v-if="collect" @click.stop.prevent="removecollect(item.id)" class="iconfont cc-card-delet">&#xe60c;</span>' +
-    '<time v-if="!com && !offermoney">{{item.createTimeString}}</time>' +
-    '<span v-if="offermoney" class="cc-card-row"><i class="iconfont">&#xe613;</i> {{item.offerMoney.toFixed(2)}}</span>' +
-    '<span v-if="com && !zjda" class="cc-card-row min" @click="bestAns()">设为最佳答案</span></div>' +
-    '<div class="cc-card-con" v-if="!item.lock">' +
-    '<p v-if="item.contentText">{{item.contentText}}</p><a href="javascript:" class="cc-asked" v-if="asked" @click="tapAsked()">追问</a>' +
-    '<div class="cc-audio" v-if="item.attachment.accessurl" @click.stop.prevent="playAudio(item.attachment.accessurl, $event)">' +
-    '<span>{{item.attachment.accesslen}}s</span> <i class="iconfont">&#xe603;</i></div>' +
-    '<div class="cc-card-imglist" v-if="item.aList.length > 0">' +
-    '<a class="imglist-i" v-for="img in item.aList" @click.stop.prevent="photoBrowser($index)" style="{{\'background-image: url(\'+img.filenamestring+\')\'}}" href="javascript:"></a>' +
-    '</div>' +
-    '<a class="cc-card-stu" href="javascript:" v-if="item.typeId"><i class="iconfont">&#xe619;</i> {{item.typeId}}</a>' +
-    '</div><div v-else class="cc-lockin" @click="lockon()">' +
-    '<span class="iconfont">&#xe623;</span>' +
-    '</div>' +
-    '<div class="cc-card-footer">' +
-    '<a href="javascript:" @click.stop.prevent="collectCount($event)" v-if="!com"><i class="iconfont">&#xe600;</i> {{item.collectCount}}</a>' +
-    '<a href="javascript:" @click.stop.prevent="praiseCount($event)"><i class="iconfont">&#xe621;</i> {{item.praiseCount}}</a>' +
-    '<a href="javascript:" v-if="!com"><i class="iconfont">&#xe602;</i> {{item.replyCount}}</a>' +
-    '<a href="javascript:"><i class="iconfont">&#xe606;</i> {{item.eavesdropCount}}</a>' +
-    '<a href="javascript:" @click.stop.prevent="reportCount($event)">举报 {{item.reportCount}}</a>' +
-    '</div>' +
+    '<article class="cc-card" :class="[{\'zjda\': item.zjda && com},{\'xytt\': item.xytt && com && xytt}]">' +
+      '<div class="cc-card-hd">' +
+        '<span v-if="!item.isSecret"><i class="user-head-min" v-if="item.headimgurl" style="{{\'background-image: url(\'+item.headimgurl+\')\'}}"></i> {{ item.userName || item.nickname }}</span>' +
+        '<span v-else><i class="user-head-min"></i> 匿名</span><span v-if="collect" @click.stop.prevent="removecollect(item.id)" class="iconfont cc-card-delet">&#xe60c;</span>' +
+        '<time v-if="!com && !offermoney">{{item.createTimeString}}</time>' +
+        '<span v-if="offermoney" class="cc-card-row"><i class="iconfont">&#xe613;</i> {{item.offerMoney.toFixed(2)}}</span>' +
+        '<span v-if="com && userqd && !zjda" class="cc-card-row min" @click="bestAns()">设为最佳答案</span>' +
+        '<span v-if="luckhandle && item.luck.own" class="cc-card-row min" @click="openPacker()"><i class="iconfont">&#xe612;</i>{{item.luck.open? item.luck.money+\'元包\': \'未开红包\'}}</span></div>' +
+      '<div class="cc-card-con" v-if="!item.lock">' +
+          '<p v-if="item.contentText">{{item.contentText}}</p><a href="javascript:" class="cc-asked" v-if="asked" @click="tapAsked()">追问</a>' +
+        '<div class="cc-audio" v-if="item.attachment.accessurl" @click.stop.prevent="playAudio(item.attachment.accessurl, $event)">' +
+          '<span>{{item.attachment.accesslen}}s</span> <i class="iconfont">&#xe603;</i></div>' +
+        '<div class="cc-card-imglist" v-if="item.aList.length > 0">' +
+          '<a class="imglist-i" v-for="img in item.aList" @click.stop.prevent="photoBrowser($index)" style="{{\'background-image: url(\'+img.filenamestring+\')\'}}" href="javascript:"></a>' +
+        '</div>' +
+          '<a class="cc-card-stu" href="javascript:" v-if="item.typeId"><i class="iconfont">&#xe619;</i> {{item.typeId}}</a>' +
+      '</div><div v-else class="cc-lockin" @click="lockon()">' +
+          '<span class="iconfont">&#xe623;</span>' +
+      '</div>' +
+      '<div class="cc-card-footer">' +
+        '<a href="javascript:" @click.stop.prevent="collectCount($event)" v-if="!com"><i class="iconfont">&#xe600;</i> {{item.collectCount}}</a>' +
+        '<a href="javascript:" @click.stop.prevent="praiseCount($event)"><i class="iconfont">&#xe621;</i> {{item.praiseCount}}</a>' +
+        '<a href="javascript:" v-if="!com"><i class="iconfont">&#xe602;</i> {{item.replyCount}}</a>' +
+        '<a href="javascript:"><i class="iconfont">&#xe606;</i> {{item.eavesdropCount}}</a>' +
+        '<a href="javascript:" @click.stop.prevent="reportCount($event)">举报 {{item.reportCount}}</a>' +
+      '</div>' +
     '</article>';
 
   // 举报弹窗
@@ -1209,14 +1517,14 @@ cc.programs = new function () {
   // 时间选择器
   pro.model.chooserDate_m =
     '<div class="chooser-date">' +
-    '<div class="cho-hd">' +
-    '<input type="text" class="cho-date" v-model="date" readonly @change="dateChange(date)">' +
-    '<a href="javascript:" class="prev iconfont" @click="prevDate()">&#xe611;</a>' +
-    '<a href="javascript:" class="next iconfont" @click="nextDate()">&#xe610;</a>' +
-    '</div><div class="cho-con row">' +
+      '<div class="cho-hd">' +
+        '<input type="text" class="cho-date" v-model="date" readonly @change="dateChange(date)">' +
+        '<a href="javascript:" class="prev iconfont" @click="prevDate()">&#xe611;</a>' +
+        '<a href="javascript:" class="next iconfont" @click="nextDate()">&#xe610;</a>' +
+      '</div><div class="cho-con row">' +
     '<label class="cho-item col-33" v-for="t in times" @click.stop.prevent="reser($event, t.usable)">' +
-    '<input type="checkbox" :disabled="!t.usable" name="times[{{date}}][{{$key}}]" :checked="t.check" :value="t.value">' +
-    '<span class="cho-chekbox">{{$key}}</span><span class="cho-text" v-html="t.txt"></span>' +
+      '<input type="checkbox" :disabled="!t.usable" name="times[{{date}}][{{$key}}]" :checked="t.check" :value="t.value">' +
+      '<span class="cho-chekbox">{{$key}}</span><span class="cho-text" v-html="t.txt"></span>' +
     '</label></div></div>';
 
   // 咨询弹窗
@@ -1229,8 +1537,9 @@ cc.programs = new function () {
 
   // 追问 弹窗
   pro.model.tapAsked_m = '<h4 class="cc-common-title">输入提问的内容</h4>' +
-    '<div class="answer-text"><textarea rows="5" name="answer" placeholder="详细描述您的问题(不少于20字)"></textarea></div><span></span>' +
+    '<div class="answer-text"><textarea rows="5" name="que" id="queAsk" placeholder="详细描述您的问题(不少于20字)"></textarea></div><span></span>' +
     '<h4 class="cc-common-title">语音回答</h4><div class="answer-voice"><div class="cc-audio J_paly_voice" hidden>' +
     '<span class="J_time">0s</span><i class="iconfont">&#xe603;</i><span class="iconfont J_del_voice">&#xe609;</span></div>' +
-    '<a href="javascript:" class="iconfont J_startRecord">&#xe61f;</a></div>';
+    '<a href="javascript:" class="iconfont J_startRecord">&#xe61f;</a></div>' +
+    '<div class="modal-buttons"><span class="cc-m-btn" id="sub">确认</span></div>';
 };
