@@ -414,6 +414,10 @@ cc.programs = new function () {
     };
     var events = {
       touchstart: function () {
+        var bodyStyle = document.body.style;
+        bodyStyle.mozUserSelect = 'none';
+        bodyStyle.webkitUserSelect = 'none';
+
         wx.startRecord({
           success: function () {
             ele = $('.answer-voice');
