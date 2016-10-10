@@ -416,17 +416,16 @@ cc.programs = new function () {
     var events = {
       touchstart: function () {
         document.body.style.webkitUserSelect = 'none';
+        touch = true;
+        ele = $('.answer-voice');
+        ele.find('.J_paly_voice').show();
+        ele.addClass('play');
+        time = setInterval(function () {
+          voice.len++;
+          $('.J_time').html(voice.len + 's');
+        }, 1000);
         wx.startRecord({
-          success: function () {
-            touch = true;
-            ele = $('.answer-voice');
-            ele.find('.J_paly_voice').show();
-            ele.addClass('play');
-            time = setInterval(function () {
-              voice.len++;
-              $('.J_time').html(voice.len + 's');
-            }, 1000);
-          },
+          success: function () {},
           cancel: function () {
             alert('已拒绝授权录音');
           }
