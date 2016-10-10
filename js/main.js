@@ -407,6 +407,7 @@ cc.programs = new function () {
   pro.voice = function (add, remove) {
     var ele;
     var time;
+    var touch = false;
     var voice = {
       localId: '',
       serverId: '',
@@ -414,12 +415,10 @@ cc.programs = new function () {
     };
     var events = {
       touchstart: function () {
-        var bodyStyle = document.body.style;
-        bodyStyle.mozUserSelect = 'none';
-        bodyStyle.webkitUserSelect = 'none';
-
+        document.body.style.webkitUserSelect = 'none';
         wx.startRecord({
           success: function () {
+            touch = true;
             ele = $('.answer-voice');
             ele.find('.J_paly_voice').show();
             ele.addClass('play');
@@ -434,6 +433,7 @@ cc.programs = new function () {
         });
       },
       touchend: function () {
+        if(touch) return;
         wx.stopRecord({
           success: function (res) {
             voice.localId = res.localId;
