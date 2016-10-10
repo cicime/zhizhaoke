@@ -435,11 +435,11 @@ cc.programs = new function () {
       },
       touchend: function () {
         if(!touch) return;
-        clearInterval(time);
-        ele.removeClass('play').addClass('min');
         wx.stopRecord({
           success: function (res) {
             voice.localId = res.localId;
+            clearInterval(time);
+            ele.removeClass('play').addClass('min');
             add(voice);
           },
           fail: function (res) {
