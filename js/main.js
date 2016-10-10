@@ -446,7 +446,9 @@ cc.programs = new function () {
         });
       }
     };
-    $(document).on(events, '.answer-voice a');
+    $(document).on('click', '.answer-voice a', function () {
+      !touch ? events.touchstart() : events.touchend();
+    });
 
     // 播放
     $(document).on('click','.J_paly_voice', function () {
