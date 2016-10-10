@@ -446,8 +446,8 @@ cc.programs = new function () {
         });
       }
     };
-
     $(document).on('click', '.answer-voice a', function () {
+      alert();
       touch ? events.touchstart() : events.touchend();
     });
 
