@@ -407,15 +407,13 @@ cc.programs = new function () {
   pro.voice = function (add, remove) {
     var ele;
     var time;
-    var touch = false;
     var voice = {
       localId: '',
       serverId: '',
       len: 0
     };
     var events = {
-      touchstart: function (e) {
-        e.preventDefault();
+      touchstart: function () {
         wx.startRecord({
           success: function () {
             ele = $('.answer-voice');
@@ -431,14 +429,12 @@ cc.programs = new function () {
           }
         });
       },
-      touchend: function (e) {
-        e.preventDefault();
+      touchend: function () {
         clearInterval(time);
         ele.removeClass('play').addClass('min');
         wx.stopRecord({
           success: function (res) {
             voice.localId = res.localId;
-            touch = false;
             add(voice);
           },
           fail: function (res) {
