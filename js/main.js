@@ -407,7 +407,6 @@ cc.programs = new function () {
   pro.voice = function (add, remove) {
     var ele;
     var time;
-    var touch = false;
     var voice = {
       localId: '',
       serverId: '',
@@ -417,7 +416,6 @@ cc.programs = new function () {
       touchstart: function () {
         wx.startRecord({
           success: function () {
-            touch = true;
             ele = $('.answer-voice');
             ele.find('.J_paly_voice').show();
             ele.addClass('play');
@@ -435,7 +433,6 @@ cc.programs = new function () {
         wx.stopRecord({
           success: function (res) {
             voice.localId = res.localId;
-            touch = false;
             clearInterval(time);
             ele.removeClass('play').addClass('min');
             add(voice);
@@ -446,9 +443,7 @@ cc.programs = new function () {
         });
       }
     };
-    $(document).on('click', '.answer-voice a', function () {
-      !touch ? events.touchstart() : events.touchend();
-    });
+    $(document).on(events, '.answer-voice a');
 
     // 播放
     $(document).on('click','.J_paly_voice', function () {
