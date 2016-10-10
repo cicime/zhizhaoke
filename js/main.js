@@ -416,23 +416,20 @@ cc.programs = new function () {
     var events = {
       touchstart: function (e) {
         e.preventDefault();
-        if(touch) return;
         wx.startRecord({
           success: function () {
-            alert('023');
+            ele = $('.answer-voice');
+            ele.find('.J_paly_voice').show();
+            ele.addClass('play');
+            time = setInterval(function () {
+              voice.len++;
+              $('.J_time').html(voice.len + 's');
+            }, 1000);
           },
           cancel: function () {
             alert('已拒绝授权录音');
           }
         });
-        touch = true;
-        ele = $('.answer-voice');
-        ele.find('.J_paly_voice').show();
-        ele.addClass('play');
-        time = setInterval(function () {
-          voice.len++;
-          $('.J_time').html(voice.len + 's');
-        }, 1000);
       },
       touchend: function (e) {
         e.preventDefault();
