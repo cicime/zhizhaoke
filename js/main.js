@@ -418,20 +418,20 @@ cc.programs = new function () {
         document.body.style.webkitUserSelect = 'none';
         wx.startRecord({
           success: function () {
-            alert();
+            touch = true;
+            ele = $('.answer-voice');
+            ele.find('.J_paly_voice').show();
+            ele.addClass('play');
+            time = setInterval(function () {
+              voice.len++;
+              $('.J_time').html(voice.len + 's');
+            }, 1000);
           },
           cancel: function () {
             alert('已拒绝授权录音');
           }
         });
-        touch = true;
-        ele = $('.answer-voice');
-        ele.find('.J_paly_voice').show();
-        ele.addClass('play');
-        time = setInterval(function () {
-          voice.len++;
-          $('.J_time').html(voice.len + 's');
-        }, 1000);
+
       },
       touchend: function () {
         if(!touch) return;
