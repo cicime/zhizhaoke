@@ -406,12 +406,13 @@ cc.programs = new function () {
    */
   pro.voice = function (add, remove) {
     var ele;
+    var time;
+    var touch = true;
     var voice = {
       localId: '',
       serverId: '',
       len: 0
     };
-    var time;
     var events = {
       touchstart: function (e) {
         e.preventDefault();
@@ -420,21 +421,24 @@ cc.programs = new function () {
             alert('已拒绝授权录音');
           }
         });
+        touch = false;
         ele = $('.answer-voice');
         ele.find('.J_paly_voice').show();
         ele.addClass('play');
         time = setInterval(function () {
           voice.len++;
-          $('.J_time').html(voice.len+'s');
+          $('.J_time').html(voice.len + 's');
         }, 1000);
       },
       touchend: function (e) {
         e.preventDefault();
+        if(touch) return;
+        clearInterval(time);
+        ele.removeClass('play').addClass('min');
         wx.stopRecord({
           success: function (res) {
             voice.localId = res.localId;
-            clearInterval(time);
-            ele.removeClass('play').addClass('min');
+            touch = true;
             add(voice);
           },
           fail: function (res) {
