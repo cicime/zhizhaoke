@@ -415,7 +415,6 @@ cc.programs = new function () {
     };
     var events = {
       touchstart: function () {
-        alert();
         wx.startRecord({
           success: function () {
             touch = true;
