@@ -433,12 +433,12 @@ cc.programs = new function () {
         });
       },
       touchend: function () {
-        clearInterval(time);
-        ele.removeClass('play').addClass('min');
         wx.stopRecord({
           success: function (res) {
             voice.localId = res.localId;
             touch = false;
+            clearInterval(time);
+            ele.removeClass('play').addClass('min');
             add(voice);
           },
           fail: function (res) {
@@ -447,9 +447,7 @@ cc.programs = new function () {
         });
       }
     };
-    $(document).on('click', '.answer-voice a', function () {
-      touch ? events.touchstart() : events.touchend();
-    });
+    $(document).on(events, '.answer-voice a');
 
     // 播放
     $(document).on('click','.J_paly_voice', function () {
