@@ -413,7 +413,8 @@ cc.programs = new function () {
     };
     var time;
     var events = {
-      touchstart: function () {
+      touchstart: function (e) {
+        e.preventDefault();
         wx.startRecord({
           cancel: function () {
             alert('已拒绝授权录音');
@@ -427,12 +428,13 @@ cc.programs = new function () {
           $('.J_time').html(voice.len+'s');
         }, 1000);
       },
-      touchend: function () {
+      touchend: function (e) {
+        e.preventDefault();
         wx.stopRecord({
           success: function (res) {
             voice.localId = res.localId;
-            ele.removeClass('play').addClass('min');
             clearInterval(time);
+            ele.removeClass('play').addClass('min');
             add(voice);
           },
           fail: function (res) {
