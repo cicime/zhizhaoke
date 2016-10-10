@@ -405,8 +405,8 @@ cc.programs = new function () {
    * ====================================================================
    */
   pro.voice = function (add, remove) {
-    var ele;
-    var time;
+    var ele = '';
+    var time = '';
     var touch = false;
     var voice = {
       localId: '',
