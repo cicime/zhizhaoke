@@ -416,6 +416,14 @@ cc.programs = new function () {
     var events = {
       touchstart: function () {
         document.body.style.webkitUserSelect = 'none';
+        wx.startRecord({
+          success: function () {
+            alert();
+          },
+          cancel: function () {
+            alert('已拒绝授权录音');
+          }
+        });
         touch = true;
         ele = $('.answer-voice');
         ele.find('.J_paly_voice').show();
@@ -424,12 +432,6 @@ cc.programs = new function () {
           voice.len++;
           $('.J_time').html(voice.len + 's');
         }, 1000);
-        wx.startRecord({
-          success: function () {},
-          cancel: function () {
-            alert('已拒绝授权录音');
-          }
-        });
       },
       touchend: function () {
         if(!touch) return;
