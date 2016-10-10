@@ -433,7 +433,7 @@ cc.programs = new function () {
         });
       },
       touchend: function () {
-        if(touch) return;
+        if(!touch) return;
         wx.stopRecord({
           success: function (res) {
             voice.localId = res.localId;
