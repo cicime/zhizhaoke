@@ -415,6 +415,7 @@ cc.programs = new function () {
     };
     var events = {
       touchstart: function () {
+        alert();
         wx.startRecord({
           success: function () {
             touch = true;
@@ -447,7 +448,6 @@ cc.programs = new function () {
       }
     };
     $(document).on('click', '.answer-voice a', function () {
-      alert();
       touch ? events.touchstart() : events.touchend();
     });
 
